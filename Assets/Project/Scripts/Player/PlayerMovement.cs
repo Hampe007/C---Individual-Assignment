@@ -7,10 +7,23 @@ public sealed class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField, Min(0f)]
-    private float moveSpeed = 5f;
+    private float moveSpeed = 2.5f;
 
     [SerializeField, Min(0f)]
     private float rotationSpeed = 12f;
+
+    [Header("Mouse Movement")]
+    [SerializeField]
+    private Camera worldCamera;
+
+    [SerializeField]
+    private LayerMask groundMask;
+
+    [SerializeField, Min(0f)]
+    private float destinationStopDistance = 0.15f;
+
+    [SerializeField]
+    private GameObject moveMarkerPrefab;
 
     [Header("Gravity")]
     [SerializeField, Min(0f)]
@@ -28,47 +41,62 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private CharacterController characterController;
     private PlayerInput playerInput;
+
     private InputAction moveAction;
+    private InputAction pointAction;
+    private InputAction moveToCursorAction;
+
+    private GameObject moveMarker;
+
+    private Vector3 destination;
+    private bool hasDestination;
 
     private float verticalVelocity;
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
-        playerInput = GetComponent<PlayerInput>();
+        characterController =
+            GetComponent<CharacterController>();
+
+        playerInput =
+            GetComponent<PlayerInput>();
 
         moveAction = playerInput.actions.FindAction(
             "Move",
             throwIfNotFound: true
         );
 
-        // Animator lives on the visual child, not the Player root.
-        if (animator == null)
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
+        pointAction = playerInput.actions.FindAction(
+            "Point",
+            throwIfNotFound: true
+        );
+
+        moveToCursorAction =
+            playerInput.actions.FindAction(
+                "MoveToCursor",
+                throwIfNotFound: true
+            );
 
         if (animator == null)
         {
-            Debug.LogWarning(
-                "PlayerMovement could not find an Animator in the Player hierarchy.",
-                this
-            );
+            animator =
+                GetComponentInChildren<Animator>();
         }
+
+        if (worldCamera == null)
+        {
+            worldCamera = Camera.main;
+        }
+
+        CreateMoveMarker();
     }
 
     private void Update()
     {
-        Vector2 input = moveAction.ReadValue<Vector2>();
+        HandleMouseDestination();
 
-        Vector3 horizontalMovement = new Vector3(
-            input.x,
-            0f,
-            input.y
-        );
-
-        horizontalMovement =
-            Vector3.ClampMagnitude(horizontalMovement, 1f);
+        Vector3 horizontalMovement =
+            GetMovementDirection();
 
         ApplyGravity();
 
@@ -84,12 +112,118 @@ public sealed class PlayerMovement : MonoBehaviour
         UpdateAnimation(horizontalMovement);
     }
 
+    private void HandleMouseDestination()
+    {
+        if (!moveToCursorAction.WasPressedThisFrame())
+            return;
+
+        if (worldCamera == null)
+            return;
+
+        Vector2 mousePosition =
+            pointAction.ReadValue<Vector2>();
+
+        Ray ray =
+            worldCamera.ScreenPointToRay(mousePosition);
+
+        if (!Physics.Raycast(
+                ray,
+                out RaycastHit hit,
+                Mathf.Infinity,
+                groundMask,
+                QueryTriggerInteraction.Ignore))
+        {
+            return;
+        }
+
+        destination = hit.point;
+        destination.y = transform.position.y;
+
+        hasDestination = true;
+
+        ShowMoveMarker(hit.point);
+    }
+
+    private Vector3 GetMovementDirection()
+    {
+        Vector2 input =
+            moveAction.ReadValue<Vector2>();
+
+        // Keyboard/gamepad input overrides click movement.
+        if (input.sqrMagnitude > 0.01f)
+        {
+            CancelDestination();
+
+            Vector3 manualMovement =
+                new Vector3(
+                    input.x,
+                    0f,
+                    input.y
+                );
+
+            return Vector3.ClampMagnitude(
+                manualMovement,
+                1f
+            );
+        }
+
+        if (!hasDestination)
+            return Vector3.zero;
+
+        Vector3 direction =
+            destination - transform.position;
+
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude <=
+            destinationStopDistance *
+            destinationStopDistance)
+        {
+            CancelDestination();
+            return Vector3.zero;
+        }
+
+        return direction.normalized;
+    }
+
+    private void CancelDestination()
+    {
+        hasDestination = false;
+
+        if (moveMarker != null)
+        {
+            moveMarker.SetActive(false);
+        }
+    }
+
+    private void CreateMoveMarker()
+    {
+        if (moveMarkerPrefab == null)
+            return;
+
+        moveMarker = Instantiate(
+            moveMarkerPrefab
+        );
+
+        moveMarker.SetActive(false);
+    }
+
+    private void ShowMoveMarker(Vector3 position)
+    {
+        if (moveMarker == null)
+            return;
+
+        position.y += 0.02f;
+
+        moveMarker.transform.position = position;
+        moveMarker.SetActive(true);
+    }
+
     private void ApplyGravity()
     {
         if (characterController.isGrounded &&
             verticalVelocity < 0f)
         {
-            // Small downward force keeps the controller grounded.
             verticalVelocity = -2f;
             return;
         }
@@ -100,7 +234,9 @@ public sealed class PlayerMovement : MonoBehaviour
             Time.deltaTime;
     }
 
-    private void RotateTowardsMovement(Vector3 movement)
+    private void RotateTowardsMovement(
+        Vector3 movement
+    )
     {
         if (movement.sqrMagnitude < 0.001f)
             return;
@@ -111,23 +247,24 @@ public sealed class PlayerMovement : MonoBehaviour
                 Vector3.up
             );
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            rotationSpeed * Time.deltaTime
-        );
+        transform.rotation =
+            Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
     }
 
-    private void UpdateAnimation(Vector3 movement)
+    private void UpdateAnimation(
+        Vector3 movement
+    )
     {
         if (animator == null)
             return;
 
-        float speed = movement.magnitude;
-
         animator.SetFloat(
             SpeedHash,
-            speed,
+            movement.magnitude,
             animationDampTime,
             Time.deltaTime
         );
