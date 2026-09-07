@@ -27,6 +27,17 @@ public sealed class HordeManager : MonoBehaviour
     private NativeArray<EnemyRuntime> _nextEnemies;
     private NativeParallelMultiHashMap<int2, int> _grid;
     private EnemyViewSystem _views;
+    
+    [Header("Charger")]
+    [SerializeField, Min(0f)] private float _chargeRange = 10f;
+    [SerializeField, Min(0f)] private float _chargeSpeed = 12f;
+    [SerializeField, Min(0f)] private float _chargeDuration = 0.55f;
+    [SerializeField, Min(0f)] private float _chargeTelegraph = 0.65f;
+    [SerializeField, Min(0f)] private float _chargeRecovery = 0.8f;
+    [SerializeField, Min(0f)] private float _chargeCooldown = 5f;
+    
+    [SerializeField] private EnemyBehaviourType _spawnBehaviour =
+        EnemyBehaviourType.Swarm;
 
     public int EnemyCount => _enemyCount;
 
@@ -72,7 +83,14 @@ public sealed class HordeManager : MonoBehaviour
             CellSize = _cellSize,
             SeparationDistance = _separationDistance,
             SeparationWeight = _separationWeight,
-            MaxNeighbours = _maxSeparationNeighbours
+            MaxNeighbours = _maxSeparationNeighbours,
+            
+            ChargeRange = _chargeRange,
+            ChargeSpeed = _chargeSpeed,
+            ChargeDuration = _chargeDuration,
+            ChargeTelegraph = _chargeTelegraph,
+            ChargeRecovery = _chargeRecovery,
+            ChargeCooldown = _chargeCooldown
         }.Schedule(_enemies.Length, 64, gridHandle);
 
         JobHandle viewHandle = _views.ScheduleSync(
@@ -104,7 +122,10 @@ public sealed class HordeManager : MonoBehaviour
         for (int i = 0; i < _enemyCount; i++)
         {
             float3 position = GetSpawnPosition(ref random);
-            _enemies[i] = new EnemyRuntime(position, _moveSpeed);
+            _enemies[i] = new EnemyRuntime(
+                position,
+                _moveSpeed,
+                _spawnBehaviour);
         }
     }
 
