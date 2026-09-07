@@ -48,6 +48,8 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private GameObject moveMarker;
 
+    private ParticleSystem clickBurst;
+    
     private Vector3 destination;
     private bool hasDestination;
 
@@ -201,9 +203,24 @@ public sealed class PlayerMovement : MonoBehaviour
         if (moveMarkerPrefab == null)
             return;
 
-        moveMarker = Instantiate(
-            moveMarkerPrefab
-        );
+        moveMarker = Instantiate(moveMarkerPrefab);
+
+        Transform burstTransform =
+            moveMarker.transform.Find("ClickBurst");
+
+        if (burstTransform != null)
+        {
+            clickBurst =
+                burstTransform.GetComponent<ParticleSystem>();
+        }
+
+        if (clickBurst == null)
+        {
+            Debug.LogWarning(
+                "MoveMarker does not contain a ClickBurst ParticleSystem.",
+                moveMarker
+            );
+        }
 
         moveMarker.SetActive(false);
     }
@@ -217,6 +234,17 @@ public sealed class PlayerMovement : MonoBehaviour
 
         moveMarker.transform.position = position;
         moveMarker.SetActive(true);
+
+        if (clickBurst == null)
+            return;
+
+        // Restart the burst from the beginning on every click.
+        clickBurst.Stop(
+            true,
+            ParticleSystemStopBehavior.StopEmittingAndClear
+        );
+
+        clickBurst.Play(true);
     }
 
     private void ApplyGravity()
