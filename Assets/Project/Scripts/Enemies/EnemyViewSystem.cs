@@ -9,27 +9,31 @@ using UnityEngine.Pool;
 
 internal sealed class EnemyViewSystem : IDisposable
 {
-    private readonly ObjectPool<GameObject> _pool;
+    private readonly ObjectPool<GameObject> _impPool;
+    private readonly ObjectPool<GameObject> _lycanPool;
+    private readonly ObjectPool<GameObject> _tidebreakerPool;
     private readonly List<GameObject> _activeViews;
 
     private TransformAccessArray _transforms;
     private bool _disposed;
 
-    internal EnemyViewSystem(GameObject prefab, int maxCount)
+    internal EnemyViewSystem(GameObject impPrefab, GameObject lycanPrefab, GameObject tidebreakerPrefab, int maxCount)
     {
         _activeViews = new List<GameObject>(maxCount);
         _transforms = new TransformAccessArray(maxCount);
 
-        _pool = new ObjectPool<GameObject>(
-            () => CreateView(prefab), view => SetActive(view, true), view => SetActive(view, false), DestroyView, true, Mathf.Min(64, maxCount), maxCount);
+        _impPool = CreatePool(impPrefab, maxCount);
+        _lycanPool = CreatePool(lycanPrefab, maxCount);
+        _tidebreakerPool = CreatePool(tidebreakerPrefab, maxCount);
     }
 
-    internal void AddView(float3 position)
+
+    internal void AddView(float3 position, EnemyVisualType visual)
     {
         if (_disposed)
             throw new ObjectDisposedException(nameof(EnemyViewSystem));
 
-        GameObject view = _pool.Get();
+        GameObject view = GetPool(visual).Get();
         view.transform.position = new Vector3(position.x, position.y, position.z);
 
         _activeViews.Add(view);
@@ -59,9 +63,39 @@ internal sealed class EnemyViewSystem : IDisposable
             DestroyView(view);
 
         _activeViews.Clear();
-        _pool.Clear();
+        
+        _impPool.Clear();
+        _lycanPool.Clear();
+        _tidebreakerPool.Clear();
     }
 
+    private ObjectPool<GameObject> GetPool(EnemyVisualType visual)
+    {
+        switch (visual)
+        {
+            case EnemyVisualType.Lycan:
+                return _lycanPool;
+
+            case EnemyVisualType.Tidebreaker:
+                return _tidebreakerPool;
+
+            default:
+                return _impPool;
+        }
+    }
+
+    private static ObjectPool<GameObject> CreatePool(GameObject prefab, int maxCount)
+    {
+        return new ObjectPool<GameObject>(
+            () => CreateView(prefab),
+            view => SetActive(view, true),
+            view => SetActive(view, false),
+            DestroyView,
+            true,
+            Mathf.Min(32, maxCount),
+            maxCount);
+    }
+    
     private static GameObject CreateView(GameObject prefab)
     {
         GameObject view = UnityEngine.Object.Instantiate(prefab);

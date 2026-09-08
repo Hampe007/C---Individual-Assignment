@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 4927142525732932238}
   - component: {fileID: 8057403300511208675}
   - component: {fileID: -7444658863856387032}
+  - component: {fileID: 6708507533016024886}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -305,6 +306,19 @@ MonoBehaviour:
   gravityMultiplier: 1
   animator: {fileID: 6010610551871792657}
   animationDampTime: 0.1
+--- !u!114 &6708507533016024886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151408170782504343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d3de6bb60348f441bda9caeb59d756e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  _maxHealth: 100
 --- !u!1 &273732393083647530
 GameObject:
   m_ObjectHideFlags: 0

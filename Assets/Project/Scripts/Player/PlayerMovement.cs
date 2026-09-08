@@ -116,34 +116,31 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private void HandleMouseDestination()
     {
-        if (!moveToCursorAction.WasPressedThisFrame())
+        if (!moveToCursorAction.IsPressed() || worldCamera == null)
             return;
 
-        if (worldCamera == null)
+        Vector2 mousePosition = pointAction.ReadValue<Vector2>();
+        Ray ray = worldCamera.ScreenPointToRay(mousePosition);
+
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundMask, QueryTriggerInteraction.Ignore))
             return;
-
-        Vector2 mousePosition =
-            pointAction.ReadValue<Vector2>();
-
-        Ray ray =
-            worldCamera.ScreenPointToRay(mousePosition);
-
-        if (!Physics.Raycast(
-                ray,
-                out RaycastHit hit,
-                Mathf.Infinity,
-                groundMask,
-                QueryTriggerInteraction.Ignore))
-        {
-            return;
-        }
 
         destination = hit.point;
         destination.y = transform.position.y;
-
         hasDestination = true;
 
-        ShowMoveMarker(hit.point);
+        if (moveToCursorAction.WasPressedThisFrame())
+        {
+            ShowMoveMarker(hit.point);
+        }
+        else if (moveMarker != null)
+        {
+            Vector3 markerPosition = hit.point;
+            markerPosition.y += 0.02f;
+
+            moveMarker.transform.position = markerPosition;
+            moveMarker.SetActive(true);
+        }
     }
 
     private Vector3 GetMovementDirection()

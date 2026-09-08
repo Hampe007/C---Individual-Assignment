@@ -11,6 +11,8 @@ public struct MoveEnemiesJob : IJobParallelFor
 
     [WriteOnly] public NativeArray<EnemyRuntime> NextEnemies;
 
+    public NativeQueue<DamageEvent>.ParallelWriter DamageEvents;
+    
     [ReadOnly] public float3 Target;
     [ReadOnly] public float DeltaTime;
 
@@ -19,12 +21,18 @@ public struct MoveEnemiesJob : IJobParallelFor
     [ReadOnly] public float SeparationWeight;
     [ReadOnly] public int MaxNeighbours;
 
+    [ReadOnly] public float SwarmAttackRange;
+    [ReadOnly] public int SwarmDamage;
+    [ReadOnly] public float SwarmAttackCooldown;
+    
     [ReadOnly] public float ChargeRange;
     [ReadOnly] public float ChargeSpeed;
     [ReadOnly] public float ChargeDuration;
     [ReadOnly] public float ChargeTelegraph;
     [ReadOnly] public float ChargeRecovery;
     [ReadOnly] public float ChargeCooldown;
+    [ReadOnly] public float ChargeHitRange;
+    [ReadOnly] public int ChargeDamage;
 
     [ReadOnly] public float BruteMoveSpeed;
     [ReadOnly] public float BruteSlamRange;
@@ -32,6 +40,7 @@ public struct MoveEnemiesJob : IJobParallelFor
     [ReadOnly] public float BruteAttackDuration;
     [ReadOnly] public float BruteRecovery;
     [ReadOnly] public float BruteCooldown;
+    [ReadOnly] public int BruteDamage;
 
     public void Execute(int index)
     {
@@ -43,6 +52,10 @@ public struct MoveEnemiesJob : IJobParallelFor
 
         switch (enemy.Behaviour)
         {
+            case EnemyBehaviourType.Swarm:
+                direction = UpdateSwarm(index, ref enemy);
+                break;
+            
             case EnemyBehaviourType.Charger:
                 direction = UpdateCharger(index, ref enemy);
                 break;
@@ -73,6 +86,20 @@ public struct MoveEnemiesJob : IJobParallelFor
         NextEnemies[index] = enemy;
     }
 
+    private float3 UpdateSwarm(int index, ref EnemyRuntime enemy)
+    {
+        float distanceSq = math.distancesq(enemy.Position, Target);
+        float attackRangeSq = SwarmAttackRange * SwarmAttackRange;
+
+        if (enemy.AttackCooldown <= 0f && distanceSq <= attackRangeSq)
+        {
+            DamageEvents.Enqueue(new DamageEvent(index, SwarmDamage));
+            enemy.AttackCooldown = SwarmAttackCooldown;
+        }
+
+        return GetChaseDirection(index, enemy.Position);
+    }
+    
     private float3 UpdateCharger(int index, ref EnemyRuntime enemy)
     {
         float distanceSq = math.distancesq(enemy.Position, Target);
@@ -96,6 +123,7 @@ public struct MoveEnemiesJob : IJobParallelFor
                     enemy.ChargeDirection = math.normalizesafe(Target - enemy.Position);
                     enemy.State = EnemyState.Attack;
                     enemy.StateTimer = ChargeDuration;
+                    enemy.HasHit = 0;
 
                     return enemy.ChargeDirection;
                 }
@@ -103,6 +131,13 @@ public struct MoveEnemiesJob : IJobParallelFor
                 return float3.zero;
 
             case EnemyState.Attack:
+                if (enemy.HasHit == 0 &&
+                    distanceSq <= ChargeHitRange * ChargeHitRange)
+                {
+                    DamageEvents.Enqueue(new DamageEvent(index, ChargeDamage));
+                    enemy.HasHit = 1;
+                }
+
                 if (enemy.StateTimer <= 0f)
                 {
                     enemy.State = EnemyState.Recover;
@@ -129,12 +164,12 @@ public struct MoveEnemiesJob : IJobParallelFor
     private float3 UpdateBrute(int index, ref EnemyRuntime enemy)
     {
         float distanceSq = math.distancesq(enemy.Position, Target);
+        float slamRangeSq = BruteSlamRange * BruteSlamRange;
 
         switch (enemy.State)
         {
             case EnemyState.Chase:
-                if (enemy.AttackCooldown <= 0f &&
-                    distanceSq <= BruteSlamRange * BruteSlamRange)
+                if (enemy.AttackCooldown <= 0f && distanceSq <= slamRangeSq)
                 {
                     enemy.State = EnemyState.Telegraph;
                     enemy.StateTimer = BruteWindup;
@@ -148,6 +183,9 @@ public struct MoveEnemiesJob : IJobParallelFor
                 {
                     enemy.State = EnemyState.Attack;
                     enemy.StateTimer = BruteAttackDuration;
+
+                    if (distanceSq <= slamRangeSq)
+                        DamageEvents.Enqueue(new DamageEvent(index, BruteDamage));
                 }
 
                 return float3.zero;

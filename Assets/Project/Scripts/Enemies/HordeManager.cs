@@ -10,7 +10,9 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Min(1)] private int _enemyCount = 1000;
     [SerializeField, Min(0f)] private float _moveSpeed = 3f;
     [SerializeField] private Transform _target;
-    [SerializeField] private GameObject _enemyViewPrefab;
+    [SerializeField] private GameObject _impPrefab;
+    [SerializeField] private GameObject _lycanPrefab;
+    [SerializeField] private GameObject _tidebreakerPrefab;
 
     [Header("Spawning")]
     [SerializeField, Min(1f)] private float _spawnEdge = 55f;
@@ -25,6 +27,11 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Range(0f, 2f)] private float _separationWeight = 0.75f;
     [SerializeField, Min(1)] private int _maxSeparationNeighbours = 8;
 
+    [Header("Swarm")]
+    [SerializeField, Min(0f)] private float _swarmAttackRange = 1.3f;
+    [SerializeField, Min(1)] private int _swarmDamage = 10;
+    [SerializeField, Min(0f)] private float _swarmAttackCooldown = 1f;
+    
     [Header("Charger")]
     [SerializeField, Min(0f)] private float _chargeRange = 10f;
     [SerializeField, Min(0f)] private float _chargeSpeed = 12f;
@@ -32,7 +39,9 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Min(0f)] private float _chargeTelegraph = 0.65f;
     [SerializeField, Min(0f)] private float _chargeRecovery = 0.8f;
     [SerializeField, Min(0f)] private float _chargeCooldown = 5f;
-
+    [SerializeField, Min(0f)] private float _chargeHitRange = 1.5f;
+    [SerializeField, Min(1)] private int _chargeDamage = 25;
+    
     [Header("Brute")]
     [SerializeField, Min(0f)] private float _bruteMoveSpeed = 1.5f;
     [SerializeField, Min(0f)] private float _bruteSlamRange = 3f;
@@ -40,10 +49,14 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Min(0f)] private float _bruteAttackDuration = 0.25f;
     [SerializeField, Min(0f)] private float _bruteRecovery = 1.5f;
     [SerializeField, Min(0f)] private float _bruteCooldown = 2.5f;
+    [SerializeField, Min(1)] private int _bruteDamage = 35;
 
+    [SerializeField] private PlayerHealth _playerHealth;
+    
     private NativeArray<EnemyRuntime> _enemies;
     private NativeArray<EnemyRuntime> _nextEnemies;
     private NativeParallelMultiHashMap<int2, int> _grid;
+    private NativeQueue<DamageEvent> _damageEvents;
     private EnemyViewSystem _views;
 
     private Unity.Mathematics.Random _random;
@@ -58,9 +71,9 @@ public sealed class HordeManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_target == null || _enemyViewPrefab == null || _camera == null)
+        if (_target == null || _camera == null || _playerHealth == null ||_impPrefab == null || _lycanPrefab == null || _tidebreakerPrefab == null)
         {
-            Debug.LogError("HordeManager requires a target, camera and enemy view prefab.");
+            Debug.LogError("HordeManager is missing required references.");
             enabled = false;
             return;
         }
@@ -70,8 +83,9 @@ public sealed class HordeManager : MonoBehaviour
         _enemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
         _nextEnemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
         _grid = new NativeParallelMultiHashMap<int2, int>(_enemyCount, Allocator.Persistent);
+        _damageEvents = new NativeQueue<DamageEvent>(Allocator.Persistent);
 
-        _views = new EnemyViewSystem(_enemyViewPrefab, _enemyCount);
+        _views = new EnemyViewSystem(_impPrefab, _lycanPrefab, _tidebreakerPrefab, _enemyCount);
     }
 
     private void Update()
@@ -80,6 +94,21 @@ public sealed class HordeManager : MonoBehaviour
             Simulate();
     }
 
+    private EnemyVisualType GetVisual(EnemyBehaviourType behaviour)
+    {
+        switch (behaviour)
+        {
+            case EnemyBehaviourType.Charger:
+                return EnemyVisualType.Lycan;
+
+            case EnemyBehaviourType.Brute:
+                return EnemyVisualType.Tidebreaker;
+
+            default:
+                return EnemyVisualType.Imp;
+        }
+    }
+    
     public bool TrySpawnEnemy(EnemyBehaviourType behaviour)
     {
         if (!IsReady || _activeEnemyCount >= _enemyCount)
@@ -89,11 +118,12 @@ public sealed class HordeManager : MonoBehaviour
             return false;
 
         int index = _activeEnemyCount;
-        EnemyRuntime enemy = new(position, _moveSpeed, behaviour);
+        EnemyVisualType visual = GetVisual(behaviour);
+        EnemyRuntime enemy = new(position, _moveSpeed, behaviour, visual);
 
         try
         {
-            _views.AddView(position);
+            _views.AddView(position, visual);
         }
         catch (Exception exception)
         {
@@ -124,6 +154,9 @@ public sealed class HordeManager : MonoBehaviour
             Enemies = _enemies,
             NextEnemies = _nextEnemies,
             Grid = _grid.AsReadOnly(),
+            DamageEvents = _damageEvents.AsParallelWriter(),
+
+            
             Target = _target.position,
             DeltaTime = Time.deltaTime,
 
@@ -132,23 +165,31 @@ public sealed class HordeManager : MonoBehaviour
             SeparationWeight = _separationWeight,
             MaxNeighbours = _maxSeparationNeighbours,
 
+            SwarmAttackRange = _swarmAttackRange,
+            SwarmDamage = _swarmDamage,
+            SwarmAttackCooldown = _swarmAttackCooldown,
+            
             ChargeRange = _chargeRange,
             ChargeSpeed = _chargeSpeed,
             ChargeDuration = _chargeDuration,
             ChargeTelegraph = _chargeTelegraph,
             ChargeRecovery = _chargeRecovery,
             ChargeCooldown = _chargeCooldown,
-
+            ChargeHitRange = _chargeHitRange,
+            ChargeDamage = _chargeDamage,
+            
             BruteMoveSpeed = _bruteMoveSpeed,
             BruteSlamRange = _bruteSlamRange,
             BruteWindup = _bruteWindup,
             BruteAttackDuration = _bruteAttackDuration,
             BruteRecovery = _bruteRecovery,
-            BruteCooldown = _bruteCooldown
+            BruteCooldown = _bruteCooldown,
+            BruteDamage = _bruteDamage
         }.Schedule(_activeEnemyCount, 64, gridHandle);
 
         JobHandle viewHandle = _views.ScheduleSync(_nextEnemies, _target.position, moveHandle);
         viewHandle.Complete();
+        ApplyDamageEvents();
 
         (_enemies, _nextEnemies) = (_nextEnemies, _enemies);
     }
@@ -213,6 +254,12 @@ public sealed class HordeManager : MonoBehaviour
 
         return viewport.z > 0f && viewport.x >= -padding && viewport.x <= 1f + padding && viewport.y >= -padding && viewport.y <= 1f + padding;
     }
+    
+    private void ApplyDamageEvents()
+    {
+        while (_damageEvents.TryDequeue(out DamageEvent damageEvent))
+            _playerHealth.TakeDamage(damageEvent.Damage);
+    }
 
     private void OnDestroy()
     {
@@ -240,5 +287,8 @@ public sealed class HordeManager : MonoBehaviour
 
         if (_grid.IsCreated)
             _grid.Dispose();
+
+        if (_damageEvents.IsCreated)
+            _damageEvents.Dispose();
     }
 }
