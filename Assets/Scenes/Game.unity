@@ -1389,6 +1389,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284532572}
   m_CullTransparentMesh: 1
+--- !u!1 &1323656434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1323656435}
+  m_Layer: 0
+  m_Name: SpellCastPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1323656435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323656434}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.02620824, y: 0.95008785, z: -0.08312195, w: -0.2995614}
+  m_LocalPosition: {x: 0, y: -0, z: -0.075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5863611313519583347}
+  m_LocalEulerAnglesHint: {x: 0, y: -5.93, z: 0}
 --- !u!1 &1447775836
 GameObject:
   m_ObjectHideFlags: 0
@@ -2275,6 +2306,7 @@ GameObject:
   - component: {fileID: 1778713172616246090}
   - component: {fileID: 8057403300091190146}
   - component: {fileID: 8057403300091190147}
+  - component: {fileID: 8057403300091190148}
   m_Layer: 0
   m_Name: PlayerTarget
   m_TagString: Untagged
@@ -2717,6 +2749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 399086055351694089}
   - component: {fileID: 6010610552239384947}
+  - component: {fileID: 6010610552239384948}
   m_Layer: 0
   m_Name: Regular_Male_FullBody
   m_TagString: Untagged
@@ -4484,6 +4517,7 @@ Transform:
   - {fileID: 3768344352708089676}
   - {fileID: 6906828288663287956}
   - {fileID: 5400132192954540279}
+  - {fileID: 1323656435}
   m_Father: {fileID: 1794771503449738315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &5873114940214800499
@@ -4555,6 +4589,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6010610552239384948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063419109527316915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8869efff803e7a04389bb0a1357d3a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  magicSystem: {fileID: 8057403300091190148}
 --- !u!1 &6128150770675849488
 GameObject:
   m_ObjectHideFlags: 0
@@ -5225,6 +5272,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathHandler
   _gameOverMenu: {fileID: 9139233858433065827}
+--- !u!114 &8057403300091190148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151408171148917493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c105cf87488134da6b2df1cbfb038d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMagicSystem
+  spellToCast: {fileID: 8544597615080038069, guid: 06327432f0ffc8c4788e16d35403c863, type: 3}
+  castPoint: {fileID: 1323656435}
+  animator: {fileID: 6010610552239384947}
+  maxMana: 100
+  currentMana: 0
+  manaRechargeRate: 2
+  timeToWaitForRecharge: 1
+  timeBetweenCasts: 1
 --- !u!4 &8086925397834208592
 Transform:
   m_ObjectHideFlags: 0
