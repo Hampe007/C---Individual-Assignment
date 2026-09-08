@@ -13,10 +13,7 @@ public struct BuildSpatialGridJob : IJobParallelFor
 
     public void Execute(int index)
     {
-        int2 cell = SpatialGrid.GetCell(
-            Enemies[index].Position,
-            CellSize);
-
+        int2 cell = SpatialGrid.GetCell(Enemies[index].Position, CellSize);
         Grid.Add(cell, index);
     }
 }

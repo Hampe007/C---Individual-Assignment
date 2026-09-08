@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -13,21 +14,17 @@ public sealed class HordeManager : MonoBehaviour
 
     [Header("Spawning")]
     [SerializeField, Min(1f)] private float _spawnEdge = 55f;
+    [SerializeField, Min(0f)] private float _spawnDepth = 2f;
     [SerializeField, Min(0f)] private float _minSpawnDistance = 30f;
-    [SerializeField, Range(0f, 22.5f)] private float _zoneJitter = 15f;
+    [SerializeField, Range(0f, 22.5f)] private float _zoneJitter = 22.5f;
     [SerializeField] private Camera _camera;
-    
+
     [Header("Separation")]
     [SerializeField, Min(0.1f)] private float _cellSize = 1.2f;
     [SerializeField, Min(0f)] private float _separationDistance = 1.2f;
     [SerializeField, Range(0f, 2f)] private float _separationWeight = 0.75f;
     [SerializeField, Min(1)] private int _maxSeparationNeighbours = 8;
 
-    private NativeArray<EnemyRuntime> _enemies;
-    private NativeArray<EnemyRuntime> _nextEnemies;
-    private NativeParallelMultiHashMap<int2, int> _grid;
-    private EnemyViewSystem _views;
-    
     [Header("Charger")]
     [SerializeField, Min(0f)] private float _chargeRange = 10f;
     [SerializeField, Min(0f)] private float _chargeSpeed = 12f;
@@ -35,31 +32,80 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Min(0f)] private float _chargeTelegraph = 0.65f;
     [SerializeField, Min(0f)] private float _chargeRecovery = 0.8f;
     [SerializeField, Min(0f)] private float _chargeCooldown = 5f;
-    
-    [SerializeField] private EnemyBehaviourType _spawnBehaviour =
-        EnemyBehaviourType.Swarm;
 
-    public int EnemyCount => _enemyCount;
+    [Header("Brute")]
+    [SerializeField, Min(0f)] private float _bruteMoveSpeed = 1.5f;
+    [SerializeField, Min(0f)] private float _bruteSlamRange = 3f;
+    [SerializeField, Min(0f)] private float _bruteWindup = 1.2f;
+    [SerializeField, Min(0f)] private float _bruteAttackDuration = 0.25f;
+    [SerializeField, Min(0f)] private float _bruteRecovery = 1.5f;
+    [SerializeField, Min(0f)] private float _bruteCooldown = 2.5f;
 
-    private void Start()
+    private NativeArray<EnemyRuntime> _enemies;
+    private NativeArray<EnemyRuntime> _nextEnemies;
+    private NativeParallelMultiHashMap<int2, int> _grid;
+    private EnemyViewSystem _views;
+
+    private Unity.Mathematics.Random _random;
+    private int _activeEnemyCount;
+    private int _lastSpawnZone = -1;
+    private int _sameZoneCount;
+
+    public int EnemyCount => _activeEnemyCount;
+    public int ActiveEnemyCount => _activeEnemyCount;
+    public int MaxEnemyCount => _enemyCount;
+    public bool IsReady => enabled && _enemies.IsCreated && _views != null;
+
+    private void Awake()
     {
-        if (_target == null || _enemyViewPrefab == null)
+        if (_target == null || _enemyViewPrefab == null || _camera == null)
         {
-            Debug.LogError("HordeManager requires a target and enemy view prefab.");
+            Debug.LogError("HordeManager requires a target, camera and enemy view prefab.");
             enabled = false;
             return;
         }
 
-        InitializeEnemies();
+        _random = new Unity.Mathematics.Random(1);
+
+        _enemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
+        _nextEnemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
+        _grid = new NativeParallelMultiHashMap<int2, int>(_enemyCount, Allocator.Persistent);
+
         _views = new EnemyViewSystem(_enemyViewPrefab, _enemyCount);
     }
 
     private void Update()
     {
-        if (!_enemies.IsCreated)
-            return;
+        if (_activeEnemyCount > 0)
+            Simulate();
+    }
 
-        Simulate();
+    public bool TrySpawnEnemy(EnemyBehaviourType behaviour)
+    {
+        if (!IsReady || _activeEnemyCount >= _enemyCount)
+            return false;
+
+        if (!TryGetSpawnPosition(out float3 position))
+            return false;
+
+        int index = _activeEnemyCount;
+        EnemyRuntime enemy = new(position, _moveSpeed, behaviour);
+
+        try
+        {
+            _views.AddView(position);
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError($"Enemy view could not be spawned: {exception.Message}");
+            return false;
+        }
+
+        _enemies[index] = enemy;
+        _nextEnemies[index] = enemy;
+        _activeEnemyCount++;
+
+        return true;
     }
 
     private void Simulate()
@@ -71,7 +117,7 @@ public sealed class HordeManager : MonoBehaviour
             Enemies = _enemies,
             CellSize = _cellSize,
             Grid = _grid.AsParallelWriter()
-        }.Schedule(_enemies.Length, 64);
+        }.Schedule(_activeEnemyCount, 64);
 
         JobHandle moveHandle = new MoveEnemiesJob
         {
@@ -80,108 +126,101 @@ public sealed class HordeManager : MonoBehaviour
             Grid = _grid.AsReadOnly(),
             Target = _target.position,
             DeltaTime = Time.deltaTime,
+
             CellSize = _cellSize,
             SeparationDistance = _separationDistance,
             SeparationWeight = _separationWeight,
             MaxNeighbours = _maxSeparationNeighbours,
-            
+
             ChargeRange = _chargeRange,
             ChargeSpeed = _chargeSpeed,
             ChargeDuration = _chargeDuration,
             ChargeTelegraph = _chargeTelegraph,
             ChargeRecovery = _chargeRecovery,
-            ChargeCooldown = _chargeCooldown
-        }.Schedule(_enemies.Length, 64, gridHandle);
+            ChargeCooldown = _chargeCooldown,
 
-        JobHandle viewHandle = _views.ScheduleSync(
-            _nextEnemies,
-            _target.position,
-            moveHandle);
+            BruteMoveSpeed = _bruteMoveSpeed,
+            BruteSlamRange = _bruteSlamRange,
+            BruteWindup = _bruteWindup,
+            BruteAttackDuration = _bruteAttackDuration,
+            BruteRecovery = _bruteRecovery,
+            BruteCooldown = _bruteCooldown
+        }.Schedule(_activeEnemyCount, 64, gridHandle);
 
+        JobHandle viewHandle = _views.ScheduleSync(_nextEnemies, _target.position, moveHandle);
         viewHandle.Complete();
 
         (_enemies, _nextEnemies) = (_nextEnemies, _enemies);
     }
 
-    private void InitializeEnemies()
+    private bool TryGetSpawnPosition(out float3 position)
     {
-        _enemies = new NativeArray<EnemyRuntime>(
-            _enemyCount,
-            Allocator.Persistent);
-
-        _nextEnemies = new NativeArray<EnemyRuntime>(
-            _enemyCount,
-            Allocator.Persistent);
-
-        _grid = new NativeParallelMultiHashMap<int2, int>(
-            _enemyCount,
-            Allocator.Persistent);
-
-        var random = new Unity.Mathematics.Random(1);
-
-        for (int i = 0; i < _enemyCount; i++)
+        for (int attempt = 0; attempt < 24; attempt++)
         {
-            float3 position = GetSpawnPosition(ref random);
-            _enemies[i] = new EnemyRuntime(
-                position,
-                _moveSpeed,
-                _spawnBehaviour);
-        }
-    }
+            int zone = GetSpawnZone();
+            float angle = zone * 45f + _random.NextFloat(-_zoneJitter, _zoneJitter);
+            float2 direction = new(math.sin(math.radians(angle)), math.cos(math.radians(angle)));
 
-    private float3 GetSpawnPosition(ref Unity.Mathematics.Random random)
-    {
-        for (int attempt = 0; attempt < 16; attempt++)
-        {
-            int zone = random.NextInt(0, 8);
+            float edge = _spawnEdge + _random.NextFloat(-_spawnDepth, _spawnDepth);
+            float scale = edge / math.max(math.abs(direction.x), math.abs(direction.y));
 
-            float angle = math.radians(
-                zone * 45f +
-                random.NextFloat(-_zoneJitter, _zoneJitter));
+            float3 candidate = new(direction.x * scale, 0f, direction.y * scale);
+            float minDistanceSq = _minSpawnDistance * _minSpawnDistance;
 
-            float2 direction = new(math.sin(angle), math.cos(angle));
-
-            float scale = _spawnEdge /
-                          math.max(math.abs(direction.x), math.abs(direction.y));
-
-            float3 position = new(
-                direction.x * scale,
-                0f,
-                direction.y * scale);
-
-            if (math.distance(position, (float3)_target.position) < _minSpawnDistance)
+            if (math.distancesq(candidate, (float3)_target.position) < minDistanceSq)
                 continue;
 
-            if (!IsVisible(position))
-                return position;
+            if (IsVisible(candidate))
+                continue;
+
+            RememberSpawnZone(zone);
+            position = candidate;
+            return true;
         }
 
-        return new float3(0f, 0f, _spawnEdge);
+        position = default;
+        return false;
+    }
+
+    private int GetSpawnZone()
+    {
+        int zone = _random.NextInt(0, 8);
+
+        if (_sameZoneCount >= 2 && zone == _lastSpawnZone)
+            zone = (zone + _random.NextInt(1, 8)) % 8;
+
+        return zone;
+    }
+
+    private void RememberSpawnZone(int zone)
+    {
+        if (zone == _lastSpawnZone)
+        {
+            _sameZoneCount++;
+            return;
+        }
+
+        _lastSpawnZone = zone;
+        _sameZoneCount = 1;
     }
 
     private bool IsVisible(float3 position)
     {
-        if (_camera == null)
-            return false;
-
-        Vector3 viewport = _camera.WorldToViewportPoint(position);
+        Vector3 point = new(position.x, position.y + 0.9f, position.z);
+        Vector3 viewport = _camera.WorldToViewportPoint(point);
 
         const float padding = 0.05f;
 
-        return viewport.z > 0f &&
-               viewport.x >= -padding &&
-               viewport.x <= 1f + padding &&
-               viewport.y >= -padding &&
-               viewport.y <= 1f + padding;
+        return viewport.z > 0f && viewport.x >= -padding && viewport.x <= 1f + padding && viewport.y >= -padding && viewport.y <= 1f + padding;
     }
-    
+
     private void OnDestroy()
     {
         try
         {
             _views?.Dispose();
         }
-        catch (System.Exception exception)
+        catch (Exception exception)
         {
             Debug.LogException(exception);
         }

@@ -3,29 +3,23 @@ using Unity.Mathematics;
 public struct EnemyRuntime
 {
     public float3 Position;
+    public float3 ChargeDirection;
+
     public float Speed;
+    public float StateTimer;
+    public float AttackCooldown;
 
     public EnemyBehaviourType Behaviour;
     public EnemyState State;
 
-    public float StateTimer;
-    public float AttackCooldown;
-    public float3 ChargeDirection;
-    
-    public EnemyRuntime(
-        float3 position,
-        float speed,
-        EnemyBehaviourType behaviour)
+    public EnemyRuntime(float3 position, float speed, EnemyBehaviourType behaviour)
     {
         Position = position;
+        ChargeDirection = float3.zero;
         Speed = speed;
-
-        Behaviour = behaviour;
-        State = EnemyState.Chase;
-
         StateTimer = 0f;
         AttackCooldown = 0f;
-        
-        ChargeDirection = float3.zero;
+        Behaviour = behaviour;
+        State = EnemyState.Chase;
     }
 }

@@ -15,45 +15,28 @@ internal sealed class EnemyViewSystem : IDisposable
     private TransformAccessArray _transforms;
     private bool _disposed;
 
-    internal EnemyViewSystem(GameObject prefab, int count)
+    internal EnemyViewSystem(GameObject prefab, int maxCount)
     {
-        _activeViews = new List<GameObject>(count);
-        _transforms = new TransformAccessArray(count);
+        _activeViews = new List<GameObject>(maxCount);
+        _transforms = new TransformAccessArray(maxCount);
 
         _pool = new ObjectPool<GameObject>(
-            () => CreateView(prefab),
-            view =>
-            {
-                if (view != null)
-                    view.SetActive(true);
-            },
-            view =>
-            {
-                if (view != null)
-                    view.SetActive(false);
-            },
-            view =>
-            {
-                if (view != null)
-                    UnityEngine.Object.Destroy(view);
-            },
-            true,
-            count,
-            count);
-
-        for (int i = 0; i < count; i++)
-        {
-            GameObject view = _pool.Get();
-
-            _activeViews.Add(view);
-            _transforms.Add(view.transform);
-        }
+            () => CreateView(prefab), view => SetActive(view, true), view => SetActive(view, false), DestroyView, true, Mathf.Min(64, maxCount), maxCount);
     }
 
-    internal JobHandle ScheduleSync(
-        NativeArray<EnemyRuntime> enemies,
-        float3 target,
-        JobHandle dependency)
+    internal void AddView(float3 position)
+    {
+        if (_disposed)
+            throw new ObjectDisposedException(nameof(EnemyViewSystem));
+
+        GameObject view = _pool.Get();
+        view.transform.position = new Vector3(position.x, position.y, position.z);
+
+        _activeViews.Add(view);
+        _transforms.Add(view.transform);
+    }
+
+    internal JobHandle ScheduleSync(NativeArray<EnemyRuntime> enemies, float3 target, JobHandle dependency)
     {
         return new SyncEnemyViewsJob
         {
@@ -73,10 +56,7 @@ internal sealed class EnemyViewSystem : IDisposable
             _transforms.Dispose();
 
         foreach (GameObject view in _activeViews)
-        {
-            if (view != null)
-                UnityEngine.Object.Destroy(view);
-        }
+            DestroyView(view);
 
         _activeViews.Clear();
         _pool.Clear();
@@ -86,7 +66,18 @@ internal sealed class EnemyViewSystem : IDisposable
     {
         GameObject view = UnityEngine.Object.Instantiate(prefab);
         view.hideFlags = HideFlags.HideInHierarchy;
-
         return view;
+    }
+
+    private static void SetActive(GameObject view, bool active)
+    {
+        if (view != null)
+            view.SetActive(active);
+    }
+
+    private static void DestroyView(GameObject view)
+    {
+        if (view != null)
+            UnityEngine.Object.Destroy(view);
     }
 }

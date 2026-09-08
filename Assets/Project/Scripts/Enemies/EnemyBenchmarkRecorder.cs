@@ -11,10 +11,18 @@ public sealed class EnemyBenchmarkRecorder : MonoBehaviour
     [SerializeField] private HordeManager _hordeManager;
 
     private readonly List<float> _frameTimes = new();
-
     private float _timer;
     private bool _recording;
     private bool _finished;
+
+    private void Start()
+    {
+        if (_hordeManager != null)
+            return;
+
+        Debug.LogError("EnemyBenchmarkRecorder requires a HordeManager.");
+        enabled = false;
+    }
 
     private void Update()
     {
@@ -57,30 +65,27 @@ public sealed class EnemyBenchmarkRecorder : MonoBehaviour
             float p95 = Percentile(0.95f);
             float p99 = Percentile(0.99f);
             float worst = _frameTimes[^1];
-
             int above10 = CountAbove(10f);
             int above1667 = CountAbove(16.67f);
 
-            string path = Path.Combine(
-                Application.persistentDataPath,
-                $"enemy_benchmark_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
+            string fileName = $"enemy_benchmark_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+            string path = Path.Combine(Application.persistentDataPath, fileName);
 
             string csv =
                 "enemy_count,test_seconds,frames,average_fps,average_ms,median_ms,p95_ms,p99_ms,worst_ms,frames_over_10ms,frames_over_16_67ms\n" +
                 $"{_hordeManager.EnemyCount}," +
-                $"{_testSeconds.ToString(CultureInfo.InvariantCulture)}," +
+                $"{Format(_testSeconds)}," +
                 $"{_frameTimes.Count}," +
-                $"{(1000f / average).ToString("F2", CultureInfo.InvariantCulture)}," +
-                $"{average.ToString("F3", CultureInfo.InvariantCulture)}," +
-                $"{median.ToString("F3", CultureInfo.InvariantCulture)}," +
-                $"{p95.ToString("F3", CultureInfo.InvariantCulture)}," +
-                $"{p99.ToString("F3", CultureInfo.InvariantCulture)}," +
-                $"{worst.ToString("F3", CultureInfo.InvariantCulture)}," +
+                $"{Format(1000f / average, 2)}," +
+                $"{Format(average)}," +
+                $"{Format(median)}," +
+                $"{Format(p95)}," +
+                $"{Format(p99)}," +
+                $"{Format(worst)}," +
                 $"{above10}," +
                 $"{above1667}\n";
 
             File.WriteAllText(path, csv);
-
             Debug.Log($"Benchmark finished.\nSaved to:\n{path}");
         }
         catch (Exception exception)
@@ -101,12 +106,8 @@ public sealed class EnemyBenchmarkRecorder : MonoBehaviour
 
     private float Percentile(float percentile)
     {
-        int index = Mathf.Clamp(
-            Mathf.CeilToInt(_frameTimes.Count * percentile) - 1,
-            0,
-            _frameTimes.Count - 1);
-
-        return _frameTimes[index];
+        int index = Mathf.CeilToInt(_frameTimes.Count * percentile) - 1;
+        return _frameTimes[Mathf.Clamp(index, 0, _frameTimes.Count - 1)];
     }
 
     private int CountAbove(float milliseconds)
@@ -114,9 +115,16 @@ public sealed class EnemyBenchmarkRecorder : MonoBehaviour
         int count = 0;
 
         foreach (float frameTime in _frameTimes)
+        {
             if (frameTime > milliseconds)
                 count++;
+        }
 
         return count;
+    }
+
+    private static string Format(float value, int decimals = 3)
+    {
+        return value.ToString($"F{decimals}", CultureInfo.InvariantCulture);
     }
 }

@@ -14,17 +14,13 @@ internal struct SyncEnemyViewsJob : IJobParallelForTransform
     {
         float3 position = Enemies[index].Position;
         float3 forward = Target - position;
+        quaternion rotation = quaternion.identity;
 
-        quaternion rotation = math.lengthsq(forward) > 0.0001f
-            ? quaternion.LookRotationSafe(forward, new float3(0f, 1f, 0f))
-            : quaternion.identity;
+        if (math.lengthsq(forward) > 0.0001f)
+            rotation = quaternion.LookRotationSafe(forward, math.up());
 
         transform.SetPositionAndRotation(
             new Vector3(position.x, position.y, position.z),
-            new Quaternion(
-                rotation.value.x,
-                rotation.value.y,
-                rotation.value.z,
-                rotation.value.w));
+            new Quaternion(rotation.value.x, rotation.value.y, rotation.value.z, rotation.value.w));
     }
 }
