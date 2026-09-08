@@ -1,33 +1,39 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerHealth))]
 public sealed class PlayerDeathHandler : MonoBehaviour
 {
-    [SerializeField] private PlayerHealth _playerHealth;
+    [SerializeField] private GameOverMenu _gameOverMenu;
+
+    private PlayerHealth _playerHealth;
 
     private void Awake()
     {
-        if (_playerHealth != null)
+        _playerHealth = GetComponent<PlayerHealth>();
+
+        if (_gameOverMenu == null)
+            _gameOverMenu = FindFirstObjectByType<GameOverMenu>();
+
+        if (_gameOverMenu != null)
             return;
 
-        Debug.LogError("PlayerDeathHandler requires PlayerHealth.");
+        Debug.LogError("PlayerDeathHandler could not find GameOverMenu.");
         enabled = false;
     }
 
     private void OnEnable()
     {
-        _playerHealth.Died += RestartGame;
+        _playerHealth.Died += HandleDeath;
     }
 
     private void OnDisable()
     {
         if (_playerHealth != null)
-            _playerHealth.Died -= RestartGame;
+            _playerHealth.Died -= HandleDeath;
     }
 
-    private void RestartGame()
+    private void HandleDeath()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        _gameOverMenu.Show();
     }
 }
