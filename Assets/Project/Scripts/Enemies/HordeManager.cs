@@ -28,11 +28,13 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Min(1)] private int _maxSeparationNeighbours = 8;
 
     [Header("Swarm")]
+    [SerializeField, Min(1)] private int _swarmHealth = 30;
     [SerializeField, Min(0f)] private float _swarmAttackRange = 1.3f;
     [SerializeField, Min(1)] private int _swarmDamage = 10;
     [SerializeField, Min(0f)] private float _swarmAttackCooldown = 1f;
     
     [Header("Charger")]
+    [SerializeField, Min(1)] private int _chargerHealth = 60;
     [SerializeField, Min(0f)] private float _chargeRange = 10f;
     [SerializeField, Min(0f)] private float _chargeSpeed = 12f;
     [SerializeField, Min(0f)] private float _chargeDuration = 0.55f;
@@ -43,6 +45,7 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Min(1)] private int _chargeDamage = 25;
     
     [Header("Brute")]
+    [SerializeField, Min(1)] private int _bruteHealth  = 150;
     [SerializeField, Min(0f)] private float _bruteMoveSpeed = 1.5f;
     [SerializeField, Min(0f)] private float _bruteSlamRange = 3f;
     [SerializeField, Min(0f)] private float _bruteWindup = 1.2f;
@@ -92,8 +95,73 @@ public sealed class HordeManager : MonoBehaviour
     {
         if (_activeEnemyCount > 0)
             Simulate();
+        
+        //if (Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame && _activeEnemyCount > 0)
+        //    DamageEnemy(0, 50);
     }
 
+    internal bool TryGetClosestEnemy(float3 position, float range, out int enemyIndex, out float3 enemyPosition)
+    {
+        enemyIndex = -1;
+        enemyPosition = float3.zero;
+
+        float closestDistanceSq = range * range;
+
+        for (int i = 0; i < _activeEnemyCount; i++)
+        {
+            float distanceSq = math.distancesq(position, _enemies[i].Position);
+
+            if (distanceSq >= closestDistanceSq)
+                continue;
+            
+            closestDistanceSq = distanceSq;
+            enemyIndex = i;
+            enemyPosition = _enemies[i].Position;
+        }
+        return enemyIndex != -1;
+    }
+    
+    internal void DamageEnemy(int index, int damage)
+    {
+        if (index < 0 || index >= _activeEnemyCount || damage <= 0)
+            return;
+
+        EnemyRuntime enemy = _enemies[index];
+        enemy.Health -= damage;
+
+        if (enemy.Health <= 0)
+        {
+            RemoveEnemy(index);
+            return;
+        }
+
+        _enemies[index] = enemy;
+        _nextEnemies[index] = enemy;
+    }
+    
+    private void RemoveEnemy(int index)
+    {
+        if (index < 0 || index >= _activeEnemyCount)
+            return;
+
+        int lastIndex = _activeEnemyCount - 1;
+
+        if (index != lastIndex)
+        {
+            EnemyRuntime movedEnemy = _enemies[lastIndex];
+
+            _enemies[index] = movedEnemy;
+            _nextEnemies[index] = movedEnemy;
+        }
+
+        _enemies[lastIndex] = default;
+        _nextEnemies[lastIndex] = default;
+
+        _views.RemoveAtSwapBack(index);
+
+        _activeEnemyCount--;
+    }
+    
     private EnemyVisualType GetVisual(EnemyBehaviourType behaviour)
     {
         switch (behaviour)
@@ -119,7 +187,8 @@ public sealed class HordeManager : MonoBehaviour
 
         int index = _activeEnemyCount;
         EnemyVisualType visual = GetVisual(behaviour);
-        EnemyRuntime enemy = new(position, _moveSpeed, behaviour, visual);
+        int health = GetHealth(behaviour);
+        EnemyRuntime enemy = new(position, _moveSpeed, health, behaviour, visual);
 
         try
         {
@@ -253,6 +322,21 @@ public sealed class HordeManager : MonoBehaviour
         const float padding = 0.05f;
 
         return viewport.z > 0f && viewport.x >= -padding && viewport.x <= 1f + padding && viewport.y >= -padding && viewport.y <= 1f + padding;
+    }
+    
+    private int GetHealth(EnemyBehaviourType behaviour)
+    {
+        switch (behaviour)
+        {
+            case EnemyBehaviourType.Charger:
+                return _chargerHealth;
+
+            case EnemyBehaviourType.Brute:
+                return _bruteHealth;
+
+            default:
+                return _swarmHealth;
+        }
     }
     
     private void ApplyDamageEvents()

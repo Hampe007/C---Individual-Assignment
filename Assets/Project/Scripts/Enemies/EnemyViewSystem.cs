@@ -9,17 +9,31 @@ using UnityEngine.Pool;
 
 internal sealed class EnemyViewSystem : IDisposable
 {
+    
     private readonly ObjectPool<GameObject> _impPool;
     private readonly ObjectPool<GameObject> _lycanPool;
     private readonly ObjectPool<GameObject> _tidebreakerPool;
-    private readonly List<GameObject> _activeViews;
+    
+    private struct EnemyView
+    {
+        public GameObject GameObject;
+        public EnemyVisualType Visual;
+
+        public EnemyView(GameObject gameObject, EnemyVisualType visual)
+        {
+            GameObject = gameObject;
+            Visual = visual;
+        }
+    }
+    
+    private readonly List<EnemyView> _activeViews;
 
     private TransformAccessArray _transforms;
     private bool _disposed;
 
     internal EnemyViewSystem(GameObject impPrefab, GameObject lycanPrefab, GameObject tidebreakerPrefab, int maxCount)
     {
-        _activeViews = new List<GameObject>(maxCount);
+        _activeViews = new List<EnemyView>(maxCount);
         _transforms = new TransformAccessArray(maxCount);
 
         _impPool = CreatePool(impPrefab, maxCount);
@@ -36,10 +50,28 @@ internal sealed class EnemyViewSystem : IDisposable
         GameObject view = GetPool(visual).Get();
         view.transform.position = new Vector3(position.x, position.y, position.z);
 
-        _activeViews.Add(view);
+        _activeViews.Add(new EnemyView(view,visual));
         _transforms.Add(view.transform);
     }
 
+    internal void RemoveAtSwapBack(int index)
+    {
+        if (index < 0 || index >= _activeViews.Count)
+            return;
+
+        int lastIndex = _activeViews.Count - 1;
+        EnemyView removed = _activeViews[index];
+
+        if (index != lastIndex)
+            _activeViews[index] = _activeViews[lastIndex];
+
+        _activeViews.RemoveAt(lastIndex);
+        _transforms.RemoveAtSwapBack(index);
+
+        if (removed.GameObject != null)
+            GetPool(removed.Visual).Release(removed.GameObject);
+    }
+    
     internal JobHandle ScheduleSync(NativeArray<EnemyRuntime> enemies, float3 target, JobHandle dependency)
     {
         return new SyncEnemyViewsJob
@@ -59,8 +91,8 @@ internal sealed class EnemyViewSystem : IDisposable
         if (_transforms.isCreated)
             _transforms.Dispose();
 
-        foreach (GameObject view in _activeViews)
-            DestroyView(view);
+        foreach (EnemyView view in _activeViews)
+            DestroyView(view.GameObject);
 
         _activeViews.Clear();
         
