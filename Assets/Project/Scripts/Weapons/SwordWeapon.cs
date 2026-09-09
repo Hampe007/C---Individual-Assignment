@@ -14,14 +14,23 @@ public sealed class SwordWeapon : WeaponBase
     {
         float3 position = transform.position;
 
-        if (!_hordeManager.TryGetClosestEnemy(position, _range, out int enemyIndex, out _))
+        if (!_hordeManager.TryGetClosestEnemy(position, _range, out _, out _))
             return false;
-
-        _hordeManager.DamageEnemy(enemyIndex, _damage);
 
         if (_animator != null)
             _animator.SetTrigger("SwordAttack");
 
         return true;
     }
+    
+    public void ApplyHit()
+    {
+        float3 position = transform.position;
+
+        if (!_hordeManager.TryGetClosestEnemy(position, _range, out int enemyIndex, out _))
+            return;
+
+        _hordeManager.DamageEnemy(enemyIndex, _damage);
+    }
+    
 }

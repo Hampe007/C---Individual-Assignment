@@ -12,6 +12,7 @@ public sealed class PlayerHealth : MonoBehaviour
 
     public event Action<int, int> HealthChanged;
     public event Action Died;
+    public event Action<int> Damaged;
 
     [ContextMenu("Test Damage 10")]
     private void TestDamage()
@@ -30,6 +31,7 @@ public sealed class PlayerHealth : MonoBehaviour
             return;
 
         _currentHealth = Mathf.Max(0, _currentHealth - damage);
+        Damaged?.Invoke(damage);
         HealthChanged?.Invoke(_currentHealth, _maxHealth);
 
         if (_currentHealth == 0)

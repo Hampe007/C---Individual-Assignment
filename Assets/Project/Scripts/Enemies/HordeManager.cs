@@ -56,6 +56,7 @@ public sealed class HordeManager : MonoBehaviour
 
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private CombatVFXSystem _combatVFX;
+    [SerializeField] private SoundSet _enemyHitSFX;
     
     private NativeArray<EnemyRuntime> _enemies;
     private NativeArray<EnemyRuntime> _nextEnemies;
@@ -131,6 +132,9 @@ public sealed class HordeManager : MonoBehaviour
         enemy.Health -= damage;
         _combatVFX.PlayBlood(enemy.Position);
         _views.PlayHitFlash(index);
+        
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX(_enemyHitSFX, new Vector3(enemy.Position.x, enemy.Position.y, enemy.Position.z));
         
         if (enemy.Health <= 0)
         {
