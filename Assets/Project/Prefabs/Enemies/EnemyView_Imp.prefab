@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4551704083975785128}
+  - component: {fileID: 7865054245687459521}
   m_Layer: 0
   m_Name: EnemyView_Imp
   m_TagString: Untagged
@@ -32,6 +33,20 @@ Transform:
   - {fileID: 1521704942065111677}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7865054245687459521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3662398374813342227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b5eaa07cee9ac4d990b64f7c7fe1b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitFlash
+  _duration: 0.1
+  _strength: 0.7
 --- !u!1001 &1338862013568398742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6155140139414209394, guid: 14d2cd37f23900042b87e2f2a7f25435, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6155140139414209394, guid: 14d2cd37f23900042b87e2f2a7f25435, type: 3}
       propertyPath: m_SkinnedMotionVectors
@@ -94,7 +109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445027706254241165, guid: 14d2cd37f23900042b87e2f2a7f25435, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5445027706254241165, guid: 14d2cd37f23900042b87e2f2a7f25435, type: 3}
       propertyPath: m_SkinnedMotionVectors

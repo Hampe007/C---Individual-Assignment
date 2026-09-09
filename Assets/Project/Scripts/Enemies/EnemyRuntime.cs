@@ -15,7 +15,7 @@ public struct EnemyRuntime
     public EnemyBehaviourType Behaviour;
     public EnemyState State;
     public EnemyVisualType Visual;
-
+    
     public EnemyRuntime(float3 position, float speed, int health, EnemyBehaviourType behaviour, EnemyVisualType visual)
     {
         Position = position;

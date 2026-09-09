@@ -17,11 +17,13 @@ internal sealed class EnemyViewSystem : IDisposable
     private struct EnemyView
     {
         public GameObject GameObject;
+        public EnemyHitFlash HitFlash;
         public EnemyVisualType Visual;
 
-        public EnemyView(GameObject gameObject, EnemyVisualType visual)
+        public EnemyView(GameObject gameObject, EnemyHitFlash hitFlash, EnemyVisualType visual)
         {
             GameObject = gameObject;
+            HitFlash = hitFlash;
             Visual = visual;
         }
     }
@@ -50,10 +52,23 @@ internal sealed class EnemyViewSystem : IDisposable
         GameObject view = GetPool(visual).Get();
         view.transform.position = new Vector3(position.x, position.y, position.z);
 
-        _activeViews.Add(new EnemyView(view,visual));
+        EnemyHitFlash hitFlash = view.GetComponent<EnemyHitFlash>();
+
+        _activeViews.Add(new EnemyView(view, hitFlash, visual));
         _transforms.Add(view.transform);
     }
 
+    internal void PlayHitFlash(int index)
+    {
+        if (index < 0 || index >= _activeViews.Count)
+            return;
+
+        EnemyHitFlash hitFlash = _activeViews[index].HitFlash;
+
+        if (hitFlash != null)
+            hitFlash.Play();
+    }
+    
     internal void RemoveAtSwapBack(int index)
     {
         if (index < 0 || index >= _activeViews.Count)

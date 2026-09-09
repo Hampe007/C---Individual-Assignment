@@ -55,6 +55,7 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField, Min(1)] private int _bruteDamage = 35;
 
     [SerializeField] private PlayerHealth _playerHealth;
+    [SerializeField] private CombatVFXSystem _combatVFX;
     
     private NativeArray<EnemyRuntime> _enemies;
     private NativeArray<EnemyRuntime> _nextEnemies;
@@ -128,7 +129,9 @@ public sealed class HordeManager : MonoBehaviour
 
         EnemyRuntime enemy = _enemies[index];
         enemy.Health -= damage;
-
+        _combatVFX.PlayBlood(enemy.Position);
+        _views.PlayHitFlash(index);
+        
         if (enemy.Health <= 0)
         {
             RemoveEnemy(index);
