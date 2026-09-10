@@ -10,51 +10,48 @@ using UnityEngine.Pool;
 internal sealed class EnemyViewSystem : IDisposable
 {
     
-    private readonly ObjectPool<GameObject> _impPool;
-    private readonly ObjectPool<GameObject> _lycanPool;
-    private readonly ObjectPool<GameObject> _tidebreakerPool;
+    private readonly List<ObjectPool<GameObject>> _pools;
+    private readonly List<EnemyView> _activeViews;
     
     private struct EnemyView
     {
         public GameObject GameObject;
         public EnemyHitFlash HitFlash;
-        public EnemyVisualType Visual;
+        public int DefinitionIndex;
 
-        public EnemyView(GameObject gameObject, EnemyHitFlash hitFlash, EnemyVisualType visual)
+        public EnemyView(GameObject gameObject, EnemyHitFlash hitFlash, int definitionIndex)
         {
             GameObject = gameObject;
             HitFlash = hitFlash;
-            Visual = visual;
+            DefinitionIndex = definitionIndex;
         }
     }
     
-    private readonly List<EnemyView> _activeViews;
-
     private TransformAccessArray _transforms;
     private bool _disposed;
 
-    internal EnemyViewSystem(GameObject impPrefab, GameObject lycanPrefab, GameObject tidebreakerPrefab, int maxCount)
+    internal EnemyViewSystem(GameObject[] prefabs, int maxCount)
     {
+        _pools = new List<ObjectPool<GameObject>>(prefabs.Length);
         _activeViews = new List<EnemyView>(maxCount);
         _transforms = new TransformAccessArray(maxCount);
 
-        _impPool = CreatePool(impPrefab, maxCount);
-        _lycanPool = CreatePool(lycanPrefab, maxCount);
-        _tidebreakerPool = CreatePool(tidebreakerPrefab, maxCount);
+        for (int i = 0; i < prefabs.Length; i++)
+            _pools.Add(CreatePool(prefabs[i], maxCount));
     }
 
 
-    internal void AddView(float3 position, EnemyVisualType visual)
+    internal void AddView(float3 position, int definitionIndex)
     {
         if (_disposed)
             throw new ObjectDisposedException(nameof(EnemyViewSystem));
 
-        GameObject view = GetPool(visual).Get();
+        GameObject view = _pools[definitionIndex].Get();
         view.transform.position = new Vector3(position.x, position.y, position.z);
 
         EnemyHitFlash hitFlash = view.GetComponent<EnemyHitFlash>();
 
-        _activeViews.Add(new EnemyView(view, hitFlash, visual));
+        _activeViews.Add(new EnemyView(view, hitFlash, definitionIndex));
         _transforms.Add(view.transform);
     }
 
@@ -84,7 +81,7 @@ internal sealed class EnemyViewSystem : IDisposable
         _transforms.RemoveAtSwapBack(index);
 
         if (removed.GameObject != null)
-            GetPool(removed.Visual).Release(removed.GameObject);
+            _pools[removed.DefinitionIndex].Release(removed.GameObject);
     }
     
     internal JobHandle ScheduleSync(NativeArray<EnemyRuntime> enemies, float3 target, JobHandle dependency)
@@ -111,26 +108,12 @@ internal sealed class EnemyViewSystem : IDisposable
 
         _activeViews.Clear();
         
-        _impPool.Clear();
-        _lycanPool.Clear();
-        _tidebreakerPool.Clear();
+        foreach (ObjectPool<GameObject> pool in _pools)
+            pool.Clear();
+
+        _pools.Clear();
     }
-
-    private ObjectPool<GameObject> GetPool(EnemyVisualType visual)
-    {
-        switch (visual)
-        {
-            case EnemyVisualType.Lycan:
-                return _lycanPool;
-
-            case EnemyVisualType.Tidebreaker:
-                return _tidebreakerPool;
-
-            default:
-                return _impPool;
-        }
-    }
-
+    
     private static ObjectPool<GameObject> CreatePool(GameObject prefab, int maxCount)
     {
         return new ObjectPool<GameObject>(

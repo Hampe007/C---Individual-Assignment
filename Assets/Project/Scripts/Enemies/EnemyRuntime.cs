@@ -4,29 +4,25 @@ public struct EnemyRuntime
 {
     public float3 Position;
     public float3 ChargeDirection;
-
-    public float Speed;
+    
     public float StateTimer;
     public float AttackCooldown;
     
     public int Health;
     public byte HasHit;
+    public int DefinitionIndex;
     
-    public EnemyBehaviourType Behaviour;
     public EnemyState State;
-    public EnemyVisualType Visual;
     
-    public EnemyRuntime(float3 position, float speed, int health, EnemyBehaviourType behaviour, EnemyVisualType visual)
+    public EnemyRuntime(float3 position, int health, int definitionIndex)
     {
         Position = position;
         ChargeDirection = float3.zero;
-        Speed = speed;
         StateTimer = 0f;
         AttackCooldown = 0f;
         Health = health;
         HasHit = 0;
-        Behaviour = behaviour;
-        Visual = visual;
+        DefinitionIndex = definitionIndex;
         State = EnemyState.Chase;
     }
 }

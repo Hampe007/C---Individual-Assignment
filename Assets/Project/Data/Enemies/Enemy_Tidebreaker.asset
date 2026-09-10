@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46108a87b2f4caf9a63a2e6d92dadc7, type: 3}
+  m_Name: Enemy_Tidebreaker
+  m_EditorClassIdentifier: Assembly-CSharp::BruteEnemyDefinition
+  _displayName: Tidebreaker
+  _prefab: {fileID: 3662398374813342227, guid: acdae1b53ceca174fb701425255c51ec, type: 3}
+  _health: 150
+  _moveSpeed: 1.5
+  _damage: 25
+  _xpReward: 5
+  _scoreReward: 50
+  _slamRange: 3
+  _windupDuration: 1.2
+  _attackDuration: 0.25
+  _recoveryDuration: 1.5
+  _attackCooldown: 2.5

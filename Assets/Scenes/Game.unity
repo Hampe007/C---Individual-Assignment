@@ -1086,10 +1086,16 @@ MonoBehaviour:
   _endSpawnInterval: 0.4
   _startBatchSize: 2
   _endBatchSize: 10
-  _chargerUnlockTime: 45
-  _chargerChance: 0.2
-  _bruteUnlockTime: 90
-  _bruteChance: 0.1
+  _spawnEntries:
+  - _enemy: {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
+    _unlockTime: 0
+    _weight: 7
+  - _enemy: {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
+    _unlockTime: 45
+    _weight: 2
+  - _enemy: {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
+    _unlockTime: 90
+    _weight: 1
 --- !u!1001 &1097358000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2132,11 +2138,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HordeManager
   _enemyCount: 1000
-  _moveSpeed: 3
   _target: {fileID: 2967830632403154743}
-  _impPrefab: {fileID: 3662398374813342227, guid: a599c58818c7f094aa6a4525dbe37c68, type: 3}
-  _lycanPrefab: {fileID: 3662398374813342227, guid: 11fbe20f35193e1479d4846220ff488c, type: 3}
-  _tidebreakerPrefab: {fileID: 3662398374813342227, guid: acdae1b53ceca174fb701425255c51ec, type: 3}
+  _enemyDefinitions:
+  - {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
+  - {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
+  - {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
   _spawnEdge: 55
   _spawnDepth: 2
   _minSpawnDistance: 30
@@ -2146,27 +2152,6 @@ MonoBehaviour:
   _separationDistance: 1.2
   _separationWeight: 0.75
   _maxSeparationNeighbours: 8
-  _swarmHealth: 30
-  _swarmAttackRange: 1.3
-  _swarmDamage: 1
-  _swarmAttackCooldown: 1
-  _chargerHealth: 60
-  _chargeRange: 10
-  _chargeSpeed: 12
-  _chargeDuration: 0.55
-  _chargeTelegraph: 0.65
-  _chargeRecovery: 0.8
-  _chargeCooldown: 2
-  _chargeHitRange: 1.5
-  _chargeDamage: 10
-  _bruteHealth: 150
-  _bruteMoveSpeed: 1.5
-  _bruteSlamRange: 3
-  _bruteWindup: 1.2
-  _bruteAttackDuration: 0.25
-  _bruteRecovery: 1.5
-  _bruteCooldown: 2.5
-  _bruteDamage: 25
   _playerHealth: {fileID: 8057403300091190146}
   _combatVFX: {fileID: 1998491787}
   _enemyHitSFX: {fileID: 11400000, guid: 96d2cbf0d0e56ba478e9dd6b0f6469a8, type: 2}

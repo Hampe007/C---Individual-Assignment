@@ -14,11 +14,8 @@ public sealed class DifficultyDirector : MonoBehaviour
     [SerializeField, Min(1)] private int _startBatchSize = 2;
     [SerializeField, Min(1)] private int _endBatchSize = 10;
 
-    [Header("Behaviour Unlocks")]
-    [SerializeField, Min(0f)] private float _chargerUnlockTime = 45f;
-    [SerializeField, Range(0f, 1f)] private float _chargerChance = 0.2f;
-    [SerializeField, Min(0f)] private float _bruteUnlockTime = 90f;
-    [SerializeField, Range(0f, 1f)] private float _bruteChance = 0.1f;
+    [Header("Enemy Spawning")]
+    [SerializeField] private EnemySpawnEntry[] _spawnEntries;
 
     private float _elapsed;
     private float _spawnTimer;
@@ -26,10 +23,10 @@ public sealed class DifficultyDirector : MonoBehaviour
 
     private void Start()
     {
-        if (_hordeManager != null)
+        if (_hordeManager != null && _spawnEntries != null && _spawnEntries.Length > 0)
             return;
 
-        Debug.LogError("DifficultyDirector requires a HordeManager.");
+        Debug.LogError("DifficultyDirector is missing required references.");
         enabled = false;
     }
 
@@ -71,28 +68,45 @@ public sealed class DifficultyDirector : MonoBehaviour
             if (_hordeManager.ActiveEnemyCount >= _hordeManager.MaxEnemyCount)
                 return;
 
-            _hordeManager.TrySpawnEnemy(GetBehaviour());
+            EnemyDefinition enemy = GetEnemy();
+
+            if (enemy == null)
+                return;
+
+            _hordeManager.TrySpawnEnemy(enemy);
         }
     }
 
-    private EnemyBehaviourType GetBehaviour()
+    private EnemyDefinition GetEnemy()
     {
-        float roll = Random.value;
+        float totalWeight = 0f;
 
-        if (_elapsed >= _bruteUnlockTime)
+        for (int i = 0; i < _spawnEntries.Length; i++)
         {
-            if (roll < _bruteChance)
-                return EnemyBehaviourType.Brute;
+            EnemySpawnEntry entry = _spawnEntries[i];
 
-            if (roll < _bruteChance + _chargerChance)
-                return EnemyBehaviourType.Charger;
-
-            return EnemyBehaviourType.Swarm;
+            if (entry.Enemy != null && _elapsed >= entry.UnlockTime)
+                totalWeight += entry.Weight;
         }
 
-        if (_elapsed >= _chargerUnlockTime && roll < _chargerChance)
-            return EnemyBehaviourType.Charger;
+        if (totalWeight <= 0f)
+            return null;
 
-        return EnemyBehaviourType.Swarm;
+        float roll = Random.Range(0f, totalWeight);
+
+        for (int i = 0; i < _spawnEntries.Length; i++)
+        {
+            EnemySpawnEntry entry = _spawnEntries[i];
+
+            if (entry.Enemy == null || _elapsed < entry.UnlockTime)
+                continue;
+
+            roll -= entry.Weight;
+
+            if (roll <= 0f)
+                return entry.Enemy;
+        }
+
+        return null;
     }
 }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0fb2b662f0a4675a2076968c1d5aad3, type: 3}
+  m_Name: Enemy_Lycan
+  m_EditorClassIdentifier: Assembly-CSharp::ChargerEnemyDefinition
+  _displayName: Lycan
+  _prefab: {fileID: 3662398374813342227, guid: 11fbe20f35193e1479d4846220ff488c, type: 3}
+  _health: 60
+  _moveSpeed: 3
+  _damage: 10
+  _xpReward: 3
+  _scoreReward: 30
+  _chargeRange: 10
+  _chargeSpeed: 12
+  _chargeDuration: 0.55
+  _telegraphDuration: 0.65
+  _recoveryDuration: 0.8
+  _chargeCooldown: 5
+  _hitRange: 1.5
