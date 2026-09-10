@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3142e58a8b19d3e4f8176bef159feed1, type: 3}
+  m_Name: SwordSwingSFX
+  m_EditorClassIdentifier: Assembly-CSharp::SoundSet
+  _clips:
+  - {fileID: 8300000, guid: 07d2648b05e16e647b6ab455adb5acda, type: 3}
+  - {fileID: 8300000, guid: da3e213b485c84a42940979f78be0dd6, type: 3}
+  _volume: 0.7
+  _pitchRange: {x: 0.95, y: 1.05}

@@ -5,6 +5,7 @@ public sealed class SwordWeapon : WeaponBase
 {
     [SerializeField] private HordeManager _hordeManager;
     [SerializeField] private Animator _animator;
+    [SerializeField] private SoundSet _swingSFX;
 
     [Header("Attack")]
     [SerializeField, Min(1)] private int _damage = 20;
@@ -31,6 +32,12 @@ public sealed class SwordWeapon : WeaponBase
             return;
 
         _hordeManager.DamageEnemy(enemyIndex, _damage);
+    }
+    
+    public void PlaySwingSound()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX(_swingSFX, transform.position);
     }
     
 }

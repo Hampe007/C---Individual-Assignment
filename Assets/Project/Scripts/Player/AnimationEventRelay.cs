@@ -14,4 +14,9 @@ public class AnimationEventRelay : MonoBehaviour
     {
         swordWeapon.ApplyHit();
     }
+    
+    public void PlaySwordSwing()
+    {
+        swordWeapon.PlaySwingSound();
+    }
 }
