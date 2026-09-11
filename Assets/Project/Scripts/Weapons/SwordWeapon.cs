@@ -1,5 +1,6 @@
 using Unity.Mathematics;
 using UnityEngine;
+using System.Collections.Generic;
 
 public sealed class SwordWeapon : WeaponBase
 {
@@ -10,6 +11,9 @@ public sealed class SwordWeapon : WeaponBase
     [Header("Attack")]
     [SerializeField, Min(1)] private int _damage = 20;
     [SerializeField, Min(0.1f)] private float _range = 4f;
+    [SerializeField, Min(1)] private int _swordCount = 1;
+
+    private readonly List<int> _targets = new();
 
     protected override bool TryAttack()
     {
@@ -28,10 +32,22 @@ public sealed class SwordWeapon : WeaponBase
     {
         float3 position = transform.position;
 
-        if (!_hordeManager.TryGetClosestEnemy(position, _range, out int enemyIndex, out _))
-            return;
+        _hordeManager.GetClosestEnemies(position, _range, _swordCount, _targets);
 
-        _hordeManager.DamageEnemy(enemyIndex, _damage);
+        _targets.Sort();
+        
+        for (int i = _targets.Count - 1; i >= 0; i--)
+            _hordeManager.DamageEnemy(_targets[i], _damage);
+    }
+    
+    public void AddDamage(int amount)
+    {
+        _damage += amount;
+    }
+    
+    public void AddSword()
+    {
+        _swordCount++;
     }
     
     public void PlaySwingSound()

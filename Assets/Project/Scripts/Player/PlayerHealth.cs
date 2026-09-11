@@ -37,4 +37,13 @@ public sealed class PlayerHealth : MonoBehaviour
         if (_currentHealth == 0)
             Died?.Invoke();
     }
+    
+    public void IncreaseMaxHealth(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        _maxHealth += amount;
+        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+    }
 }

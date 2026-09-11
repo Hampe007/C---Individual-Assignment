@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26b417d3c284704fa2ac7bd17d245f6, type: 3}
+  m_Name: SkillTree_Main
+  m_EditorClassIdentifier: Assembly-CSharp::SkillTreeDefinition
+  _nodes:
+  - _id: sword_damage_1
+    _upgrade: {fileID: 11400000, guid: cf8540ef9bbd112458de2d30277ce830, type: 2}
+    _prerequisiteIds: []
+  - _id: sword_count_1
+    _upgrade: {fileID: 11400000, guid: 1241866324f671847950b3382747f38d, type: 2}
+    _prerequisiteIds:
+    - sword_damage_1
+  - _id: sword_cooldown_1
+    _upgrade: {fileID: 11400000, guid: e8190c89aa707f443ae13e041ece0eb4, type: 2}
+    _prerequisiteIds:
+    - sword_damage_1
+  - _id: move_speed_1
+    _upgrade: {fileID: 11400000, guid: 3512e281a65a4094eb38d65f34cc7de7, type: 2}
+    _prerequisiteIds: []
+  - _id: move_speed_2
+    _upgrade: {fileID: 11400000, guid: 3512e281a65a4094eb38d65f34cc7de7, type: 2}
+    _prerequisiteIds:
+    - move_speed_1
+  - _id: move_speed_3
+    _upgrade: {fileID: 11400000, guid: 3512e281a65a4094eb38d65f34cc7de7, type: 2}
+    _prerequisiteIds:
+    - move_speed_2
+  - _id: max_health_1
+    _upgrade: {fileID: 11400000, guid: 5cc9efa011fc0b84a87cf66917cd560b, type: 2}
+    _prerequisiteIds: []
+  - _id: max_health_2
+    _upgrade: {fileID: 11400000, guid: 5cc9efa011fc0b84a87cf66917cd560b, type: 2}
+    _prerequisiteIds:
+    - max_health_1
+  - _id: max_health_3
+    _upgrade: {fileID: 11400000, guid: 5cc9efa011fc0b84a87cf66917cd560b, type: 2}
+    _prerequisiteIds:
+    - max_health_2

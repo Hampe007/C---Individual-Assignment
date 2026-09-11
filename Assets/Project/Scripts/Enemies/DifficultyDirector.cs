@@ -32,6 +32,10 @@ public sealed class DifficultyDirector : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+
+        
         if (!_hordeManager.IsReady)
             return;
 

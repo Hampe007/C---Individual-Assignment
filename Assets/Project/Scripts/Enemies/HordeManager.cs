@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
+using System.Collections.Generic;
 
 public sealed class HordeManager : MonoBehaviour
 {
@@ -41,10 +42,10 @@ public sealed class HordeManager : MonoBehaviour
     private int _activeEnemyCount;
     private int _lastSpawnZone = -1;
     private int _sameZoneCount;
-
-    public int EnemyCount => _activeEnemyCount;
+    
     public int ActiveEnemyCount => _activeEnemyCount;
     public int MaxEnemyCount => _enemyCount;
+    public event Action<EnemyDeathData> EnemyDied;
     public bool IsReady => enabled && _enemies.IsCreated && _enemyConfigs.IsCreated && _views != null;
     
     private void Awake()
@@ -102,11 +103,11 @@ public sealed class HordeManager : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+        
         if (_activeEnemyCount > 0)
             Simulate();
-        
-        //if (Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame && _activeEnemyCount > 0)
-        //    DamageEnemy(0, 50);
     }
 
     internal bool TryGetClosestEnemy(float3 position, float range, out int enemyIndex, out float3 enemyPosition)
@@ -130,6 +131,38 @@ public sealed class HordeManager : MonoBehaviour
         return enemyIndex != -1;
     }
     
+    internal void GetClosestEnemies(float3 position, float range, int maxCount, List<int> results)
+    {
+        results.Clear();
+
+        float rangeSq = range * range;
+
+        for (int count = 0; count < maxCount; count++)
+        {
+            int closestIndex = -1;
+            float closestDistanceSq = rangeSq;
+
+            for (int i = 0; i < _activeEnemyCount; i++)
+            {
+                if (results.Contains(i))
+                    continue;
+
+                float distanceSq = math.distancesq(position, _enemies[i].Position);
+
+                if (distanceSq >= closestDistanceSq)
+                    continue;
+
+                closestDistanceSq = distanceSq;
+                closestIndex = i;
+            }
+
+            if (closestIndex < 0)
+                return;
+
+            results.Add(closestIndex);
+        }
+    }
+    
     internal void DamageEnemy(int index, int damage)
     {
         if (index < 0 || index >= _activeEnemyCount || damage <= 0)
@@ -145,6 +178,13 @@ public sealed class HordeManager : MonoBehaviour
         
         if (enemy.Health <= 0)
         {
+            EnemyConfig config = _enemyConfigs[enemy.DefinitionIndex];
+            Vector3 position = new(enemy.Position.x, enemy.Position.y, enemy.Position.z);
+
+            EnemyDeathData deathData = new(position, enemy.DefinitionIndex, config.XPReward, config.ScoreReward);
+
+            EnemyDied?.Invoke(deathData);
+            
             RemoveEnemy(index);
             return;
         }

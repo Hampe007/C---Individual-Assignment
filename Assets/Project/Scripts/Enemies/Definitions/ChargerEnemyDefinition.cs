@@ -23,6 +23,9 @@ public sealed class ChargerEnemyDefinition : EnemyDefinition
             MoveSpeed = MoveSpeed,
             Damage = Damage,
 
+            XPReward = XPReward,
+            ScoreReward = ScoreReward,
+            
             AttackRange = _chargeRange,
             AttackCooldown = _chargeCooldown,
 

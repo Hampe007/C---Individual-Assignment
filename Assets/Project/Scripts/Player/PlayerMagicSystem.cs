@@ -45,6 +45,9 @@ public class PlayerMagicSystem : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+        
         bool isSpellCastHeldDown = spellCastAction.IsPressed();
 
         bool hasEnoughMana =

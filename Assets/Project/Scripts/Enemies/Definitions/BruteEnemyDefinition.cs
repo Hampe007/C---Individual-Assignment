@@ -21,6 +21,9 @@ public sealed class BruteEnemyDefinition : EnemyDefinition
             MoveSpeed = MoveSpeed,
             Damage = Damage,
 
+            XPReward = XPReward,
+            ScoreReward = ScoreReward,
+            
             AttackRange = _slamRange,
             AttackCooldown = _attackCooldown,
 

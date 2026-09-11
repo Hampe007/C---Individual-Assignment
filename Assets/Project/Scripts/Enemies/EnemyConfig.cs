@@ -6,6 +6,9 @@ public struct EnemyConfig
     public float MoveSpeed;
     public int Damage;
 
+    public int XPReward;
+    public int ScoreReward;
+    
     public float AttackRange;
     public float AttackCooldown;
 

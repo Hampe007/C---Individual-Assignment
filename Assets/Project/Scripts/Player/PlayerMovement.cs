@@ -95,6 +95,9 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+        
         HandleMouseDestination();
 
         Vector3 horizontalMovement =
@@ -293,5 +296,10 @@ public sealed class PlayerMovement : MonoBehaviour
             animationDampTime,
             Time.deltaTime
         );
+    }
+    
+    public void AddMoveSpeed(float amount)
+    {
+        moveSpeed += amount;
     }
 }

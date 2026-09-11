@@ -18,6 +18,9 @@ public sealed class SwarmEnemyDefinition : EnemyDefinition
             MoveSpeed = MoveSpeed,
             Damage = Damage,
 
+            XPReward = XPReward,
+            ScoreReward = ScoreReward,
+            
             AttackRange = _attackRange,
             AttackCooldown = _attackCooldown
         };
