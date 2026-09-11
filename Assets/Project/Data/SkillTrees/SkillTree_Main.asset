@@ -16,14 +16,32 @@ MonoBehaviour:
   - _id: sword_damage_1
     _upgrade: {fileID: 11400000, guid: cf8540ef9bbd112458de2d30277ce830, type: 2}
     _prerequisiteIds: []
-  - _id: sword_count_1
-    _upgrade: {fileID: 11400000, guid: 1241866324f671847950b3382747f38d, type: 2}
+  - _id: sword_damage_2
+    _upgrade: {fileID: 11400000, guid: cf8540ef9bbd112458de2d30277ce830, type: 2}
     _prerequisiteIds:
     - sword_damage_1
+  - _id: sword_damage_3
+    _upgrade: {fileID: 11400000, guid: cf8540ef9bbd112458de2d30277ce830, type: 2}
+    _prerequisiteIds:
+    - sword_damage_2
   - _id: sword_cooldown_1
     _upgrade: {fileID: 11400000, guid: e8190c89aa707f443ae13e041ece0eb4, type: 2}
     _prerequisiteIds:
     - sword_damage_1
+  - _id: sword_cooldown_2
+    _upgrade: {fileID: 11400000, guid: e8190c89aa707f443ae13e041ece0eb4, type: 2}
+    _prerequisiteIds:
+    - sword_damage_1
+    - sword_cooldown_1
+  - _id: sword_count_1
+    _upgrade: {fileID: 11400000, guid: 1241866324f671847950b3382747f38d, type: 2}
+    _prerequisiteIds:
+    - sword_damage_1
+  - _id: sword_count_2
+    _upgrade: {fileID: 11400000, guid: 1241866324f671847950b3382747f38d, type: 2}
+    _prerequisiteIds:
+    - sword_damage_1
+    - sword_count_1
   - _id: move_speed_1
     _upgrade: {fileID: 11400000, guid: 3512e281a65a4094eb38d65f34cc7de7, type: 2}
     _prerequisiteIds: []
