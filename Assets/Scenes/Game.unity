@@ -4198,6 +4198,12 @@ MonoBehaviour:
   - _enemy: {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
     _unlockTime: 0
     _weight: 7
+  - _enemy: {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
+    _unlockTime: 5
+    _weight: 5
+  - _enemy: {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
+    _unlockTime: 10
+    _weight: 3
   - _enemy: {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
     _unlockTime: 45
     _weight: 2
@@ -8430,6 +8436,8 @@ MonoBehaviour:
   _target: {fileID: 2967830632403154743}
   _enemyDefinitions:
   - {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
+  - {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
+  - {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
   - {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
   - {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
   _spawnEdge: 55

@@ -4,6 +4,7 @@ public abstract class EnemyDefinition : ScriptableObject
 {
     [Header("Identity")]
     [SerializeField] private string _displayName;
+    [SerializeField] private EnemyTier _tier = EnemyTier.Tier1;
     [SerializeField] private GameObject _prefab;
 
     [Header("Base Stats")]
@@ -16,7 +17,9 @@ public abstract class EnemyDefinition : ScriptableObject
     [SerializeField, Min(0)] private int _scoreReward = 10;
 
     public string DisplayName => _displayName;
+    public EnemyTier Tier => _tier;
     public GameObject Prefab => _prefab;
+    
     public int XPReward => _xpReward;
     public int ScoreReward => _scoreReward;
 
