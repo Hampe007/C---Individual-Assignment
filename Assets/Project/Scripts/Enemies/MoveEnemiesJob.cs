@@ -1,3 +1,4 @@
+using System.Security.Permissions;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -94,7 +95,10 @@ public struct MoveEnemiesJob : IJobParallelFor
             case EnemyState.Telegraph:
                 if (enemy.StateTimer <= 0f)
                 {
-                    enemy.ChargeDirection = math.normalizesafe(Target - enemy.Position);
+                    enemy.ChargeDirection = Target - enemy.Position;
+                    enemy.ChargeDirection.y = 0f;
+                    enemy.ChargeDirection = math.normalizesafe(enemy.ChargeDirection);
+                    
                     enemy.State = EnemyState.Attack;
                     enemy.StateTimer = config.AttackDuration;
                     enemy.HasHit = 0;
@@ -188,9 +192,14 @@ public struct MoveEnemiesJob : IJobParallelFor
 
     private float3 GetChaseDirection(int index, float3 position)
     {
-        float3 chase = math.normalizesafe(Target - position);
-        float3 separation = GetSeparation(index, position);
 
+        float3 chase = Target - position;
+        chase.y = 0f;
+        chase = math.normalizesafe(chase);
+        
+        float3 separation = GetSeparation(index, position);
+        separation.y = 0f;
+        
         return math.normalizesafe(
             chase + math.normalizesafe(separation) * SeparationWeight);
     }

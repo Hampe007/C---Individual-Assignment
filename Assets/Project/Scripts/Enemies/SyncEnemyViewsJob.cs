@@ -14,6 +14,7 @@ internal struct SyncEnemyViewsJob : IJobParallelForTransform
     {
         float3 position = Enemies[index].Position;
         float3 forward = Target - position;
+        forward.y = 0f;
         quaternion rotation = quaternion.identity;
 
         if (math.lengthsq(forward) > 0.0001f)
