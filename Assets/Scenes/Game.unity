@@ -4939,37 +4939,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284532572}
   m_CullTransparentMesh: 1
---- !u!1 &1323656434
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1323656435}
-  m_Layer: 0
-  m_Name: SpellCastPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1323656435
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1323656434}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.02620824, y: 0.95008785, z: -0.08312195, w: -0.2995614}
-  m_LocalPosition: {x: 0, y: -0, z: -0.075}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5863611313519583347}
-  m_LocalEulerAnglesHint: {x: 0, y: -5.93, z: 0}
 --- !u!1 &1332277571
 GameObject:
   m_ObjectHideFlags: 0
@@ -9312,12 +9281,8 @@ GameObject:
   - component: {fileID: 8057403300091190145}
   - component: {fileID: 1778713172616246090}
   - component: {fileID: 8057403300091190146}
-  - component: {fileID: 8057403300091190147}
-  - component: {fileID: 8057403300091190148}
   - component: {fileID: 8057403300091190149}
-  - component: {fileID: 8057403300091190150}
   - component: {fileID: 8057403300091190151}
-  - component: {fileID: 8057403300091190152}
   - component: {fileID: 8057403300091190153}
   m_Layer: 0
   m_Name: PlayerTarget
@@ -11445,7 +11410,6 @@ Transform:
   - {fileID: 3768344352708089676}
   - {fileID: 6906828288663287956}
   - {fileID: 5400132192954540279}
-  - {fileID: 1323656435}
   m_Father: {fileID: 1794771503449738315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &5873114940214800499
@@ -11529,7 +11493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8869efff803e7a04389bb0a1357d3a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  magicSystem: {fileID: 8057403300091190148}
   swordWeapon: {fileID: 8057403300091190149}
 --- !u!1 &6128150770675849488
 GameObject:
@@ -12151,39 +12114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   _maxHealth: 100
---- !u!114 &8057403300091190147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151408171148917493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69fc56b8369e4424b9e9b5ad5a85008d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathHandler
-  _gameOverMenu: {fileID: 9139233858433065827}
---- !u!114 &8057403300091190148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151408171148917493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92c105cf87488134da6b2df1cbfb038d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMagicSystem
-  spellToCast: {fileID: 8544597615080038069, guid: 06327432f0ffc8c4788e16d35403c863, type: 3}
-  castPoint: {fileID: 1323656435}
-  animator: {fileID: 6010610552239384947}
-  maxMana: 100
-  currentMana: 0
-  manaRechargeRate: 2
-  timeToWaitForRecharge: 1
-  timeBetweenCasts: 1
+  _hitSFX: {fileID: 11400000, guid: 4e53375f8676ed743a20576589a251c9, type: 2}
+  _soundCooldown: 0.5
 --- !u!114 &8057403300091190149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12203,20 +12135,6 @@ MonoBehaviour:
   _damage: 20
   _range: 4
   _swordCount: 1
---- !u!114 &8057403300091190150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151408171148917493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 466b2406e340f194cb8d9dd39b4e7485, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHitFeedback
-  _hitSFX: {fileID: 11400000, guid: 4e53375f8676ed743a20576589a251c9, type: 2}
-  _soundCooldown: 0.5
 --- !u!114 &8057403300091190151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12232,27 +12150,6 @@ MonoBehaviour:
   _hordeManager: {fileID: 1976173941}
   _startingXPRequired: 10
   _xpGrowth: 1.25
---- !u!114 &8057403300091190152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151408171148917493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df10bec4cdcd4560a722a0a59cf5a0c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeSystem
-  _upgrades:
-  - {fileID: 11400000, guid: 5cc9efa011fc0b84a87cf66917cd560b, type: 2}
-  - {fileID: 11400000, guid: 3512e281a65a4094eb38d65f34cc7de7, type: 2}
-  - {fileID: 11400000, guid: e8190c89aa707f443ae13e041ece0eb4, type: 2}
-  - {fileID: 11400000, guid: 1241866324f671847950b3382747f38d, type: 2}
-  - {fileID: 11400000, guid: cf8540ef9bbd112458de2d30277ce830, type: 2}
-  _playerMovement: {fileID: 1778713172616246090}
-  _swordWeapon: {fileID: 8057403300091190149}
-  _playerHealth: {fileID: 8057403300091190146}
 --- !u!114 &8057403300091190153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12268,7 +12165,8 @@ MonoBehaviour:
   _skillTree: {fileID: 11400000, guid: 6d40339a57d756844a2ec4e5d3ab5c90, type: 2}
   _playerProgression: {fileID: 8057403300091190151}
   _playerHealth: {fileID: 8057403300091190146}
-  _upgradeSystem: {fileID: 8057403300091190152}
+  _playerMovement: {fileID: 1778713172616246090}
+  _swordWeapon: {fileID: 8057403300091190149}
 --- !u!4 &8086925397834208592
 Transform:
   m_ObjectHideFlags: 0
@@ -12618,6 +12516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameOverMenu
   _panel: {fileID: 483068979}
   _mainMenuSceneName: MainMenu
+  _playerHealth: {fileID: 8057403300091190146}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

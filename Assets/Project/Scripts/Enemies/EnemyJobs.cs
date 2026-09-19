@@ -1,8 +1,24 @@
-using System.Security.Permissions;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
+using UnityEngine;
+using UnityEngine.Jobs;
+
+[BurstCompile]
+public struct BuildSpatialGridJob : IJobParallelFor
+{
+    [ReadOnly] public NativeArray<EnemyRuntime> Enemies;
+    [ReadOnly] public float CellSize;
+
+    public NativeParallelMultiHashMap<int2, int>.ParallelWriter Grid;
+
+    public void Execute(int index)
+    {
+        int2 cell = SpatialGrid.GetCell(Enemies[index].Position, CellSize);
+        Grid.Add(cell, index);
+    }
+}
 
 [BurstCompile]
 public struct MoveEnemiesJob : IJobParallelFor
@@ -13,8 +29,8 @@ public struct MoveEnemiesJob : IJobParallelFor
 
     [WriteOnly] public NativeArray<EnemyRuntime> NextEnemies;
 
-    public NativeQueue<DamageEvent>.ParallelWriter DamageEvents;
-    
+    public NativeQueue<int>.ParallelWriter DamageEvents;
+
     [ReadOnly] public float3 Target;
     [ReadOnly] public float DeltaTime;
 
@@ -68,13 +84,13 @@ public struct MoveEnemiesJob : IJobParallelFor
 
         if (enemy.AttackCooldown <= 0f && distanceSq <= attackRangeSq)
         {
-            DamageEvents.Enqueue(new DamageEvent(index, config.Damage));
+            DamageEvents.Enqueue(config.Damage);
             enemy.AttackCooldown = config.AttackCooldown;
         }
 
         return GetChaseDirection(index, enemy.Position);
     }
-    
+
     private float3 UpdateCharger(int index, ref EnemyRuntime enemy, EnemyConfig config)
     {
         float distanceSq = math.distancesq(enemy.Position, Target);
@@ -98,7 +114,7 @@ public struct MoveEnemiesJob : IJobParallelFor
                     enemy.ChargeDirection = Target - enemy.Position;
                     enemy.ChargeDirection.y = 0f;
                     enemy.ChargeDirection = math.normalizesafe(enemy.ChargeDirection);
-                    
+
                     enemy.State = EnemyState.Attack;
                     enemy.StateTimer = config.AttackDuration;
                     enemy.HasHit = 0;
@@ -112,7 +128,7 @@ public struct MoveEnemiesJob : IJobParallelFor
                 if (enemy.HasHit == 0 &&
                     distanceSq <= config.HitRange * config.HitRange)
                 {
-                    DamageEvents.Enqueue(new DamageEvent(index, config.Damage));
+                    DamageEvents.Enqueue(config.Damage);
                     enemy.HasHit = 1;
                 }
 
@@ -163,7 +179,7 @@ public struct MoveEnemiesJob : IJobParallelFor
                     enemy.StateTimer = config.AttackDuration;
 
                     if (distanceSq <= attackRangeSq)
-                        DamageEvents.Enqueue(new DamageEvent(index, config.Damage));
+                        DamageEvents.Enqueue(config.Damage);
                 }
 
                 return float3.zero;
@@ -196,10 +212,10 @@ public struct MoveEnemiesJob : IJobParallelFor
         float3 chase = Target - position;
         chase.y = 0f;
         chase = math.normalizesafe(chase);
-        
+
         float3 separation = GetSeparation(index, position);
         separation.y = 0f;
-        
+
         return math.normalizesafe(
             chase + math.normalizesafe(separation) * SeparationWeight);
     }
@@ -218,11 +234,11 @@ public struct MoveEnemiesJob : IJobParallelFor
 
         int2 center = SpatialGrid.GetCell(position, CellSize);
 
-        for (int x = -1; x <= 1; x++)
+        for (int cellX = -1; cellX <= 1; cellX++)
         {
-            for (int y = -1; y <= 1; y++)
+            for (int cellY = -1; cellY <= 1; cellY++)
             {
-                int2 cell = center + new int2(x, y);
+                int2 cell = center + new int2(cellX, cellY);
 
                 if (!Grid.TryGetFirstValue(cell, out int otherIndex, out var iterator))
                     continue;
@@ -251,5 +267,35 @@ public struct MoveEnemiesJob : IJobParallelFor
         }
 
         return separation;
+    }
+}
+
+[BurstCompile]
+internal struct SyncEnemyViewsJob : IJobParallelForTransform
+{
+    [ReadOnly] public NativeArray<EnemyRuntime> Enemies;
+    [ReadOnly] public float3 Target;
+
+    public void Execute(int index, TransformAccess transform)
+    {
+        float3 position = Enemies[index].Position;
+        float3 forward = Target - position;
+        forward.y = 0f;
+        quaternion rotation = quaternion.identity;
+
+        if (math.lengthsq(forward) > 0.0001f)
+            rotation = quaternion.LookRotationSafe(forward, math.up());
+
+        transform.SetPositionAndRotation(
+            new Vector3(position.x, position.y, position.z),
+            new Quaternion(rotation.value.x, rotation.value.y, rotation.value.z, rotation.value.w));
+    }
+}
+
+public static class SpatialGrid
+{
+    public static int2 GetCell(float3 position, float cellSize)
+    {
+        return (int2)math.floor(position.xz / cellSize);
     }
 }

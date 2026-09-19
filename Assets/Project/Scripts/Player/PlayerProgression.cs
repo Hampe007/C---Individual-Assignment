@@ -24,7 +24,6 @@ public sealed class PlayerProgression : MonoBehaviour
     public event Action<int, int> XPChanged;
     public event Action<int> ScoreChanged;
     public event Action<int> LeveledUp;
-    public event Action<int> SkillPointsChanged;
 
     private void Awake()
     {
@@ -55,13 +54,12 @@ public sealed class PlayerProgression : MonoBehaviour
             return;
 
         _skillPoints--;
-        SkillPointsChanged?.Invoke(_skillPoints);
     }
 
-    private void HandleEnemyDied(EnemyDeathData deathData)
+    private void HandleEnemyDied(int xpReward, int scoreReward)
     {
-        AddScore(deathData.ScoreReward);
-        AddXP(deathData.XPReward);
+        AddScore(scoreReward);
+        AddXP(xpReward);
     }
 
     private void AddXP(int amount)
@@ -80,7 +78,6 @@ public sealed class PlayerProgression : MonoBehaviour
 
             _xpRequired = Mathf.CeilToInt(_xpRequired * _xpGrowth);
 
-            SkillPointsChanged?.Invoke(_skillPoints);
             LeveledUp?.Invoke(_level);
         }
 

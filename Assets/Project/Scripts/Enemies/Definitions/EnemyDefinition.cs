@@ -19,14 +19,30 @@ public abstract class EnemyDefinition : ScriptableObject
     public string DisplayName => _displayName;
     public EnemyTier Tier => _tier;
     public GameObject Prefab => _prefab;
-    
+
     public int XPReward => _xpReward;
     public int ScoreReward => _scoreReward;
 
-    protected int Health => _health;
-    protected float MoveSpeed => _moveSpeed;
-    protected int Damage => _damage;
-
     public abstract EnemyBehaviourType Behaviour { get; }
     public abstract EnemyConfig CreateConfig();
+
+    protected EnemyConfig CreateBaseConfig()
+    {
+        return new EnemyConfig
+        {
+            Behaviour = Behaviour,
+            Health = _health,
+            MoveSpeed = _moveSpeed,
+            Damage = _damage,
+            XPReward = _xpReward,
+            ScoreReward = _scoreReward
+        };
+    }
+}
+
+public enum EnemyTier
+{
+    Tier1,
+    Tier2,
+    Tier3
 }

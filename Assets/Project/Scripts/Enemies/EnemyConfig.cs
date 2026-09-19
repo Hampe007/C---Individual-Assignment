@@ -8,7 +8,7 @@ public struct EnemyConfig
 
     public int XPReward;
     public int ScoreReward;
-    
+
     public float AttackRange;
     public float AttackCooldown;
 
@@ -17,4 +17,11 @@ public struct EnemyConfig
     public float AttackDuration;
     public float RecoveryDuration;
     public float HitRange;
+}
+
+public enum EnemyBehaviourType : byte
+{
+    Swarm,
+    Charger,
+    Brute
 }

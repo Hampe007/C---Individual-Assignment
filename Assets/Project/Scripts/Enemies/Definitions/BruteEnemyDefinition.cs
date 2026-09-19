@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBruteEnemy", menuName = "Enemies/Brute Enemy")]
 public sealed class BruteEnemyDefinition : EnemyDefinition
@@ -14,23 +14,13 @@ public sealed class BruteEnemyDefinition : EnemyDefinition
 
     public override EnemyConfig CreateConfig()
     {
-        return new EnemyConfig
-        {
-            Behaviour = Behaviour,
-            Health = Health,
-            MoveSpeed = MoveSpeed,
-            Damage = Damage,
-
-            XPReward = XPReward,
-            ScoreReward = ScoreReward,
-            
-            AttackRange = _slamRange,
-            AttackCooldown = _attackCooldown,
-
-            TelegraphDuration = _windupDuration,
-            AttackDuration = _attackDuration,
-            RecoveryDuration = _recoveryDuration,
-            HitRange = _slamRange
-        };
+        EnemyConfig config = CreateBaseConfig();
+        config.AttackRange = _slamRange;
+        config.AttackCooldown = _attackCooldown;
+        config.TelegraphDuration = _windupDuration;
+        config.AttackDuration = _attackDuration;
+        config.RecoveryDuration = _recoveryDuration;
+        config.HitRange = _slamRange;
+        return config;
     }
 }

@@ -13,7 +13,7 @@ public sealed class HordeManager : MonoBehaviour
 
     [Header("Enemy Definitions")]
     [SerializeField] private EnemyDefinition[] _enemyDefinitions;
-    
+
     [Header("Spawning")]
     [SerializeField, Min(1f)] private float _spawnEdge = 55f;
     [SerializeField, Min(0f)] private float _spawnDepth = 2f;
@@ -30,24 +30,24 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private CombatVFXSystem _combatVFX;
     [SerializeField] private SoundSet _enemyHitSFX;
-    
+
     private NativeArray<EnemyRuntime> _enemies;
     private NativeArray<EnemyRuntime> _nextEnemies;
     private NativeArray<EnemyConfig> _enemyConfigs;
     private NativeParallelMultiHashMap<int2, int> _grid;
-    private NativeQueue<DamageEvent> _damageEvents;
+    private NativeQueue<int> _damageEvents;
     private EnemyViewSystem _views;
 
     private Unity.Mathematics.Random _random;
     private int _activeEnemyCount;
     private int _lastSpawnZone = -1;
     private int _sameZoneCount;
-    
+
     public int ActiveEnemyCount => _activeEnemyCount;
     public int MaxEnemyCount => _enemyCount;
-    public event Action<EnemyDeathData> EnemyDied;
+    public event Action<int, int> EnemyDied;
     public bool IsReady => enabled && _enemies.IsCreated && _enemyConfigs.IsCreated && _views != null;
-    
+
     private void Awake()
     {
         if (_target == null || _camera == null || _playerHealth == null)
@@ -96,7 +96,7 @@ public sealed class HordeManager : MonoBehaviour
         _enemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
         _nextEnemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
         _grid = new NativeParallelMultiHashMap<int2, int>(_enemyCount, Allocator.Persistent);
-        _damageEvents = new NativeQueue<DamageEvent>(Allocator.Persistent);
+        _damageEvents = new NativeQueue<int>(Allocator.Persistent);
 
         _views = new EnemyViewSystem(prefabs, _enemyCount);
     }
@@ -105,7 +105,7 @@ public sealed class HordeManager : MonoBehaviour
     {
         if (Time.timeScale == 0f)
             return;
-        
+
         if (_activeEnemyCount > 0)
             Simulate();
     }
@@ -123,14 +123,14 @@ public sealed class HordeManager : MonoBehaviour
 
             if (distanceSq >= closestDistanceSq)
                 continue;
-            
+
             closestDistanceSq = distanceSq;
             enemyIndex = i;
             enemyPosition = _enemies[i].Position;
         }
         return enemyIndex != -1;
     }
-    
+
     internal void GetClosestEnemies(float3 position, float range, int maxCount, List<int> results)
     {
         results.Clear();
@@ -162,7 +162,7 @@ public sealed class HordeManager : MonoBehaviour
             results.Add(closestIndex);
         }
     }
-    
+
     internal void DamageEnemy(int index, int damage)
     {
         if (index < 0 || index >= _activeEnemyCount || damage <= 0)
@@ -172,19 +172,15 @@ public sealed class HordeManager : MonoBehaviour
         enemy.Health -= damage;
         _combatVFX.PlayBlood(enemy.Position);
         _views.PlayHitFlash(index);
-        
+
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlaySFX(_enemyHitSFX, new Vector3(enemy.Position.x, enemy.Position.y, enemy.Position.z));
-        
+
         if (enemy.Health <= 0)
         {
             EnemyConfig config = _enemyConfigs[enemy.DefinitionIndex];
-            Vector3 position = new(enemy.Position.x, enemy.Position.y, enemy.Position.z);
+            EnemyDied?.Invoke(config.XPReward, config.ScoreReward);
 
-            EnemyDeathData deathData = new(position, enemy.DefinitionIndex, config.XPReward, config.ScoreReward);
-
-            EnemyDied?.Invoke(deathData);
-            
             RemoveEnemy(index);
             return;
         }
@@ -192,7 +188,7 @@ public sealed class HordeManager : MonoBehaviour
         _enemies[index] = enemy;
         _nextEnemies[index] = enemy;
     }
-    
+
     private void RemoveEnemy(int index)
     {
         if (index < 0 || index >= _activeEnemyCount)
@@ -215,7 +211,7 @@ public sealed class HordeManager : MonoBehaviour
 
         _activeEnemyCount--;
     }
-    
+
     public bool TrySpawnEnemy(EnemyDefinition definition)
     {
         if (!IsReady || _activeEnemyCount >= _enemyCount || definition == null)
@@ -273,7 +269,6 @@ public sealed class HordeManager : MonoBehaviour
             Grid = _grid.AsReadOnly(),
             DamageEvents = _damageEvents.AsParallelWriter(),
 
-            
             Target = _target.position,
             DeltaTime = Time.deltaTime,
 
@@ -350,7 +345,7 @@ public sealed class HordeManager : MonoBehaviour
 
         return viewport.z > 0f && viewport.x >= -padding && viewport.x <= 1f + padding && viewport.y >= -padding && viewport.y <= 1f + padding;
     }
-    
+
     private int GetDefinitionIndex(EnemyDefinition definition)
     {
         for (int i = 0; i < _enemyDefinitions.Length; i++)
@@ -361,11 +356,11 @@ public sealed class HordeManager : MonoBehaviour
 
         return -1;
     }
-    
+
     private void ApplyDamageEvents()
     {
-        while (_damageEvents.TryDequeue(out DamageEvent damageEvent))
-            _playerHealth.TakeDamage(damageEvent.Damage);
+        while (_damageEvents.TryDequeue(out int damage))
+            _playerHealth.TakeDamage(damage);
     }
 
     private void OnDestroy()
@@ -391,7 +386,7 @@ public sealed class HordeManager : MonoBehaviour
 
         if (_nextEnemies.IsCreated)
             _nextEnemies.Dispose();
-       
+
         if (_enemyConfigs.IsCreated)
             _enemyConfigs.Dispose();
 

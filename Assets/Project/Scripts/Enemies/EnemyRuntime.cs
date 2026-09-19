@@ -4,16 +4,16 @@ public struct EnemyRuntime
 {
     public float3 Position;
     public float3 ChargeDirection;
-    
+
     public float StateTimer;
     public float AttackCooldown;
-    
+
     public int Health;
     public byte HasHit;
     public int DefinitionIndex;
-    
+
     public EnemyState State;
-    
+
     public EnemyRuntime(float3 position, int health, int definitionIndex)
     {
         Position = position;
@@ -25,4 +25,12 @@ public struct EnemyRuntime
         DefinitionIndex = definitionIndex;
         State = EnemyState.Chase;
     }
+}
+
+public enum EnemyState : byte
+{
+    Chase,
+    Telegraph,
+    Attack,
+    Recover
 }

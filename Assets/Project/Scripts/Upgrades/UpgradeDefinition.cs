@@ -17,13 +17,16 @@ public sealed class UpgradeDefinition : ScriptableObject
     public string DisplayName => _displayName;
     public string Description => _description;
 
-    public UpgradeConfig CreateConfig()
-    {
-        return new UpgradeConfig
-        {
-            Effect = _effect,
-            Value = _value,
-            MaxLevel = _maxLevel
-        };
-    }
+    public UpgradeEffectType Effect => _effect;
+    public float Value => _value;
+    public int MaxLevel => _maxLevel;
+}
+
+public enum UpgradeEffectType
+{
+    MoveSpeed,
+    SwordDamage,
+    SwordCooldown,
+    SwordCount,
+    MaxHealth
 }

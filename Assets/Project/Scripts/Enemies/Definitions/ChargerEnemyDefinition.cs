@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewChargerEnemy", menuName = "Enemies/Charger Enemy")]
 public sealed class ChargerEnemyDefinition : EnemyDefinition
@@ -16,24 +16,14 @@ public sealed class ChargerEnemyDefinition : EnemyDefinition
 
     public override EnemyConfig CreateConfig()
     {
-        return new EnemyConfig
-        {
-            Behaviour = Behaviour,
-            Health = Health,
-            MoveSpeed = MoveSpeed,
-            Damage = Damage,
-
-            XPReward = XPReward,
-            ScoreReward = ScoreReward,
-            
-            AttackRange = _chargeRange,
-            AttackCooldown = _chargeCooldown,
-
-            SpecialSpeed = _chargeSpeed,
-            TelegraphDuration = _telegraphDuration,
-            AttackDuration = _chargeDuration,
-            RecoveryDuration = _recoveryDuration,
-            HitRange = _hitRange
-        };
+        EnemyConfig config = CreateBaseConfig();
+        config.AttackRange = _chargeRange;
+        config.AttackCooldown = _chargeCooldown;
+        config.SpecialSpeed = _chargeSpeed;
+        config.TelegraphDuration = _telegraphDuration;
+        config.AttackDuration = _chargeDuration;
+        config.RecoveryDuration = _recoveryDuration;
+        config.HitRange = _hitRange;
+        return config;
     }
 }
