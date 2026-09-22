@@ -9194,6 +9194,14 @@ PrefabInstance:
       propertyPath: worldCamera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 39077098845386017, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 39077098845386017, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 151408170782504343, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
       propertyPath: m_Name
       value: Player
@@ -9254,6 +9262,14 @@ PrefabInstance:
       propertyPath: _hordeManager
       value: 
       objectReference: {fileID: 1976173941}
+    - target: {fileID: 5788191134517647871, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788191134517647871, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6721258481195813655, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -9261,6 +9277,34 @@ PrefabInstance:
     - target: {fileID: 6721258481195813655, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195655682867564910, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195655682867564910, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.96126175
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195655682867564910, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.27563733
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195655682867564910, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195655682867564910, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195655682867564910, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195655682867564910, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 7723262217838937948, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
       propertyPath: _hordeManager

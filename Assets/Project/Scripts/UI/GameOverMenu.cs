@@ -40,12 +40,12 @@ public sealed class GameOverMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneTransition.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void MainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(_mainMenuSceneName);
+        SceneTransition.LoadScene(_mainMenuSceneName);
     }
 }

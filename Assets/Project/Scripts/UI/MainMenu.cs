@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public sealed class MainMenu : MonoBehaviour
 {
@@ -8,7 +7,7 @@ public sealed class MainMenu : MonoBehaviour
     public void Play()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(_gameSceneName);
+        SceneTransition.LoadScene(_gameSceneName);
     }
 
     public void Quit()
