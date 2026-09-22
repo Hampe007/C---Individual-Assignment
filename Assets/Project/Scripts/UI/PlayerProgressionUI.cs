@@ -6,7 +6,7 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     [SerializeField] private PlayerProgression _progression;
 
     [Header("XP")]
-    [SerializeField] private RectTransform _xpFill;
+    [SerializeField] private UnityEngine.UI.Slider _xpSlider;
 
     [Header("Other")]
     [SerializeField] private TMP_Text _levelText;
@@ -15,7 +15,7 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     private void Awake()
     {
         if (_progression != null &&
-            _xpFill != null &&
+            _xpSlider != null &&
             _levelText != null &&
             _scoreText != null)
             return;
@@ -50,16 +50,8 @@ public sealed class PlayerProgressionUI : MonoBehaviour
 
     private void UpdateXP(int currentXP, int requiredXP)
     {
-        float progress = requiredXP > 0 ? (float)currentXP / requiredXP : 0f;
-        progress = Mathf.Clamp01(progress);
-
-        float halfWidth = progress * 0.5f;
-
-        _xpFill.anchorMin = new Vector2(0.5f - halfWidth, 0f);
-        _xpFill.anchorMax = new Vector2(0.5f + halfWidth, 1f);
-
-        _xpFill.offsetMin = Vector2.zero;
-        _xpFill.offsetMax = Vector2.zero;
+        _xpSlider.maxValue = requiredXP;
+        _xpSlider.value = currentXP;
     }
 
     private void UpdateScore(int score)
