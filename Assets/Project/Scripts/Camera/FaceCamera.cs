@@ -19,12 +19,6 @@ public class FaceCamera : MonoBehaviour
             return;
         }
 
-        Vector3 direction = transform.position - targetCamera.transform.position;
-        direction.y = 0f;
-
-        if (direction.sqrMagnitude > 0.001f)
-        {
-            transform.rotation = Quaternion.LookRotation(direction);
-        }
+        transform.rotation = targetCamera.transform.rotation;
     }
 }
