@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   _maxHealth: 100
+  _progression: {fileID: 7723262217838937948}
   _hitSFX: {fileID: 11400000, guid: 4e53375f8676ed743a20576589a251c9, type: 2}
   _soundCooldown: 0.5
 --- !u!114 &3803896572903738776
@@ -359,6 +360,7 @@ MonoBehaviour:
   _hordeManager: {fileID: 0}
   _startingXPRequired: 10
   _xpGrowth: 1.25
+  _damageXPLossPercent: 0.03
 --- !u!114 &3201397067682517427
 MonoBehaviour:
   m_ObjectHideFlags: 0

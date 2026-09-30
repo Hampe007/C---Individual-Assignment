@@ -1937,6 +1937,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &532822262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9110717479162376540, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+  m_PrefabInstance: {fileID: 4871778276904961805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &538423602
 GameObject:
   m_ObjectHideFlags: 0
@@ -2972,6 +2983,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852312816}
   m_CullTransparentMesh: 1
+--- !u!114 &929151325 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8381627876144703587, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+  m_PrefabInstance: {fileID: 4871778276904961805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &951921185
 GameObject:
   m_ObjectHideFlags: 0
@@ -3229,6 +3251,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959532338}
   m_CullTransparentMesh: 1
+--- !u!224 &963261148 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7123032203132997366, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+  m_PrefabInstance: {fileID: 4871778276904961805}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &994188882
 GameObject:
   m_ObjectHideFlags: 0
@@ -3944,7 +3971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DifficultyDirector
   _hordeManager: {fileID: 1976173941}
-  _startingEnemies: 500
+  _startingEnemies: 611
   _rampSeconds: 300
   _startSpawnInterval: 1.25
   _endSpawnInterval: 0.4
@@ -3955,16 +3982,16 @@ MonoBehaviour:
     _unlockTime: 0
     _weight: 7
   - _enemy: {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
-    _unlockTime: 5
+    _unlockTime: 45
     _weight: 5
   - _enemy: {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
-    _unlockTime: 10
+    _unlockTime: 90
     _weight: 3
   - _enemy: {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
-    _unlockTime: 45
+    _unlockTime: 240
     _weight: 2
   - _enemy: {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
-    _unlockTime: 90
+    _unlockTime: 480
     _weight: 1
 --- !u!1001 &1097358000
 PrefabInstance:
@@ -6323,10 +6350,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f12e29920b9594e81710e58443b6ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerProgressionUI
-  _progression: {fileID: 8057403300091190151}
-  _xpSlider: {fileID: 3758062962838349727}
-  _levelText: {fileID: 2063876552}
-  _scoreText: {fileID: 994188884}
+  progression: {fileID: 8057403300091190151}
+  xpSlider: {fileID: 3758062962838349727}
+  feedbackTarget: {fileID: 0}
+  animationDuration: 0.22
+  gainScale: 0.08
+  lossShake: 7
+  emptyShake: 15
+  lossScale: 0.12
+  emptyScale: 0.24
+  gainTint: {r: 1, g: 0.9, b: 0.45, a: 1}
+  lossTint: {r: 1, g: 0.5, b: 0.42, a: 1}
+  emptyTint: {r: 0.55, g: 0.2, b: 0.2, a: 1}
+  levelText: {fileID: 2063876552}
+  scoreText: {fileID: 994188884}
 --- !u!1 &1704289418
 GameObject:
   m_ObjectHideFlags: 0
@@ -9202,6 +9239,18 @@ PrefabInstance:
       propertyPath: targetCamera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 378209417772285508, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 378209417772285508, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111617838268149956, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 330585545}
     - target: {fileID: 2967830632019834965, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9246,10 +9295,34 @@ PrefabInstance:
       propertyPath: _hordeManager
       value: 
       objectReference: {fileID: 1976173941}
+    - target: {fileID: 6721258481195813655, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6721258481195813655, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7723262217838937948, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
       propertyPath: _hordeManager
       value: 
       objectReference: {fileID: 1976173941}
+    - target: {fileID: 8662338010108098409, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: healthSlider
+      value: 
+      objectReference: {fileID: 532822262}
+    - target: {fileID: 8662338010108098409, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 8057403300091190146}
+    - target: {fileID: 8662338010108098409, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: feedbackTarget
+      value: 
+      objectReference: {fileID: 963261148}
+    - target: {fileID: 8662338010108098409, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
+      propertyPath: dmgHealthSlider
+      value: 
+      objectReference: {fileID: 929151325}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9286,10 +9359,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910d699f98e047445a9cb6eeeca2b475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthUI
-  _playerHealth: {fileID: 8057403300091190146}
-  _healthSlider: {fileID: 4692620671840206346}
-  _dmgHealthSlider: {fileID: 5413831156913612597}
-  _dmgBarSpeed: 15
+  _playerHealth: {fileID: 0}
+  _healthSlider: {fileID: 0}
+  _dmgHealthSlider: {fileID: 0}
+  _dmgBarSpeed: 120
 --- !u!1 &5412636064295405694
 GameObject:
   m_ObjectHideFlags: 0

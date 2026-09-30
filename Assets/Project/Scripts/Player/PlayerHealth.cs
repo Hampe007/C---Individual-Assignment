@@ -4,6 +4,7 @@ using UnityEngine;
 public sealed class PlayerHealth : MonoBehaviour
 {
     [SerializeField, Min(1)] private int _maxHealth = 100;
+    [SerializeField] private PlayerProgression _progression;
 
     [Header("Hit Audio")]
     [SerializeField] private SoundSet _hitSFX;
@@ -26,6 +27,8 @@ public sealed class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
+        if (_progression == null)
+            _progression = GetComponent<PlayerProgression>();
         _currentHealth = _maxHealth;
     }
 
@@ -35,6 +38,8 @@ public sealed class PlayerHealth : MonoBehaviour
             return;
 
         _currentHealth = Mathf.Max(0, _currentHealth - damage);
+        if (_progression != null)
+            _progression.LoseXPFromDamage();
         if (Time.time >= _nextSoundTime && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(_hitSFX, transform.position);
