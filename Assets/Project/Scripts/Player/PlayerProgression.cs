@@ -3,6 +3,7 @@ using UnityEngine;
 
 public sealed class PlayerProgression : MonoBehaviour
 {
+    private const string HighScoreKey = "HighScore";
     [SerializeField] private HordeManager _hordeManager;
 
     [Header("Leveling")]
@@ -23,6 +24,17 @@ public sealed class PlayerProgression : MonoBehaviour
     public int XPRequired => _xpRequired;
     public int Score => _score;
     public int SkillPoints => _skillPoints;
+
+    public static int HighScore => PlayerPrefs.GetInt(HighScoreKey, 0);
+
+    public void SaveHighScore()
+    {
+        if (_score <= HighScore)
+            return;
+
+        PlayerPrefs.SetInt(HighScoreKey, _score);
+        PlayerPrefs.Save();
+    }
 
     public event Action<int, int> XPChanged;
     public event Action<int, int> XPGained;

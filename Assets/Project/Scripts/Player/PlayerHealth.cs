@@ -49,7 +49,12 @@ public sealed class PlayerHealth : MonoBehaviour
         HealthChanged?.Invoke(_currentHealth, _maxHealth);
 
         if (_currentHealth == 0)
+        {
+            if (_progression != null)
+                _progression.SaveHighScore();
+
             Died?.Invoke();
+        }
     }
 
     public void IncreaseMaxHealth(int amount)
