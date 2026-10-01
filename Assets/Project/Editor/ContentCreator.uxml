@@ -1,0 +1,64 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+  <ui:Style src="ContentCreator.uss" />
+  <ui:ScrollView class="main-scroll">
+    <ui:VisualElement class="content-creator">
+      <ui:Label text="Content Creator" class="title" />
+      <ui:Label text="Create enemy variants and upgrades. Assign the new assets to the game in the Inspector." class="description" />
+
+      <ui:VisualElement class="section">
+      <ui:Label text="Enemy Variant" class="section-title" />
+      <ui:TextField label="Asset Name" name="enemyAssetName" />
+      <ui:TextField label="Display Name" name="enemyDisplayName" />
+      <ui:DropdownField label="Behaviour" name="enemyBehaviour" />
+      <ui:DropdownField label="Tier" name="enemyTier" />
+      <uie:ObjectField label="Prefab" name="enemyPrefab" />
+      <ui:IntegerField label="Health" name="enemyHealth" />
+      <ui:FloatField label="Move Speed" name="enemyMoveSpeed" />
+      <ui:IntegerField label="Damage" name="enemyDamage" />
+      <ui:IntegerField label="XP Reward" name="enemyXpReward" />
+      <ui:IntegerField label="Score Reward" name="enemyScoreReward" />
+
+      <ui:VisualElement name="swarmSettings" class="settings-group">
+        <ui:Label text="Swarm Attack" class="group-title" />
+        <ui:FloatField label="Attack Range" name="swarmAttackRange" />
+        <ui:FloatField label="Attack Cooldown" name="swarmAttackCooldown" />
+      </ui:VisualElement>
+
+      <ui:VisualElement name="chargerSettings" class="settings-group is-hidden">
+        <ui:Label text="Charger Attack" class="group-title" />
+        <ui:FloatField label="Charge Range" name="chargeRange" />
+        <ui:FloatField label="Charge Speed" name="chargeSpeed" />
+        <ui:FloatField label="Charge Duration" name="chargeDuration" />
+        <ui:FloatField label="Telegraph Duration" name="chargeTelegraphDuration" />
+        <ui:FloatField label="Recovery Duration" name="chargeRecoveryDuration" />
+        <ui:FloatField label="Charge Cooldown" name="chargeCooldown" />
+        <ui:FloatField label="Hit Range" name="chargeHitRange" />
+      </ui:VisualElement>
+
+      <ui:VisualElement name="bruteSettings" class="settings-group is-hidden">
+        <ui:Label text="Brute Attack" class="group-title" />
+        <ui:FloatField label="Slam Range" name="slamRange" />
+        <ui:FloatField label="Windup Duration" name="slamWindupDuration" />
+        <ui:FloatField label="Attack Duration" name="slamAttackDuration" />
+        <ui:FloatField label="Recovery Duration" name="slamRecoveryDuration" />
+        <ui:FloatField label="Attack Cooldown" name="slamAttackCooldown" />
+      </ui:VisualElement>
+
+      <ui:Button text="Create Enemy Asset" name="createEnemyButton" class="create-button" />
+      <ui:Label name="enemyStatus" class="status" />
+      </ui:VisualElement>
+
+      <ui:VisualElement class="section">
+      <ui:Label text="Upgrade" class="section-title" />
+      <ui:TextField label="Asset Name" name="upgradeAssetName" />
+      <ui:TextField label="Display Name" name="upgradeDisplayName" />
+      <ui:TextField label="Description" name="upgradeDescription" multiline="true" />
+      <ui:DropdownField label="Effect" name="upgradeEffect" />
+      <ui:FloatField label="Value" name="upgradeValue" />
+      <ui:IntegerField label="Maximum Level" name="upgradeMaxLevel" />
+      <ui:Button text="Create Upgrade Asset" name="createUpgradeButton" class="create-button" />
+      <ui:Label name="upgradeStatus" class="status" />
+      </ui:VisualElement>
+    </ui:VisualElement>
+  </ui:ScrollView>
+</ui:UXML>
