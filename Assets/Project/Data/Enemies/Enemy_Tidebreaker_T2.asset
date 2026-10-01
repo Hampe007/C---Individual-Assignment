@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d46108a87b2f4caf9a63a2e6d92dadc7, type: 3}
-  m_Name: Enemy_Tidebreaker
+  m_Name: Enemy_Tidebreaker_T2
   m_EditorClassIdentifier: Assembly-CSharp::BruteEnemyDefinition
   _displayName: Tidebreaker
-  _prefab: {fileID: 3662398374813342227, guid: acdae1b53ceca174fb701425255c51ec, type: 3}
+  _tier: 1
+  _prefab: {fileID: 3662398374813342227, guid: 5c211974ef73e8a468f07863e2d877be, type: 3}
   _health: 150
   _moveSpeed: 1.5
   _damage: 25

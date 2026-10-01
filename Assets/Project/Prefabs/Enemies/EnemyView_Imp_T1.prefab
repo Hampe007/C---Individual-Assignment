@@ -105,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 14d2cd37f23900042b87e2f2a7f25435, type: 3}
       propertyPath: m_Name
-      value: Imp_Green_Optimized
+      value: Imp_1
       objectReference: {fileID: 0}
     - target: {fileID: 5445027706254241165, guid: 14d2cd37f23900042b87e2f2a7f25435, type: 3}
       propertyPath: m_CastShadows

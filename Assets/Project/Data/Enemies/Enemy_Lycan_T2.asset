@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0fb2b662f0a4675a2076968c1d5aad3, type: 3}
-  m_Name: Enemy_Lycan
+  m_Name: Enemy_Lycan_T2
   m_EditorClassIdentifier: Assembly-CSharp::ChargerEnemyDefinition
   _displayName: Lycan
+  _tier: 1
   _prefab: {fileID: 3662398374813342227, guid: 11fbe20f35193e1479d4846220ff488c, type: 3}
   _health: 60
   _moveSpeed: 3

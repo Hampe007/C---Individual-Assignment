@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4551704083975785128}
   - component: {fileID: 4258481904910367006}
   m_Layer: 0
-  m_Name: EnemyView_Lycan
+  m_Name: EnemyView_Lycan_T1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

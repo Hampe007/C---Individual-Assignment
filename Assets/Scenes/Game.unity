@@ -3982,16 +3982,28 @@ MonoBehaviour:
     _unlockTime: 0
     _weight: 7
   - _enemy: {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
-    _unlockTime: 45
+    _unlockTime: 0
     _weight: 5
   - _enemy: {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
-    _unlockTime: 90
+    _unlockTime: 0
     _weight: 3
   - _enemy: {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
-    _unlockTime: 240
+    _unlockTime: 0
     _weight: 2
+  - _enemy: {fileID: 11400000, guid: 80172d37092e4d04cbc7bad093ab7b06, type: 2}
+    _unlockTime: 0
+    _weight: 1
+  - _enemy: {fileID: 11400000, guid: 09b8623bc472cc74993363fe0f699e86, type: 2}
+    _unlockTime: 0
+    _weight: 1
   - _enemy: {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
-    _unlockTime: 480
+    _unlockTime: 0
+    _weight: 1
+  - _enemy: {fileID: 11400000, guid: e5fd2de2205cbcf4e97e6101fd6d51c1, type: 2}
+    _unlockTime: 0
+    _weight: 1
+  - _enemy: {fileID: 11400000, guid: 82db0263354db65478b238875adbfae7, type: 2}
+    _unlockTime: 0
     _weight: 1
 --- !u!1001 &1097358000
 PrefabInstance:
@@ -7914,7 +7926,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
   - {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
   - {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
+  - {fileID: 11400000, guid: 80172d37092e4d04cbc7bad093ab7b06, type: 2}
+  - {fileID: 11400000, guid: 09b8623bc472cc74993363fe0f699e86, type: 2}
   - {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
+  - {fileID: 11400000, guid: e5fd2de2205cbcf4e97e6101fd6d51c1, type: 2}
+  - {fileID: 11400000, guid: 82db0263354db65478b238875adbfae7, type: 2}
   _spawnEdge: 55
   _spawnDepth: 2
   _minSpawnDistance: 30
