@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Managed, inspector-authored enemy data. CreateConfig converts it into a value type that can be stored in a
+/// NativeArray and safely read by Burst-compiled jobs; the prefab is used by the separate view/pooling system.
+/// </summary>
 public abstract class EnemyDefinition : ScriptableObject
 {
     [Header("Identity")]

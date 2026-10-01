@@ -5,6 +5,10 @@ using Unity.Mathematics;
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Owns the active enemy simulation: native runtime/configuration buffers, spawn placement, job scheduling,
+/// damage/reward events, and the pooled GameObject views that represent simulated enemies.
+/// </summary>
 public sealed class HordeManager : MonoBehaviour
 {
     [Header("Enemies")]
@@ -31,6 +35,7 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField] private CombatVFXSystem _combatVFX;
     [SerializeField] private SoundSet _enemyHitSFX;
 
+    // Jobs read the current state and write the next state, then the arrays swap after completion.
     private NativeArray<EnemyRuntime> _enemies;
     private NativeArray<EnemyRuntime> _nextEnemies;
     private NativeArray<EnemyConfig> _enemyConfigs;
@@ -43,10 +48,10 @@ public sealed class HordeManager : MonoBehaviour
     private int _lastSpawnZone = -1;
     private int _sameZoneCount;
 
-    public int ActiveEnemyCount => _activeEnemyCount;
-    public int MaxEnemyCount => _enemyCount;
-    public event Action<int, int> EnemyDied;
-    public bool IsReady => enabled && _enemies.IsCreated && _enemyConfigs.IsCreated && _views != null;
+    public int ActiveEnemyCount => _activeEnemyCount; // Number of live entries at the front of the runtime arrays.
+    public int MaxEnemyCount => _enemyCount; // Capacity shared by runtime buffers and pooled views.
+    public event Action<int, int> EnemyDied; // Publishes XP and score rewards when an enemy is removed by damage.
+    public bool IsReady => enabled && _enemies.IsCreated && _enemyConfigs.IsCreated && _views != null; // Guards spawning until setup succeeds.
 
     private void Awake()
     {
@@ -76,6 +81,7 @@ public sealed class HordeManager : MonoBehaviour
 
         _random = new Unity.Mathematics.Random(1);
 
+        // Convert managed ScriptableObject authoring data into job-friendly structs once at startup.
         _enemyConfigs = new NativeArray<EnemyConfig>(_enemyDefinitions.Length, Allocator.Persistent);
         GameObject[] prefabs = new GameObject[_enemyDefinitions.Length];
 
@@ -93,16 +99,17 @@ public sealed class HordeManager : MonoBehaviour
             prefabs[i] = _enemyDefinitions[i].Prefab;
         }
 
-        _enemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
-        _nextEnemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent);
-        _grid = new NativeParallelMultiHashMap<int2, int>(_enemyCount, Allocator.Persistent);
-        _damageEvents = new NativeQueue<int>(Allocator.Persistent);
+        _enemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent); // Current simulation snapshot read by jobs.
+        _nextEnemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent); // Destination snapshot written during this frame's simulation.
+        _grid = new NativeParallelMultiHashMap<int2, int>(_enemyCount, Allocator.Persistent); // Maps each occupied XZ cell to its enemy indices for neighbor lookup.
+        _damageEvents = new NativeQueue<int>(Allocator.Persistent); // Collects job-produced player damage for main-thread handling.
 
-        _views = new EnemyViewSystem(prefabs, _enemyCount);
+        _views = new EnemyViewSystem(prefabs, _enemyCount); // Creates per-definition prefab pools with capacity matching the simulation.
     }
 
     private void Update()
     {
+        // Pausing also freezes enemy timers and movement because no simulation jobs are scheduled.
         if (Time.timeScale == 0f)
             return;
 
@@ -112,6 +119,7 @@ public sealed class HordeManager : MonoBehaviour
 
     internal bool TryGetClosestEnemy(float3 position, float range, out int enemyIndex, out float3 enemyPosition)
     {
+        // Start with no result; squared distances avoid square roots during the scan.
         enemyIndex = -1;
         enemyPosition = float3.zero;
 
@@ -133,6 +141,7 @@ public sealed class HordeManager : MonoBehaviour
 
     internal void GetClosestEnemies(float3 position, float range, int maxCount, List<int> results)
     {
+        // Rebuild the caller's result list by repeatedly finding the nearest not-yet-selected enemy.
         results.Clear();
 
         float rangeSq = range * range;
@@ -165,10 +174,11 @@ public sealed class HordeManager : MonoBehaviour
 
     internal void DamageEnemy(int index, int damage)
     {
+        // Ignore stale indices and non-positive hits before touching runtime state or presentation effects.
         if (index < 0 || index >= _activeEnemyCount || damage <= 0)
             return;
 
-        EnemyRuntime enemy = _enemies[index];
+        EnemyRuntime enemy = _enemies[index]; // Work on a local copy, then write it back if it survives.
         enemy.Health -= damage;
         _combatVFX.PlayBlood(enemy.Position);
         _views.PlayHitFlash(index);
@@ -194,7 +204,7 @@ public sealed class HordeManager : MonoBehaviour
         if (index < 0 || index >= _activeEnemyCount)
             return;
 
-        int lastIndex = _activeEnemyCount - 1;
+        int lastIndex = _activeEnemyCount - 1; // Active entries are packed, so the last one can fill the removed slot.
 
         if (index != lastIndex)
         {
@@ -207,11 +217,15 @@ public sealed class HordeManager : MonoBehaviour
         _enemies[lastIndex] = default;
         _nextEnemies[lastIndex] = default;
 
-        _views.RemoveAtSwapBack(index);
+        _views.RemoveAtSwapBack(index); // Keep view and TransformAccessArray indices aligned with the runtime swap.
 
         _activeEnemyCount--;
     }
 
+    /// <summary>
+    /// Adds one enemy if the manager is ready and has capacity. Runtime state and the pooled view are kept at
+    /// the same index so jobs and view operations can address an enemy consistently.
+    /// </summary>
     public bool TrySpawnEnemy(EnemyDefinition definition)
     {
         if (!IsReady || _activeEnemyCount >= _enemyCount || definition == null)
@@ -220,7 +234,7 @@ public sealed class HordeManager : MonoBehaviour
         if (!TryGetSpawnPosition(out float3 position))
             return false;
 
-        int definitionIndex = GetDefinitionIndex(definition);
+        int definitionIndex = GetDefinitionIndex(definition); // Runtime jobs use compact indices into _enemyConfigs.
 
         if (definitionIndex < 0)
         {
@@ -230,7 +244,7 @@ public sealed class HordeManager : MonoBehaviour
 
         EnemyConfig config = _enemyConfigs[definitionIndex];
 
-        int index = _activeEnemyCount;
+        int index = _activeEnemyCount; // Append new enemies at the first unused slot in each aligned collection.
         EnemyRuntime enemy = new(position, config.Health, definitionIndex);
 
         try
@@ -254,6 +268,8 @@ public sealed class HordeManager : MonoBehaviour
     {
         _grid.Clear();
 
+        // Stage 1: build a cell-to-enemy lookup from current positions. Movement depends on this grid
+        // to find nearby enemies without comparing every pair.
         JobHandle gridHandle = new BuildSpatialGridJob
         {
             Enemies = _enemies,
@@ -261,6 +277,8 @@ public sealed class HordeManager : MonoBehaviour
             Grid = _grid.AsParallelWriter()
         }.Schedule(_activeEnemyCount, 64);
 
+        // Stage 2: each enemy reads current state and the completed grid, then writes only its own next slot.
+        // Damage is queued because jobs cannot call PlayerHealth or other managed Unity APIs.
         JobHandle moveHandle = new MoveEnemiesJob
         {
             Enemies = _enemies,
@@ -278,8 +296,10 @@ public sealed class HordeManager : MonoBehaviour
             MaxNeighbours = _maxSeparationNeighbours
         }.Schedule(_activeEnemyCount, 64, gridHandle);
 
+        // Stage 3: transform sync depends on movement so views use the newly computed positions.
         JobHandle viewHandle = _views.ScheduleSync(_nextEnemies, _target.position, moveHandle);
         viewHandle.Complete();
+        // Main-thread effects are applied only after jobs finish; then next becomes the new current state.
         ApplyDamageEvents();
 
         (_enemies, _nextEnemies) = (_nextEnemies, _enemies);
@@ -287,17 +307,19 @@ public sealed class HordeManager : MonoBehaviour
 
     private bool TryGetSpawnPosition(out float3 position)
     {
+        // Candidates are sampled around the arena perimeter and rejected if too close to or visible by the player.
         for (int attempt = 0; attempt < 24; attempt++)
         {
             int zone = GetSpawnZone();
-            float angle = zone * 45f + _random.NextFloat(-_zoneJitter, _zoneJitter);
+            float angle = zone * 45f + _random.NextFloat(-_zoneJitter, _zoneJitter); // Eight 45-degree sectors with a small random offset.
             float2 direction = new(math.sin(math.radians(angle)), math.cos(math.radians(angle)));
 
             float edge = _spawnEdge + _random.NextFloat(-_spawnDepth, _spawnDepth);
+            // Scale the direction until its largest axis reaches the square arena edge.
             float scale = edge / math.max(math.abs(direction.x), math.abs(direction.y));
 
             float3 candidate = new(direction.x * scale, 0f, direction.y * scale);
-            float minDistanceSq = _minSpawnDistance * _minSpawnDistance;
+            float minDistanceSq = _minSpawnDistance * _minSpawnDistance; // Compare squared values to avoid a square root.
 
             if (math.distancesq(candidate, (float3)_target.position) < minDistanceSq)
                 continue;
@@ -316,6 +338,7 @@ public sealed class HordeManager : MonoBehaviour
 
     private int GetSpawnZone()
     {
+        // Pick a sector, then nudge repeated choices after two accepted spawns in the same sector.
         int zone = _random.NextInt(0, 8);
 
         if (_sameZoneCount >= 2 && zone == _lastSpawnZone)
@@ -326,6 +349,7 @@ public sealed class HordeManager : MonoBehaviour
 
     private void RememberSpawnZone(int zone)
     {
+        // Only accepted positions affect the repetition history; rejected candidates are forgotten.
         if (zone == _lastSpawnZone)
         {
             _sameZoneCount++;
@@ -338,9 +362,11 @@ public sealed class HordeManager : MonoBehaviour
 
     private bool IsVisible(float3 position)
     {
+        // Test near the enemy's body height rather than at its ground-level origin.
         Vector3 point = new(position.x, position.y + 0.9f, position.z);
         Vector3 viewport = _camera.WorldToViewportPoint(point);
 
+        // A small margin avoids spawning just outside the edge where it could still be immediately visible.
         const float padding = 0.05f;
 
         return viewport.z > 0f && viewport.x >= -padding && viewport.x <= 1f + padding && viewport.y >= -padding && viewport.y <= 1f + padding;
@@ -348,6 +374,7 @@ public sealed class HordeManager : MonoBehaviour
 
     private int GetDefinitionIndex(EnemyDefinition definition)
     {
+        // Config and prefab arrays share the definition asset order, so the index identifies both.
         for (int i = 0; i < _enemyDefinitions.Length; i++)
         {
             if (_enemyDefinitions[i] == definition)
@@ -359,12 +386,14 @@ public sealed class HordeManager : MonoBehaviour
 
     private void ApplyDamageEvents()
     {
+        // Drain after job completion: this is where queued damage can safely call managed gameplay code.
         while (_damageEvents.TryDequeue(out int damage))
             _playerHealth.TakeDamage(damage);
     }
 
     private void OnDestroy()
     {
+        // Dispose view-side native containers first, and always release the manager's containers afterward.
         try
         {
             _views?.Dispose();
@@ -381,6 +410,7 @@ public sealed class HordeManager : MonoBehaviour
 
     private void DisposeNativeData()
     {
+        // Persistent allocations outlive frames and must be explicitly released during teardown or failed setup.
         if (_enemies.IsCreated)
             _enemies.Dispose();
 

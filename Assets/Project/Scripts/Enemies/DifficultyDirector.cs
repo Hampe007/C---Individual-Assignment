@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Controls when enemy batches are requested and which definitions are eligible as the run progresses.
+/// HordeManager handles capacity checks, spawn placement, and creating each enemy.
+/// </summary>
 public sealed class DifficultyDirector : MonoBehaviour
 {
     [SerializeField] private HordeManager _hordeManager;
@@ -40,6 +44,7 @@ public sealed class DifficultyDirector : MonoBehaviour
 
         if (!_started)
         {
+            // Wait for HordeManager's native data and view pools to be initialized before starting the run.
             _started = true;
             _spawnTimer = _startSpawnInterval;
             SpawnEnemies(_startingEnemies);
@@ -56,6 +61,7 @@ public sealed class DifficultyDirector : MonoBehaviour
         if (_spawnTimer > 0f)
             return;
 
+        // Interpolate both spawn cadence and batch size over the same ramp.
         float progress = Mathf.Clamp01(_elapsed / _rampSeconds);
         float interval = Mathf.Lerp(_startSpawnInterval, _endSpawnInterval, progress);
         int batchSize = Mathf.RoundToInt(Mathf.Lerp(_startBatchSize, _endBatchSize, progress));
@@ -82,6 +88,7 @@ public sealed class DifficultyDirector : MonoBehaviour
 
     private EnemyDefinition GetEnemy()
     {
+        // Weighted selection only considers definitions whose unlock time has passed.
         float totalWeight = 0f;
 
         for (int i = 0; i < _spawnEntries.Length; i++)
@@ -114,6 +121,7 @@ public sealed class DifficultyDirector : MonoBehaviour
     }
 }
 
+/// <summary>Inspector-authored option for adding an enemy type to the director's weighted pool.</summary>
 [System.Serializable]
 public sealed class EnemySpawnEntry
 {

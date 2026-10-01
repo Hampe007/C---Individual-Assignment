@@ -1,3 +1,4 @@
+/// <summary>Immutable job-friendly stats copied from an EnemyDefinition during HordeManager initialization.</summary>
 public struct EnemyConfig
 {
     public EnemyBehaviourType Behaviour;

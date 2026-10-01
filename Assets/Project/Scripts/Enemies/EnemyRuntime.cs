@@ -1,5 +1,6 @@
 using Unity.Mathematics;
 
+/// <summary>Mutable per-enemy state stored in NativeArrays and read or written by simulation jobs.</summary>
 public struct EnemyRuntime
 {
     public float3 Position;
