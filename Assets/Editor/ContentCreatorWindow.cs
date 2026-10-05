@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 
 public sealed class ContentCreatorWindow : EditorWindow
 {
-    private const string UxmlPath = "Assets/Project/Editor/ContentCreator.uxml";
-    private const string EnemyFolder = "Assets/Project/Data/Enemies";
-    private const string UpgradeFolder = "Assets/Project/Data/Upgrades";
+    private const string UxmlPath = "Assets/Editor/ContentCreator.uxml";
+    private const string EnemyFolder = "Assets/Data/Enemies";
+    private const string UpgradeFolder = "Assets/Data/Upgrades";
 
     private DropdownField enemyBehaviour;
     private DropdownField enemyTier;

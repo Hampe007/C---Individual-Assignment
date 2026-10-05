@@ -15,15 +15,15 @@ MonoBehaviour:
   _displayName: Lycan
   _tier: 1
   _prefab: {fileID: 3662398374813342227, guid: 11fbe20f35193e1479d4846220ff488c, type: 3}
-  _health: 60
-  _moveSpeed: 3
-  _damage: 10
-  _xpReward: 3
-  _scoreReward: 30
-  _chargeRange: 10
+  _health: 90
+  _moveSpeed: 3.6
+  _damage: 12
+  _xpReward: 5
+  _scoreReward: 50
+  _chargeRange: 9
   _chargeSpeed: 12
-  _chargeDuration: 0.55
-  _telegraphDuration: 0.65
-  _recoveryDuration: 0.8
-  _chargeCooldown: 5
-  _hitRange: 1.5
+  _chargeDuration: 0.75
+  _telegraphDuration: 0.8
+  _recoveryDuration: 1.1
+  _chargeCooldown: 5.5
+  _hitRange: 1.2

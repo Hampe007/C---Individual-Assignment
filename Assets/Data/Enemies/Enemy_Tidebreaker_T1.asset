@@ -15,13 +15,13 @@ MonoBehaviour:
   _displayName: Tidebreaker
   _tier: 0
   _prefab: {fileID: 3662398374813342227, guid: acdae1b53ceca174fb701425255c51ec, type: 3}
-  _health: 150
-  _moveSpeed: 1.5
-  _damage: 25
-  _xpReward: 5
-  _scoreReward: 50
-  _slamRange: 3
-  _windupDuration: 1.2
+  _health: 90
+  _moveSpeed: 1.7
+  _damage: 16
+  _xpReward: 6
+  _scoreReward: 60
+  _slamRange: 2.4
+  _windupDuration: 1.4
   _attackDuration: 0.25
-  _recoveryDuration: 1.5
-  _attackCooldown: 2.5
+  _recoveryDuration: 1.7
+  _attackCooldown: 3.5

@@ -4028,40 +4028,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DifficultyDirector
   _hordeManager: {fileID: 1976173941}
-  _startingEnemies: 611
-  _rampSeconds: 300
-  _startSpawnInterval: 1.25
-  _endSpawnInterval: 0.4
+  _startingEnemies: 5
+  _rampSeconds: 360
+  _startSpawnInterval: 2
+  _endSpawnInterval: 0.9
   _startBatchSize: 2
-  _endBatchSize: 10
+  _endBatchSize: 4
   _spawnEntries:
   - _enemy: {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
     _unlockTime: 0
-    _weight: 7
+    _weight: 100
   - _enemy: {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
-    _unlockTime: 0
-    _weight: 5
+    _unlockTime: 100
+    _weight: 45
   - _enemy: {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
-    _unlockTime: 0
-    _weight: 3
+    _unlockTime: 240
+    _weight: 25
   - _enemy: {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
-    _unlockTime: 0
-    _weight: 2
+    _unlockTime: 45
+    _weight: 14
   - _enemy: {fileID: 11400000, guid: 80172d37092e4d04cbc7bad093ab7b06, type: 2}
-    _unlockTime: 0
-    _weight: 1
+    _unlockTime: 190
+    _weight: 10
   - _enemy: {fileID: 11400000, guid: 09b8623bc472cc74993363fe0f699e86, type: 2}
-    _unlockTime: 0
-    _weight: 1
+    _unlockTime: 330
+    _weight: 6
   - _enemy: {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
-    _unlockTime: 0
-    _weight: 1
+    _unlockTime: 130
+    _weight: 5
   - _enemy: {fileID: 11400000, guid: e5fd2de2205cbcf4e97e6101fd6d51c1, type: 2}
-    _unlockTime: 0
-    _weight: 1
+    _unlockTime: 270
+    _weight: 3
   - _enemy: {fileID: 11400000, guid: 82db0263354db65478b238875adbfae7, type: 2}
-    _unlockTime: 0
-    _weight: 1
+    _unlockTime: 390
+    _weight: 2
 --- !u!1001 &1097358000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7981,7 +7981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5a12c3848b0f948ab7771950714ade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HordeManager
-  _enemyCount: 1000
+  _enemyCount: 500
   _target: {fileID: 2967830632403154743}
   _enemyDefinitions:
   - {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
@@ -7993,15 +7993,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
   - {fileID: 11400000, guid: e5fd2de2205cbcf4e97e6101fd6d51c1, type: 2}
   - {fileID: 11400000, guid: 82db0263354db65478b238875adbfae7, type: 2}
-  _spawnEdge: 55
-  _spawnDepth: 2
-  _minSpawnDistance: 30
-  _zoneJitter: 15
+  _spawnEdge: 45
+  _spawnDepth: 4
+  _minSpawnDistance: 24
+  _zoneJitter: 20
   _camera: {fileID: 330585545}
-  _cellSize: 1.2
-  _separationDistance: 1.2
-  _separationWeight: 0.75
-  _maxSeparationNeighbours: 8
+  _cellSize: 1.5
+  _separationDistance: 1.35
+  _separationWeight: 0.6
+  _maxSeparationNeighbours: 10
   _obstacleRoot: {fileID: 1601872538}
   _navigationArea: {x: 120, y: 120}
   _navigationCellSize: 0.75

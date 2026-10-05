@@ -15,10 +15,10 @@ MonoBehaviour:
   _displayName: Imp
   _tier: 1
   _prefab: {fileID: 3662398374813342227, guid: 9a36415cc170e5b4c88f0435e7a1b279, type: 3}
-  _health: 45
-  _moveSpeed: 3.5
-  _damage: 2
-  _xpReward: 1
-  _scoreReward: 10
-  _attackRange: 1.5
-  _attackCooldown: 1
+  _health: 25
+  _moveSpeed: 3.2
+  _damage: 3
+  _xpReward: 2
+  _scoreReward: 20
+  _attackRange: 1.3
+  _attackCooldown: 1.2

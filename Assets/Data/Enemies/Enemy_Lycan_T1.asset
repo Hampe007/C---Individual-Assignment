@@ -16,14 +16,14 @@ MonoBehaviour:
   _tier: 0
   _prefab: {fileID: 3662398374813342227, guid: e31e3b9f07eaf264094e8db3c8d7ad75, type: 3}
   _health: 60
-  _moveSpeed: 3
-  _damage: 10
+  _moveSpeed: 3.2
+  _damage: 8
   _xpReward: 3
   _scoreReward: 30
-  _chargeRange: 10
-  _chargeSpeed: 12
-  _chargeDuration: 0.55
-  _telegraphDuration: 0.65
-  _recoveryDuration: 0.8
-  _chargeCooldown: 5
-  _hitRange: 1.5
+  _chargeRange: 8
+  _chargeSpeed: 10
+  _chargeDuration: 0.8
+  _telegraphDuration: 0.9
+  _recoveryDuration: 1.2
+  _chargeCooldown: 6
+  _hitRange: 1.1
