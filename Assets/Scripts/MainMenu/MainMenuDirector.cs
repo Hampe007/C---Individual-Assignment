@@ -72,7 +72,7 @@ namespace GameMenus
 
         private void Update()
         {
-            if (PhotosensitivityWarning.IsTransitioning)
+            if (PhotosensitivityWarning.IsTransitioning || BrightnessCalibrationScreen.IsOpen)
             {
                 return;
             }

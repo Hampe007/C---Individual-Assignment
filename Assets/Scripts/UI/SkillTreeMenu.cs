@@ -12,6 +12,7 @@ public sealed class SkillTreeMenu : MonoBehaviour
     [SerializeField] private GameObject _panel;
     [SerializeField] private TMP_Text _skillPointsText;
     [SerializeField] private SkillTreeNodeButton[] _nodeButtons;
+    private RectTransform _nodesContainer;
 
     private void Awake()
     {
@@ -38,7 +39,24 @@ public sealed class SkillTreeMenu : MonoBehaviour
             return;
         }
 
+        _nodesContainer = (RectTransform)_nodeButtons[0].transform.parent;
         _panel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (_panel.activeSelf)
+            FitNodes();
+    }
+
+    private void FitNodes()
+    {
+        // Fit only the skill grid, preserving the existing HUD's canvas scale.
+        Rect bounds = ((RectTransform)_panel.transform).rect;
+        float scale = Mathf.Clamp(Mathf.Min(bounds.width / 1920f, bounds.height / 1080f), 0.1f, 1f);
+        Vector3 size = Vector3.one * scale;
+        if (_nodesContainer.localScale != size)
+            _nodesContainer.localScale = size;
     }
 
     private void Start()
@@ -74,6 +92,7 @@ public sealed class SkillTreeMenu : MonoBehaviour
             return;
 
         _panel.SetActive(true);
+        FitNodes();
         Time.timeScale = 0f;
 
         Refresh();

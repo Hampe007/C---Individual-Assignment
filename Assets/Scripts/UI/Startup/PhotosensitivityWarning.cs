@@ -132,6 +132,10 @@ namespace GameMenus
         {
             yield return Fade(content, fadeOutDuration);
             yield return new WaitForSecondsRealtime(0.1f);
+            if (!BrightnessPreferences.HasCalibrated)
+            {
+                yield return BrightnessCalibrationScreen.ShowAtStartup();
+            }
             resumeVolume = AudioListener.volume;
             fadingAudio = true;
             AudioListener.volume = 0f;

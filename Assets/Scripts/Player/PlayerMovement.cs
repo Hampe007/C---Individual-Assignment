@@ -70,7 +70,16 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private void HandleMouseDestination()
     {
-        if (!moveToCursorAction.IsPressed() || worldCamera == null)
+        if (!moveToCursorAction.IsPressed())
+        {
+            // Keep the marker stable at the player's feet until the held click ends.
+            if (!hasDestination)
+                CancelDestination();
+            return;
+        }
+
+        // Keyboard/stick movement takes priority without briefly reactivating the marker.
+        if (worldCamera == null || moveAction.ReadValue<Vector2>().sqrMagnitude > 0.01f)
             return;
 
         Ray ray = worldCamera.ScreenPointToRay(pointAction.ReadValue<Vector2>());
@@ -113,7 +122,9 @@ public sealed class PlayerMovement : MonoBehaviour
 
         if (direction.sqrMagnitude <= destinationStopDistance * destinationStopDistance)
         {
-            CancelDestination();
+            hasDestination = false;
+            if (!moveToCursorAction.IsPressed())
+                CancelDestination();
             return Vector3.zero;
         }
 

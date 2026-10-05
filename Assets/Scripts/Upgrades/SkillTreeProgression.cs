@@ -8,6 +8,7 @@ public sealed class SkillTreeProgression : MonoBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private SwordWeapon _swordWeapon;
+    [SerializeField] private PlayerLantern _playerLantern;
 
     private readonly Dictionary<string, SkillTreeNode> _nodes = new();
     private readonly HashSet<string> _purchasedNodes = new();
@@ -63,6 +64,12 @@ public sealed class SkillTreeProgression : MonoBehaviour
         if (!isActiveAndEnabled || node == null || node.Upgrade == null ||
             IsPurchased(node.Id) || _playerHealth.CurrentHealth <= 0 ||
             _playerProgression.SkillPoints <= 0)
+            return false;
+
+        if (node.Upgrade.Effect == UpgradeEffectType.LanternRange && (_playerLantern == null || !_playerLantern.IsReady))
+            return false;
+
+        if (node.Upgrade.Effect == UpgradeEffectType.LanternUnlock && (_playerLantern == null || !_playerLantern.CanUnlock))
             return false;
 
         _upgradeLevels.TryGetValue(node.Upgrade, out int level);
@@ -126,6 +133,13 @@ public sealed class SkillTreeProgression : MonoBehaviour
             case UpgradeEffectType.MaxHealth:
                 _playerHealth.IncreaseMaxHealth(Mathf.RoundToInt(upgrade.Value));
                 break;
+            case UpgradeEffectType.LanternRange:
+                if (_playerLantern == null || !_playerLantern.IsReady)
+                    return false;
+                _playerLantern.IncreaseRange(upgrade.Value);
+                break;
+            case UpgradeEffectType.LanternUnlock:
+                return _playerLantern != null && _playerLantern.TryUnlock();
             default:
                 return false;
         }

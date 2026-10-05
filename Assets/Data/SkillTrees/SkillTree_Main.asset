@@ -64,3 +64,18 @@ MonoBehaviour:
     _upgrade: {fileID: 11400000, guid: 5cc9efa011fc0b84a87cf66917cd560b, type: 2}
     _prerequisiteIds:
     - max_health_2
+  - _id: lantern_range_1
+    _upgrade: {fileID: 11400000, guid: b9414878c08aa624d9d8e22dc589d5b9, type: 2}
+    _prerequisiteIds:
+    - lantern_unlock
+  - _id: lantern_range_2
+    _upgrade: {fileID: 11400000, guid: 3c9a965201a2b544eabf2d895877377a, type: 2}
+    _prerequisiteIds:
+    - lantern_range_1
+  - _id: lantern_range_3
+    _upgrade: {fileID: 11400000, guid: 6ffabc2498710434f95f22dfdee6abb8, type: 2}
+    _prerequisiteIds:
+    - lantern_range_2
+  - _id: lantern_unlock
+    _upgrade: {fileID: 11400000, guid: 3c1449d9e4b4db64c95c5092446a2e33, type: 2}
+    _prerequisiteIds: []

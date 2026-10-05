@@ -10,10 +10,15 @@ namespace GameMenus
 
         private void OnEnable()
         {
+            Refresh();
+            slider.onValueChanged.AddListener(Change);
+        }
+
+        public void Refresh()
+        {
             float percentage = BrightnessPreferences.GetBrightness() * 100f;
             slider.SetValueWithoutNotify(percentage);
             ShowValue(percentage);
-            slider.onValueChanged.AddListener(Change);
         }
 
         private void OnDisable()
