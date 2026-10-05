@@ -244,6 +244,21 @@ public sealed class HordeManager : MonoBehaviour
         if (!TryGetSpawnPosition(out float3 position))
             return false;
 
+        return SpawnEnemy(definition, position);
+    }
+
+    public bool TrySpawnEnemyAt(EnemyDefinition definition, Vector3 position)
+    {
+        if (!IsReady || _activeEnemyCount >= _enemyCount || definition == null ||
+            !_navigation.Grid.IsReachable(new float2(position.x, position.z)))
+            return false;
+
+        return SpawnEnemy(definition, new float3(position.x, 0f, position.z));
+    }
+
+    private bool SpawnEnemy(EnemyDefinition definition, float3 position)
+    {
+
         int definitionIndex = GetDefinitionIndex(definition); // Runtime jobs use compact indices into _enemyConfigs.
 
         if (definitionIndex < 0)

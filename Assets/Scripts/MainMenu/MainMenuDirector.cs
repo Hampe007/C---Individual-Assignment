@@ -21,7 +21,6 @@ namespace GameMenus
         private float heldTime;
         private float holdStarted = -1f;
         private float nextIdle;
-        private bool firstVisitPrompt;
         private bool requireSkipRelease;
         private bool skipDiscovered;
 
@@ -48,7 +47,7 @@ namespace GameMenus
 
         private IEnumerator Start()
         {
-            while (!PhotosensitivityWarning.Accepted)
+            while (!PhotosensitivityWarning.Accepted || PhotosensitivityWarning.IsTransitioning)
             {
                 yield return null;
             }
@@ -220,13 +219,14 @@ namespace GameMenus
             ScheduleIdle();
             if (!PlayerPrefs.HasKey(FirstVisitKey))
             {
-                firstVisitPrompt = true;
+                PlayerPrefs.SetInt(FirstVisitKey, 1);
+                PlayerPrefs.Save();
                 Phase = MenuPhase.Modal;
                 modalOption = MenuOption.Tutorial;
                 view.ShowModal("FIRST TIME IN THE NIGHT?", settings.tutorialAvailable
                         ? "A little preparation can keep you alive. Would you like to play the tutorial?"
                         : "The tutorial is still being prepared. You can return to it from the menu when it becomes available.",
-                    "Play tutorial", "Skip for now", false, settings.tutorialAvailable);
+                    "Play tutorial", "Go to main menu", false, settings.tutorialAvailable);
             }
         }
 
@@ -299,7 +299,6 @@ namespace GameMenus
             }
             else if (modalOption == MenuOption.Tutorial && settings.tutorialAvailable)
             {
-                DismissFirstVisit();
                 StartDeparture(settings.tutorialScene);
             }
         }
@@ -317,23 +316,11 @@ namespace GameMenus
                 sequence = StartCoroutine(ReturnFromQuit());
                 return;
             }
-            DismissFirstVisit();
             AudioPreferences.Save();
             Phase = MenuPhase.Menu;
             view.CloseModal();
             Highlight(highlight);
             ScheduleIdle();
-        }
-
-        private void DismissFirstVisit()
-        {
-            if (!firstVisitPrompt)
-            {
-                return;
-            }
-            firstVisitPrompt = false;
-            PlayerPrefs.SetInt(FirstVisitKey, 1);
-            PlayerPrefs.Save();
         }
 
         private void StartDeparture(string sceneName)

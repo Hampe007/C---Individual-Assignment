@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23bfe652ed524924196c762d5d6471ae, type: 3}
+  m_Name: Tutorial-Settings
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialSettings
+  gameScene: Game
+  menuScene: MainMenu
+  practiceEnemy: {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
+  lessons:
+  - title: Find your footing
+    instruction: Move with WASD, arrow keys, or the left stick. Hold left click on
+      the ground to walk toward the cursor. Reach the glowing marker.
+    goal: 0
+    markerIndex: 0
+    targetCount: 1
+    duration: 20
+  - title: Mind the graves
+    instruction: Reach the next marker beyond the graves. Steer around solid objects;
+      held click movement walks straight toward your cursor.
+    goal: 0
+    markerIndex: 1
+    targetCount: 1
+    duration: 20
+  - title: Let the sword work
+    instruction: Get close to the imps. Your sword attacks the nearest enemy automatically.
+      Defeat three.
+    goal: 1
+    markerIndex: 0
+    targetCount: 3
+    duration: 20
+  - title: Grow stronger
+    instruction: Defeat more imps to earn experience. Reach level 2 and watch the
+      experience bar fill.
+    goal: 2
+    markerIndex: 0
+    targetCount: 1
+    duration: 20
+  - title: Choose an upgrade
+    instruction: Leveling grants a skill point and opens the skill tree. Choose any
+      available upgrade to continue.
+    goal: 3
+    markerIndex: 0
+    targetCount: 1
+    duration: 20
+  - title: Survive the night
+    instruction: Keep moving and stay alive for 20 seconds. Your sword attacks automatically
+      when enemies are close.
+    goal: 4
+    markerIndex: 0
+    targetCount: 3
+    duration: 20

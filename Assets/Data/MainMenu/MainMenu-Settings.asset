@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameMenus.MainMenuSettings
   gameScene: Game
   tutorialScene: Tutorial
-  tutorialAvailable: 0
+  tutorialAvailable: 1
   chasePassDuration: 7
   returnPassDuration: 10
   finalPassDuration: 6

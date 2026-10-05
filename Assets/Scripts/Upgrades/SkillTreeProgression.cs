@@ -3,6 +3,8 @@ using UnityEngine;
 
 public sealed class SkillTreeProgression : MonoBehaviour
 {
+    public event System.Action UpgradePurchased;
+
     [SerializeField] private SkillTreeDefinition _skillTree;
     [SerializeField] private PlayerProgression _playerProgression;
     [SerializeField] private PlayerHealth _playerHealth;
@@ -100,6 +102,7 @@ public sealed class SkillTreeProgression : MonoBehaviour
         _upgradeLevels[node.Upgrade] = level + 1;
         _purchasedNodes.Add(node.Id);
         _playerProgression.SpendSkillPoint();
+        UpgradePurchased?.Invoke();
         return true;
     }
 
