@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8500c66e4fa0d4bacacf8bd4b8c375, type: 3}
+  m_Name: MainMenu-Settings
+  m_EditorClassIdentifier: Assembly-CSharp::GameMenus.MainMenuSettings
+  gameScene: Game
+  tutorialScene: Tutorial
+  tutorialAvailable: 0
+  chasePassDuration: 7
+  returnPassDuration: 10
+  finalPassDuration: 6
+  passPause: 0
+  catchDuration: 1.15
+  bloodCoverDuration: 0.25
+  bloodDrainDuration: 2.2
+  skipHoldDuration: 1.5
+  idleEventInterval: {x: 9, y: 17}
+  credits: 'DEVELOPMENT
+
+    Add your name here
+
+
+    CHARACTERS & ANIMATIONS
+
+    Quaternius
+
+
+    ENVIRONMENT
+
+    Kay
+    Lousberg / KayKit
+
+
+    UI & PARTICLE ASSETS
+
+    Kenney
+
+
+    BITRIMUS FONT
+
+    GGBotNet'
+  reactions:
+  - option: 0
+    animationState: Rest
+    cameraIndex: 4
+    pressedCameraIndex: -1
+    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    lightIntensity: 0.34
+    enemyActivity: 0.9
+  - option: 1
+    animationState: Ready
+    cameraIndex: 5
+    pressedCameraIndex: -1
+    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    lightIntensity: 0.48
+    enemyActivity: 1.15
+  - option: 2
+    animationState: LookAround
+    cameraIndex: 6
+    pressedCameraIndex: 12
+    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    lightIntensity: 0.34
+    enemyActivity: 0.9
+  - option: 3
+    animationState: Interact
+    cameraIndex: 7
+    pressedCameraIndex: 11
+    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    lightIntensity: 0.34
+    enemyActivity: 0.9
+  - option: 4
+    animationState: Rest
+    cameraIndex: 8
+    pressedCameraIndex: 13
+    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    lightIntensity: 0.34
+    enemyActivity: 0.9
+  - option: 5
+    animationState: MonsterTransformation
+    cameraIndex: 9
+    pressedCameraIndex: -1
+    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    lightIntensity: 0.34
+    enemyActivity: 0.9

@@ -1,0 +1,23 @@
+Asset: The Moon (No Background)
+Author: klookiea
+Published: 9 August 2024
+Source: https://opengameart.org/content/the-moon-no-background
+Original download: https://opengameart.org/sites/default/files/moon_7.png
+Local filename: Moon.png
+
+License: Creative Commons CC0 1.0 Universal Public Domain Dedication
+License deed: https://creativecommons.org/publicdomain/zero/1.0/
+Legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+The asset page explicitly lists CC0. Attribution is not required under CC0.
+
+Provenance: The author states that this image was rendered in Blender using
+NASA's Scientific Visualization Studio CGI Moon Kit:
+https://svs.gsfc.nasa.gov/4720/
+Source credit: NASA's Scientific Visualization Studio.
+NASA media guidance: https://www.nasa.gov/nasa-brand-center/images-and-media/
+
+Downloaded on 4 October 2026. Original PNG bytes are unchanged.
+SHA256: 484f70d5bef1cde9adf51595c7e2d70a28ff6056657685da42f13e7806c31f47
+Unity imports the image as a mipmapped, clamp-wrapped color texture.
+The project's sky shader applies the blood-red tint, glow and halo at runtime.
+This is not AI-generated artwork.

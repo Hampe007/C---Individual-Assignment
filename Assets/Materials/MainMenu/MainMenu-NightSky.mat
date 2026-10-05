@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MainMenu-NightSky
+  m_Shader: {fileID: 4800000, guid: 1370b47061f97b745937e2f9300d70aa, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _MOONENABLED_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MoonDisc:
+        m_Texture: {fileID: 2800000, guid: bcdbdd8eb3ffdbf4db690c9e35e7ba4f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _HaloDiameter: 6.2
+    - _MoonDiameter: 2.0561647
+    - _MoonEnabled: 1
+    - _MoonPulsePeriod: 9
+    - _MoonPulseStrength: 0.2
+    - _Stars: 0.8
+    m_Colors:
+    - _CloudColor: {r: 0.26, g: 0.22, b: 0.28, a: 1}
+    - _HaloInner: {r: 0.09, g: 0.002, b: 0.004, a: 1}
+    - _HaloOuter: {r: 0.18, g: 0.025, b: 0.03, a: 1}
+    - _Horizon: {r: 0.048, g: 0.032, b: 0.052, a: 1}
+    - _MoonDirection: {r: -0.2511539, g: 0.12557694, b: 0.9597667, a: 0}
+    - _MoonRadiance: {r: 2.7, g: 0.09, b: 0.06, a: 1}
+    - _MoonTint: {r: 0.27999994, g: 0.012, b: 0.022, a: 1}
+    - _Zenith: {r: 0.06, g: 0.075, b: 0.13, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
