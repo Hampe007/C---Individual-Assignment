@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Upgrade_LanternReach1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
   _displayName: Lantern Reach I
-  _description: 'Increase the area illuminated around you.
+  _description: 'Brighter light reveals more of the darkness.
 
     Reach: 6.5 m'
   _effect: 5

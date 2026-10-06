@@ -1,31 +1,44 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public sealed class PlayerLantern : MonoBehaviour
 {
-    [SerializeField] private GameObject _lanternPrefab;
-    [SerializeField] private Vector3 _offset = new(1.3f, 1.5f, 0.5f);
-    [SerializeField, Min(0f)] private float _minimumPlayerDistance = 1.15f;
-    [SerializeField, Min(0f)] private float _followSmoothTime = 0.12f;
-    [SerializeField, Min(0f)] private float _initialRange = 5f;
-    [SerializeField, Min(0f)] private float _maximumRange = 9.5f;
-    [SerializeField, Min(0f)] private float _bobAmplitude = 0.08f;
-    [SerializeField, Min(0.1f)] private float _bobPeriod = 3f;
-    private GameObject _lantern;
-    private Light _light;
-    private Vector3 _followPosition;
-    private Vector3 _velocity;
-    private Vector3 _previousPlayerPosition;
-    private float _elapsed;
+    [FormerlySerializedAs("_lanternPrefab"), SerializeField] private GameObject lanternPrefab;
+    [FormerlySerializedAs("_offset"), SerializeField] private Vector3 offset = new(1.3f, 1.5f, 0.5f);
+    [FormerlySerializedAs("_minimumPlayerDistance"), SerializeField, Min(0f)] private float minimumPlayerDistance = 1.15f;
+    [FormerlySerializedAs("_followSmoothTime"), SerializeField, Min(0f)] private float followSmoothTime = 0.35f;
+    [FormerlySerializedAs("_initialRange"), SerializeField, Min(0f)] private float initialRange = 5f;
+    [FormerlySerializedAs("_maximumRange"), SerializeField, Min(0f)] private float maximumRange = 9.5f;
+    [FormerlySerializedAs("_bobAmplitude"), SerializeField, Min(0f)] private float bobAmplitude = 0.16f;
+    [FormerlySerializedAs("_bobPeriod"), SerializeField, Min(0.1f)] private float bobPeriod = 3f;
+    [SerializeField, Min(0f)] private float initialIntensity = 13.5f;
+    [SerializeField, Range(0f, 15f)] private float idleOrbitAngle = 6f;
+    [SerializeField, Min(0.1f)] private float idleOrbitPeriod = 5f;
+    [SerializeField, Min(0f)] private float orbitSpeed = 28f;
+    [SerializeField, Range(0f, 0.9f)] private float orbitSpeedVariation = 0.35f;
+    [SerializeField, Min(0.1f)] private float orbitSpeedPeriod = 7f;
+    [SerializeField, Range(0f, 1f)] private float facingInfluence = 0.35f;
+    [SerializeField, Min(0f)] private float radiusDrift = 0.12f;
+    [SerializeField, Min(0.1f)] private float radiusDriftPeriod = 4.7f;
+    private GameObject lantern;
+    private Light lanternLight;
+    private Vector3 followPosition;
+    private float angularVelocity;
+    private float orbitAngle;
+    private float desiredOrbitAngle;
+    private float previousFacingAngle;
+    private Vector3 previousPlayerPosition;
+    private float elapsed;
 
-    public float Range => _light != null ? _light.range : 0f;
-    public bool IsUnlocked => _light != null;
+    public float Range => lanternLight != null ? lanternLight.range : 0f;
+    public bool IsUnlocked => lanternLight != null;
     public bool CanUnlock => isActiveAndEnabled && !IsUnlocked &&
-        _lanternPrefab != null && _lanternPrefab.GetComponentInChildren<Light>(true) != null;
-    public bool IsReady => isActiveAndEnabled && _light != null;
+        lanternPrefab != null && lanternPrefab.GetComponentInChildren<Light>(true) != null;
+    public bool IsReady => isActiveAndEnabled && lanternLight != null;
 
     private void Awake()
     {
-        if (_lanternPrefab == null || _lanternPrefab.GetComponentInChildren<Light>(true) == null)
+        if (lanternPrefab == null || lanternPrefab.GetComponentInChildren<Light>(true) == null)
         {
             Debug.LogError("PlayerLantern requires a lantern prefab with a light.", this);
             enabled = false;
@@ -36,93 +49,126 @@ public sealed class PlayerLantern : MonoBehaviour
     {
         if (!CanUnlock)
             return false;
-        _followPosition = KeepOutsidePlayer(transform.position + _offset);
-        _previousPlayerPosition = transform.position;
-        _velocity = Vector3.zero;
-        _elapsed = 0f;
-        _lantern = Instantiate(_lanternPrefab, _followPosition, Quaternion.identity);
-        UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(_lantern, gameObject.scene);
-        _light = _lantern.GetComponentInChildren<Light>(true);
-        if (_light == null)
+        orbitAngle = FacingOrbitAngle();
+        desiredOrbitAngle = orbitAngle;
+        previousFacingAngle = transform.eulerAngles.y;
+        elapsed = 0f;
+        followPosition = OrbitPosition(orbitAngle);
+        previousPlayerPosition = transform.position;
+        angularVelocity = 0f;
+        lantern = Instantiate(lanternPrefab, followPosition, Quaternion.identity);
+        UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(lantern, gameObject.scene);
+        lanternLight = lantern.GetComponentInChildren<Light>(true);
+        if (lanternLight == null)
         {
-            Destroy(_lantern);
-            _lantern = null;
+            Destroy(lantern);
+            lantern = null;
             return false;
         }
-        _lantern.SetActive(true);
-        _light.enabled = true;
-        _light.range = _initialRange;
+        lantern.SetActive(true);
+        lanternLight.enabled = true;
+        lanternLight.range = initialRange;
+        ApplyLightStrength();
         return true;
     }
 
     private void OnEnable()
     {
-        if (_lantern == null)
+        if (lantern == null)
             return;
-        _lantern.SetActive(true);
-        _followPosition = KeepOutsidePlayer(transform.position + _offset);
-        _previousPlayerPosition = transform.position;
-        _velocity = Vector3.zero;
-        _lantern.transform.position = _followPosition;
+        lantern.SetActive(true);
+        orbitAngle = FacingOrbitAngle();
+        desiredOrbitAngle = orbitAngle;
+        previousFacingAngle = transform.eulerAngles.y;
+        followPosition = OrbitPosition(orbitAngle);
+        previousPlayerPosition = transform.position;
+        angularVelocity = 0f;
+        lantern.transform.position = followPosition;
     }
 
     private void LateUpdate()
     {
-        if (_lantern == null || Time.timeScale <= 0f || Time.deltaTime <= 0f)
+        if (lantern == null || Time.timeScale <= 0f || Time.deltaTime <= 0f)
             return;
         UpdateFollow(Time.deltaTime);
     }
 
     private void UpdateFollow(float deltaTime)
     {
-        Vector3 target = KeepOutsidePlayer(transform.position + _offset);
-        Vector3 displacement = transform.position - _previousPlayerPosition;
+        Vector3 displacement = transform.position - previousPlayerPosition;
+        float facingAngle = transform.eulerAngles.y;
+        elapsed += deltaTime;
         if (displacement.sqrMagnitude > 9f)
         {
-            _followPosition = target;
-            _velocity = Vector3.zero;
+            orbitAngle = FacingOrbitAngle();
+            desiredOrbitAngle = orbitAngle;
+            angularVelocity = 0f;
         }
         else
         {
-            // Carry the lantern with the player instead of letting movement pull it through the body.
-            _followPosition += displacement;
-            _followPosition = Vector3.SmoothDamp(_followPosition, target, ref _velocity, _followSmoothTime, Mathf.Infinity, deltaTime);
+            // Drift continuously around the halo; turning nudges it without fixing it to one side.
+            float speed = orbitSpeed * (1f + Mathf.Sin(elapsed * Mathf.PI * 2f / orbitSpeedPeriod) * orbitSpeedVariation);
+            float turn = Mathf.DeltaAngle(previousFacingAngle, facingAngle) * facingInfluence;
+            desiredOrbitAngle = Mathf.Repeat(desiredOrbitAngle + speed * deltaTime + turn, 360f);
+            // Interpolate along the ring instead of cutting a chord through the player's body.
+            orbitAngle = Mathf.SmoothDampAngle(orbitAngle, desiredOrbitAngle, ref angularVelocity, followSmoothTime, Mathf.Infinity, deltaTime);
         }
-        _followPosition = KeepOutsidePlayer(_followPosition);
-        _previousPlayerPosition = transform.position;
-        _elapsed += deltaTime;
-        float bob = Mathf.Sin(_elapsed * Mathf.PI * 2f / _bobPeriod) * _bobAmplitude;
-        _lantern.transform.position = _followPosition + Vector3.up * bob;
+        previousFacingAngle = facingAngle;
+        previousPlayerPosition = transform.position;
+        float sway = Mathf.Sin(elapsed * Mathf.PI * 2f / idleOrbitPeriod) * idleOrbitAngle;
+        followPosition = OrbitPosition(orbitAngle + sway);
+        float bob = Mathf.Sin(elapsed * Mathf.PI * 2f / bobPeriod) * bobAmplitude;
+        lantern.transform.position = followPosition + Vector3.up * bob;
+    }
+
+    private float FacingOrbitAngle() => transform.eulerAngles.y + Mathf.Atan2(offset.x, offset.z) * Mathf.Rad2Deg;
+
+    private Vector3 OrbitPosition(float angle)
+    {
+        float drift = Mathf.Sin(elapsed * Mathf.PI * 2f / radiusDriftPeriod) * radiusDrift;
+        float radius = Mathf.Max(new Vector2(offset.x, offset.z).magnitude + drift, minimumPlayerDistance);
+        float radians = angle * Mathf.Deg2Rad;
+        return KeepOutsidePlayer(transform.position + new Vector3(Mathf.Sin(radians) * radius, offset.y, Mathf.Cos(radians) * radius));
+    }
+
+    private void ApplyLightStrength()
+    {
+        // Compensate inverse-square falloff so increasing range also expands useful visibility.
+        float scale = lanternLight.range / Mathf.Max(initialRange, 0.01f);
+        lanternLight.intensity = initialIntensity * scale * scale;
     }
 
     private Vector3 KeepOutsidePlayer(Vector3 position)
     {
         Vector3 horizontal = position - transform.position;
         horizontal.y = 0f;
-        if (horizontal.sqrMagnitude >= _minimumPlayerDistance * _minimumPlayerDistance)
+        if (horizontal.sqrMagnitude >= minimumPlayerDistance * minimumPlayerDistance)
             return position;
 
-        Vector3 direction = horizontal.sqrMagnitude > 0.0001f ? horizontal : new Vector3(_offset.x, 0f, _offset.z);
+        Vector3 direction = horizontal.sqrMagnitude > 0.0001f ? horizontal : new Vector3(offset.x, 0f, offset.z);
         if (direction.sqrMagnitude <= 0.0001f)
             direction = Vector3.right;
-        return position + direction.normalized * _minimumPlayerDistance - horizontal;
+        return position + direction.normalized * minimumPlayerDistance - horizontal;
     }
 
     public void IncreaseRange(float amount)
     {
-        if (_light != null)
-            _light.range = Mathf.Clamp(_light.range + Mathf.Max(0f, amount), _initialRange, _maximumRange);
+        if (lanternLight != null)
+        {
+            lanternLight.range = Mathf.Clamp(lanternLight.range + Mathf.Max(0f, amount), initialRange, maximumRange);
+            ApplyLightStrength();
+        }
     }
 
     private void OnDisable()
     {
-        if (_lantern != null)
-            _lantern.SetActive(false);
+        if (lantern != null)
+            lantern.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        if (_lantern != null)
-            Destroy(_lantern);
+        if (lantern != null)
+            Destroy(lantern);
     }
 }

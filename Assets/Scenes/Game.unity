@@ -6231,10 +6231,10 @@ MonoBehaviour:
   - {fileID: 1270089447}
   - {fileID: 1776507746}
   - {fileID: 600687794}
+  - {fileID: 183518971}
   - {fileID: 699052603}
   - {fileID: 1852207321}
   - {fileID: 750945316}
-  - {fileID: 183518971}
 --- !u!1 &1395522403
 GameObject:
   m_ObjectHideFlags: 0
@@ -12400,14 +12400,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70f4cb2efe7b7d4d8e751699fd64c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLantern
-  _lanternPrefab: {fileID: 2568467708654741257, guid: c73dd01f10676c949a50d3deadc82389, type: 3}
-  _offset: {x: 1.3, y: 1.5, z: 0.5}
-  _minimumPlayerDistance: 1.15
-  _followSmoothTime: 0.12
-  _initialRange: 5
-  _maximumRange: 9.5
-  _bobAmplitude: 0.08
-  _bobPeriod: 3
+  lanternPrefab: {fileID: 2568467708654741257, guid: c73dd01f10676c949a50d3deadc82389, type: 3}
+  offset: {x: 1.3, y: 1.5, z: 0.5}
+  minimumPlayerDistance: 1.15
+  followSmoothTime: 0.35
+  initialRange: 5
+  maximumRange: 9.5
+  bobAmplitude: 0.16
+  bobPeriod: 3
+  initialIntensity: 13.5
+  idleOrbitAngle: 6
+  idleOrbitPeriod: 5
+  orbitSpeed: 28
+  orbitSpeedVariation: 0.35
+  orbitSpeedPeriod: 7
+  facingInfluence: 0.35
+  radiusDrift: 0.12
+  radiusDriftPeriod: 4.7
 --- !u!224 &8113786588113117890
 RectTransform:
   m_ObjectHideFlags: 0
