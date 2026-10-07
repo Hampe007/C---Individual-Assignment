@@ -41,7 +41,7 @@ Material:
     - _HaloInner: {r: 0.09, g: 0.002, b: 0.004, a: 1}
     - _HaloOuter: {r: 0.18, g: 0.025, b: 0.03, a: 1}
     - _Horizon: {r: 0.048, g: 0.032, b: 0.052, a: 1}
-    - _MoonDirection: {r: -0.2511539, g: 0.12557694, b: 0.9597667, a: 0}
+    - _MoonDirection: {r: -0.25, g: 0.125, b: 0.96, a: 0}
     - _MoonRadiance: {r: 2.7, g: 0.09, b: 0.06, a: 1}
     - _MoonTint: {r: 0.27999994, g: 0.012, b: 0.022, a: 1}
     - _Zenith: {r: 0.06, g: 0.075, b: 0.13, a: 1}

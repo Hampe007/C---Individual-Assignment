@@ -4,6 +4,7 @@ using UnityEngine.Serialization;
 public sealed class PlayerLantern : MonoBehaviour
 {
     [FormerlySerializedAs("_lanternPrefab"), SerializeField] private GameObject lanternPrefab;
+    [SerializeField] private Light starterLight;
     [FormerlySerializedAs("_offset"), SerializeField] private Vector3 offset = new(1.3f, 1.5f, 0.5f);
     [FormerlySerializedAs("_minimumPlayerDistance"), SerializeField, Min(0f)] private float minimumPlayerDistance = 1.15f;
     [FormerlySerializedAs("_followSmoothTime"), SerializeField, Min(0f)] private float followSmoothTime = 0.35f;
@@ -69,11 +70,15 @@ public sealed class PlayerLantern : MonoBehaviour
         lanternLight.enabled = true;
         lanternLight.range = initialRange;
         ApplyLightStrength();
+        if (starterLight != null)
+            starterLight.enabled = false;
         return true;
     }
 
     private void OnEnable()
     {
+        if (starterLight != null)
+            starterLight.enabled = !IsUnlocked;
         if (lantern == null)
             return;
         lantern.SetActive(true);
@@ -162,6 +167,8 @@ public sealed class PlayerLantern : MonoBehaviour
 
     private void OnDisable()
     {
+        if (starterLight != null)
+            starterLight.enabled = false;
         if (lantern != null)
             lantern.SetActive(false);
     }
