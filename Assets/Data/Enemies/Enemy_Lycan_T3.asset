@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChargerEnemyDefinition
   _displayName: Lycan
   _tier: 2
-  _prefab: {fileID: 3662398374813342227, guid: 740bfc76959b6be4dad1a6b0e762af25, type: 3}
+  _prefab: {fileID: 3662398374813342227, guid: ed45508faf2c5904daebaef52cc57d3a, type: 3}
   _health: 130
   _moveSpeed: 4
   _damage: 18
