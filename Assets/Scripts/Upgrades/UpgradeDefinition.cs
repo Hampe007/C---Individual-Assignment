@@ -30,5 +30,8 @@ public enum UpgradeEffectType
     SwordCount,
     MaxHealth,
     LanternRange,
-    LanternUnlock
+    LanternUnlock,
+    SoulBoltUnlock,
+    SoulBoltDamage,
+    SoulBoltCount
 }

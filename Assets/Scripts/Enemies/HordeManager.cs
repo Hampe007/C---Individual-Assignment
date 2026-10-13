@@ -41,6 +41,7 @@ public sealed class HordeManager : MonoBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private CombatVFXSystem _combatVFX;
     [SerializeField] private SoundSet _enemyHitSFX;
+    [SerializeField] private CombatProjectileSystem _projectiles;
 
     // Jobs read the current state and write the next state, then the arrays swap after completion.
     private NativeArray<EnemyRuntime> _enemies;
@@ -48,6 +49,7 @@ public sealed class HordeManager : MonoBehaviour
     private NativeArray<EnemyConfig> _enemyConfigs;
     private NativeParallelMultiHashMap<int2, int> _grid;
     private NativeQueue<int> _damageEvents;
+    private NativeQueue<EnemySpitEvent> _spitEvents;
     private EnemyViewSystem _views;
 
     private Unity.Mathematics.Random _random;
@@ -110,6 +112,7 @@ public sealed class HordeManager : MonoBehaviour
         _nextEnemies = new NativeArray<EnemyRuntime>(_enemyCount, Allocator.Persistent); // Destination snapshot written during this frame's simulation.
         _grid = new NativeParallelMultiHashMap<int2, int>(_enemyCount, Allocator.Persistent); // Maps each occupied XZ cell to its enemy indices for neighbor lookup.
         _damageEvents = new NativeQueue<int>(Allocator.Persistent); // Collects job-produced player damage for main-thread handling.
+        _spitEvents = new NativeQueue<EnemySpitEvent>(Allocator.Persistent);
 
         _views = new EnemyViewSystem(prefabs, _enemyCount); // Creates per-definition prefab pools with capacity matching the simulation.
         _navigation = new HordeNavigation(_obstacleRoot, new Vector2(transform.position.x, transform.position.z),
@@ -147,6 +150,33 @@ public sealed class HordeManager : MonoBehaviour
             enemyPosition = _enemies[i].Position;
         }
         return enemyIndex != -1;
+    }
+
+    internal bool TryGetEnemyOnSegment(float3 start, float3 end, float radius, out int enemyIndex)
+    {
+        enemyIndex = -1;
+        float2 from = start.xz;
+        float2 path = end.xz - from;
+        float pathLengthSq = math.lengthsq(path);
+        float nearestProgress = float.MaxValue;
+
+        for (int i = 0; i < _activeEnemyCount; i++)
+        {
+            float2 point = _enemies[i].Position.xz;
+            float progress = pathLengthSq > 0f
+                ? math.clamp(math.dot(point - from, path) / pathLengthSq, 0f, 1f)
+                : 0f;
+            if (math.distancesq(point, from + path * progress) > radius * radius || progress >= nearestProgress)
+                continue;
+            nearestProgress = progress;
+            enemyIndex = i;
+        }
+        return enemyIndex >= 0;
+    }
+
+    internal bool IsProjectilePathClear(Vector3 point)
+    {
+        return _navigation != null && _navigation.Grid.IsReachable(new float2(point.x, point.z));
     }
 
     internal void GetClosestEnemies(float3 position, float range, int maxCount, List<int> results)
@@ -313,6 +343,7 @@ public sealed class HordeManager : MonoBehaviour
             NextEnemies = _nextEnemies,
             Grid = _grid.AsReadOnly(),
             DamageEvents = _damageEvents.AsParallelWriter(),
+            SpitEvents = _spitEvents.AsParallelWriter(),
 
             Target = _target.position,
             DeltaTime = Time.deltaTime,
@@ -327,8 +358,10 @@ public sealed class HordeManager : MonoBehaviour
         // Stage 3: transform sync depends on movement so views use the newly computed positions.
         JobHandle viewHandle = _views.ScheduleSync(_nextEnemies, _target.position, moveHandle);
         viewHandle.Complete();
+        _views.SyncTelegraphs(_nextEnemies);
         // Main-thread effects are applied only after jobs finish; then next becomes the new current state.
         ApplyDamageEvents();
+        ApplySpitEvents();
 
         (_enemies, _nextEnemies) = (_nextEnemies, _enemies);
     }
@@ -420,6 +453,24 @@ public sealed class HordeManager : MonoBehaviour
             _playerHealth.TakeDamage(damage);
     }
 
+    private void ApplySpitEvents()
+    {
+        while (_spitEvents.TryDequeue(out EnemySpitEvent spit))
+        {
+            if (_projectiles == null) continue;
+            Vector3 origin = spit.Origin;
+            Vector3 direction = new(spit.Target.x - spit.Origin.x, 0f, spit.Target.z - spit.Origin.z);
+            if (direction.sqrMagnitude < 0.001f) continue;
+            direction.Normalize();
+            for (int i = 0; i < spit.Count; i++)
+            {
+                float angle = (i - (spit.Count - 1) * 0.5f) * spit.Spread;
+                _projectiles.SpawnSpit(origin, Quaternion.Euler(0f, angle, 0f) * direction,
+                    spit.Damage, spit.Speed, spit.Lifetime);
+            }
+        }
+    }
+
     private void OnDestroy()
     {
         // Dispose view-side native containers first, and always release the manager's containers afterward.
@@ -455,5 +506,7 @@ public sealed class HordeManager : MonoBehaviour
 
         if (_damageEvents.IsCreated)
             _damageEvents.Dispose();
+        if (_spitEvents.IsCreated)
+            _spitEvents.Dispose();
     }
 }

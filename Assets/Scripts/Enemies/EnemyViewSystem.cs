@@ -21,12 +21,14 @@ internal sealed class EnemyViewSystem : IDisposable
     {
         public GameObject GameObject; // Pooled object currently representing this enemy.
         public EnemyHitFlash HitFlash; // Cached component avoids looking it up for every hit.
+        public EnemySpitTelegraph SpitTelegraph;
         public int DefinitionIndex; // Selects the correct pool when this view is released.
 
-        public EnemyView(GameObject gameObject, EnemyHitFlash hitFlash, int definitionIndex)
+        public EnemyView(GameObject gameObject, EnemyHitFlash hitFlash, EnemySpitTelegraph spitTelegraph, int definitionIndex)
         {
             GameObject = gameObject;
             HitFlash = hitFlash;
+            SpitTelegraph = spitTelegraph;
             DefinitionIndex = definitionIndex;
         }
     }
@@ -58,7 +60,7 @@ internal sealed class EnemyViewSystem : IDisposable
         EnemyHitFlash hitFlash = view.GetComponent<EnemyHitFlash>(); // Cache optional hit feedback for later damage calls.
 
         // Append to both collections together to preserve the shared runtime/view index invariant.
-        _activeViews.Add(new EnemyView(view, hitFlash, definitionIndex));
+        _activeViews.Add(new EnemyView(view, hitFlash, view.GetComponent<EnemySpitTelegraph>(), definitionIndex));
         _transforms.Add(view.transform);
     }
 
@@ -72,6 +74,16 @@ internal sealed class EnemyViewSystem : IDisposable
 
         if (hitFlash != null)
             hitFlash.Play();
+    }
+
+    internal void SyncTelegraphs(NativeArray<EnemyRuntime> enemies)
+    {
+        for (int i = 0; i < _activeViews.Count; i++)
+        {
+            EnemySpitTelegraph telegraph = _activeViews[i].SpitTelegraph;
+            if (telegraph != null)
+                telegraph.SetWarning(enemies[i].State == EnemyState.Telegraph);
+        }
     }
     
     internal void RemoveAtSwapBack(int index)

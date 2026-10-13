@@ -79,3 +79,14 @@ MonoBehaviour:
   - _id: lantern_unlock
     _upgrade: {fileID: 11400000, guid: 3c1449d9e4b4db64c95c5092446a2e33, type: 2}
     _prerequisiteIds: []
+  - _id: soul_bolt_unlock
+    _upgrade: {fileID: 11400000, guid: 065aeceed1ed7fa4a926785163f4d2a5, type: 2}
+    _prerequisiteIds: []
+  - _id: soul_bolt_damage
+    _upgrade: {fileID: 11400000, guid: 5c82aae655e91db41a7fa1ee286d1de3, type: 2}
+    _prerequisiteIds:
+    - soul_bolt_unlock
+  - _id: soul_bolt_count
+    _upgrade: {fileID: 11400000, guid: ca3193695d2320c4896492fe0659d7ad, type: 2}
+    _prerequisiteIds:
+    - soul_bolt_unlock

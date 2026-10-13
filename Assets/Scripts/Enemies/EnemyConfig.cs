@@ -18,11 +18,17 @@ public struct EnemyConfig
     public float AttackDuration;
     public float RecoveryDuration;
     public float HitRange;
+    public float PreferredRange;
+    public float ProjectileSpeed;
+    public float ProjectileLifetime;
+    public float ProjectileSpread;
+    public byte ProjectileCount;
 }
 
 public enum EnemyBehaviourType : byte
 {
     Swarm,
     Charger,
-    Brute
+    Brute,
+    Spitter
 }

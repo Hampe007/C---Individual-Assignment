@@ -35,6 +35,7 @@ public struct MoveEnemiesJob : IJobParallelFor
     [WriteOnly] public NativeArray<EnemyRuntime> NextEnemies;
 
     public NativeQueue<int>.ParallelWriter DamageEvents;
+    public NativeQueue<EnemySpitEvent>.ParallelWriter SpitEvents;
 
     [ReadOnly] public float3 Target;
     [ReadOnly] public float DeltaTime;
@@ -68,6 +69,10 @@ public struct MoveEnemiesJob : IJobParallelFor
 
             case EnemyBehaviourType.Brute:
                 direction = UpdateBrute(index, ref enemy, config);
+                break;
+
+            case EnemyBehaviourType.Spitter:
+                direction = UpdateSpitter(index, ref enemy, config);
                 break;
 
             default:
@@ -215,6 +220,56 @@ public struct MoveEnemiesJob : IJobParallelFor
             default:
                 enemy.State = EnemyState.Chase;
                 return GetChaseDirection(index, enemy.Position);
+        }
+    }
+
+    private float3 UpdateSpitter(int index, ref EnemyRuntime enemy, EnemyConfig config)
+    {
+        float3 toPlayer = Target - enemy.Position;
+        toPlayer.y = 0f;
+        float distanceSq = math.lengthsq(toPlayer);
+
+        switch (enemy.State)
+        {
+            case EnemyState.Chase:
+                if (enemy.AttackCooldown <= 0f && distanceSq <= config.AttackRange * config.AttackRange)
+                {
+                    enemy.State = EnemyState.Telegraph;
+                    enemy.StateTimer = config.TelegraphDuration;
+                    return float3.zero;
+                }
+
+                // Hold a little distance so the spit pattern leaves space for the player to dodge.
+                if (distanceSq < config.PreferredRange * config.PreferredRange)
+                    return -math.normalizesafe(toPlayer);
+                return GetChaseDirection(index, enemy.Position);
+
+            case EnemyState.Telegraph:
+                if (enemy.StateTimer <= 0f)
+                {
+                    SpitEvents.Enqueue(new EnemySpitEvent
+                    {
+                        Origin = enemy.Position + new float3(0f, 1.1f, 0f),
+                        Target = Target,
+                        Damage = config.Damage,
+                        Count = config.ProjectileCount,
+                        Speed = config.ProjectileSpeed,
+                        Lifetime = config.ProjectileLifetime,
+                        Spread = config.ProjectileSpread
+                    });
+                    enemy.State = EnemyState.Recover;
+                    enemy.StateTimer = config.RecoveryDuration;
+                    enemy.AttackCooldown = config.AttackCooldown;
+                }
+                return float3.zero;
+
+            case EnemyState.Recover:
+                if (enemy.StateTimer <= 0f) enemy.State = EnemyState.Chase;
+                return float3.zero;
+
+            default:
+                enemy.State = EnemyState.Chase;
+                return float3.zero;
         }
     }
 

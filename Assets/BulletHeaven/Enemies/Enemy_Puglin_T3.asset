@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653de7132e07bfd4f8d5d99cd523d55c, type: 3}
+  m_Name: Enemy_Puglin_T3
+  m_EditorClassIdentifier: Assembly-CSharp::SpitterEnemyDefinition
+  _displayName: Puglin
+  _tier: 2
+  _prefab: {fileID: 3426114477357226199, guid: c7b227725be04434bb7bb5c31bc2d31f, type: 3}
+  _health: 70
+  _moveSpeed: 2.8
+  _damage: 6
+  _xpReward: 6
+  _scoreReward: 60
+  _attackRange: 12
+  _preferredRange: 8
+  _windupDuration: 0.69000006
+  _recoveryDuration: 0.8
+  _attackCooldown: 3.4999998
+  _projectileSpeed: 10
+  _projectileLifetime: 2.1
+  _projectileSpread: 14
+  _projectileCount: 5

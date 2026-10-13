@@ -11,6 +11,7 @@ public sealed class SkillTreeProgression : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private SwordWeapon _swordWeapon;
     [SerializeField] private PlayerLantern _playerLantern;
+    [SerializeField] private SoulBoltWeapon _soulBoltWeapon;
 
     private readonly Dictionary<string, SkillTreeNode> _nodes = new();
     private readonly HashSet<string> _purchasedNodes = new();
@@ -72,6 +73,14 @@ public sealed class SkillTreeProgression : MonoBehaviour
             return false;
 
         if (node.Upgrade.Effect == UpgradeEffectType.LanternUnlock && (_playerLantern == null || !_playerLantern.CanUnlock))
+            return false;
+
+        if (node.Upgrade.Effect == UpgradeEffectType.SoulBoltUnlock && (_soulBoltWeapon == null || _soulBoltWeapon.IsUnlocked))
+            return false;
+
+        if ((node.Upgrade.Effect == UpgradeEffectType.SoulBoltDamage ||
+             node.Upgrade.Effect == UpgradeEffectType.SoulBoltCount) &&
+            (_soulBoltWeapon == null || !_soulBoltWeapon.IsUnlocked))
             return false;
 
         _upgradeLevels.TryGetValue(node.Upgrade, out int level);
@@ -143,6 +152,16 @@ public sealed class SkillTreeProgression : MonoBehaviour
                 break;
             case UpgradeEffectType.LanternUnlock:
                 return _playerLantern != null && _playerLantern.TryUnlock();
+            case UpgradeEffectType.SoulBoltUnlock:
+                if (_soulBoltWeapon == null || _soulBoltWeapon.IsUnlocked) return false;
+                _soulBoltWeapon.Unlock();
+                break;
+            case UpgradeEffectType.SoulBoltDamage:
+                _soulBoltWeapon.AddDamage(Mathf.RoundToInt(upgrade.Value));
+                break;
+            case UpgradeEffectType.SoulBoltCount:
+                _soulBoltWeapon.AddBolt();
+                break;
             default:
                 return false;
         }
