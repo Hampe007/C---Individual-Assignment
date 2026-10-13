@@ -14,6 +14,7 @@ public sealed class SceneTransition : MonoBehaviour
     private bool _isTransitioning;
 
     public static string MainMenuOverride { get; set; }
+    public static bool IsTransitioning => _instance != null && _instance._isTransitioning;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Create()

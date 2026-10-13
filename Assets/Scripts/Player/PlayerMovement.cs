@@ -53,7 +53,7 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0f)
+        if (Time.timeScale == 0f || PauseMenu.BlocksGameplayInput)
             return;
 
         HandleMouseDestination();
