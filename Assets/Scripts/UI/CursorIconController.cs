@@ -18,6 +18,7 @@ public class CursorIconController : MonoBehaviour
         }
 
         instance = this;
+        transform.SetParent(null, true);
         DontDestroyOnLoad(gameObject);
     }
 

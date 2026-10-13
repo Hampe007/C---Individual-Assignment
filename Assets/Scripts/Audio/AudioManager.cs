@@ -31,6 +31,8 @@ public sealed class AudioManager : MonoBehaviour
         }
 
         Instance = this;
+        // Persistent services are grouped in the authored scene, then become roots at runtime.
+        transform.SetParent(null, true);
         DontDestroyOnLoad(gameObject);
 
         if (_musicSource == null || _musicGroup == null || _sfxGroup == null)
