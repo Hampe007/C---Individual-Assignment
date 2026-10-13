@@ -11795,6 +11795,66 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 495062243140549616, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 644843800022380100, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018882418117440289, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076460857190846751, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212240460755132435, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413192081256634383, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676447183411271834, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2202116505915267545, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082306877790976256, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084183549796260788, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3469784532673664581, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476886380306700717, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3844017503741936664, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712265050416341938, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878075644297636227, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4913829128599631846, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11835,9 +11895,77 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5235101168514772760, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532592413268897702, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5794812380145412148, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179235223852823053, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6213317049859937952, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6360744187463512103, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409495470072136600, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488872494711278176, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996824993051150100, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204335484782267651, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259357309437443725, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7401463815002986496, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: Game Graveyard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475824386555709246, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9007618835183375443, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9075317649276954797, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093917877368733345, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116284856340035681, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9139192057458483754, guid: b52436c0184cc564da8ff668733242f8, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12681,14 +12809,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70f4cb2efe7b7d4d8e751699fd64c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLantern
-  _lanternPrefab: {fileID: 2568467708654741257, guid: c73dd01f10676c949a50d3deadc82389, type: 3}
-  _offset: {x: 1.3, y: 1.5, z: 0.5}
-  _minimumPlayerDistance: 1.15
-  _followSmoothTime: 0.12
-  _initialRange: 5
-  _maximumRange: 9.5
-  _bobAmplitude: 0.08
-  _bobPeriod: 3
+  lanternPrefab: {fileID: 2568467708654741257, guid: c73dd01f10676c949a50d3deadc82389, type: 3}
+  starterLight: {fileID: 0}
+  offset: {x: 1.3, y: 1.5, z: 0.5}
+  minimumPlayerDistance: 1.15
+  followSmoothTime: 0.12
+  initialRange: 5
+  maximumRange: 9.5
+  bobAmplitude: 0.08
+  bobPeriod: 3
+  initialIntensity: 13.5
+  idleOrbitAngle: 6
+  idleOrbitPeriod: 5
+  orbitSpeed: 28
+  orbitSpeedVariation: 0.35
+  orbitSpeedPeriod: 7
+  facingInfluence: 0.35
+  radiusDrift: 0.12
+  radiusDriftPeriod: 4.7
 --- !u!224 &8113786588113117890
 RectTransform:
   m_ObjectHideFlags: 0

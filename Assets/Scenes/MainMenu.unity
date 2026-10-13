@@ -1288,6 +1288,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1132399567}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.65
@@ -1645,6 +1649,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1025775866}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23
@@ -2548,6 +2556,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pumpkin_yellow_jackolantern
       objectReference: {fileID: 0}
+    - target: {fileID: 7350791610623315906, guid: 83ca06ddee9e2924580425ea605636b5, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3176,6 +3188,10 @@ PrefabInstance:
     - target: {fileID: 3426830717570927173, guid: e319a85bff23122498738c45881a9682, type: 3}
       propertyPath: m_Name
       value: lantern_standing
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416523841886895453, guid: e319a85bff23122498738c45881a9682, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9716,6 +9732,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 669960064}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.931
@@ -22489,6 +22509,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 595736461}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17
@@ -25299,6 +25323,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 669960064}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.5
@@ -26322,6 +26350,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 669960064}
     m_Modifications:
+    - target: {fileID: 3750976953616437297, guid: 91591be5e05b2e54cba05cb61bc79a3f, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6465560452264642609, guid: 91591be5e05b2e54cba05cb61bc79a3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12
@@ -27575,7 +27607,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -30133,6 +30165,10 @@ PrefabInstance:
     - target: {fileID: 3426830717570927173, guid: e319a85bff23122498738c45881a9682, type: 3}
       propertyPath: m_Name
       value: lantern_standing
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416523841886895453, guid: e319a85bff23122498738c45881a9682, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44588,6 +44624,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1025775866}
     m_Modifications:
+    - target: {fileID: 3750976953616437297, guid: 91591be5e05b2e54cba05cb61bc79a3f, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6465560452264642609, guid: 91591be5e05b2e54cba05cb61bc79a3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 27.8
@@ -45946,6 +45986,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 669960064}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9
@@ -81127,6 +81171,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 595736461}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17
@@ -81630,6 +81678,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 595736461}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -87505,6 +87557,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 638211115}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.9
@@ -90903,6 +90959,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 638211115}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.9
@@ -93232,6 +93292,10 @@ PrefabInstance:
     - target: {fileID: 3426830717570927173, guid: e319a85bff23122498738c45881a9682, type: 3}
       propertyPath: m_Name
       value: lantern_standing
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416523841886895453, guid: e319a85bff23122498738c45881a9682, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -96033,6 +96097,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1132399567}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.35
@@ -121287,6 +121355,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 595736461}
     m_Modifications:
+    - target: {fileID: 3419368391490750315, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3575480621309725067, guid: 53f8cd5d0d69d1b428ec1813816f6d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
