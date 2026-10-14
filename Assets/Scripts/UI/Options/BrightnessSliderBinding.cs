@@ -7,6 +7,7 @@ namespace GameMenus
     {
         [SerializeField] private UnityEngine.UI.Slider slider;
         [SerializeField] private TMP_Text valueLabel;
+        private int appliedPercentage;
 
         private void OnEnable()
         {
@@ -16,9 +17,9 @@ namespace GameMenus
 
         public void Refresh()
         {
-            float percentage = BrightnessPreferences.GetBrightness() * 100f;
-            slider.SetValueWithoutNotify(percentage);
-            ShowValue(percentage);
+            appliedPercentage = Mathf.RoundToInt(BrightnessPreferences.GetBrightness() * 100f);
+            slider.SetValueWithoutNotify(appliedPercentage);
+            ShowValue(appliedPercentage);
         }
 
         private void OnDisable()
@@ -29,8 +30,12 @@ namespace GameMenus
 
         private void Change(float percentage)
         {
-            BrightnessPreferences.SetBrightness(percentage / 100f);
-            ShowValue(percentage);
+            int rounded = Mathf.RoundToInt(percentage);
+            if (rounded == appliedPercentage)
+                return;
+            appliedPercentage = rounded;
+            BrightnessPreferences.SetBrightness(rounded / 100f);
+            ShowValue(rounded);
         }
 
         private void ShowValue(float percentage)

@@ -77,8 +77,10 @@ namespace GameMenus
             }
             Keyboard keyboard = Keyboard.current;
             Mouse mouse = Mouse.current;
+            Gamepad gamepad = Gamepad.current;
             bool held = keyboard != null && (keyboard.escapeKey.isPressed || keyboard.spaceKey.isPressed);
             held |= mouse != null && mouse.leftButton.isPressed;
+            held |= gamepad != null && (gamepad.buttonSouth.isPressed || gamepad.startButton.isPressed);
             if (requireSkipRelease)
             {
                 if (!held)
@@ -90,11 +92,9 @@ namespace GameMenus
             }
             if (Phase == MenuPhase.Intro)
             {
-                if (held || keyboard != null && (keyboard.escapeKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame) || mouse != null && mouse.leftButton.wasPressedThisFrame)
-                {
+                if (!skipDiscovered && DeliberateInputThisFrame(keyboard, mouse, gamepad))
                     skipDiscovered = true;
-                }
-            
+
                 if (!held)
                 {
                     holdStarted = -1f;
@@ -142,6 +142,7 @@ namespace GameMenus
         private IEnumerator Intro()
         {
             Phase = MenuPhase.Intro;
+            skipDiscovered = false;
             for (int pass = 0; pass < 3; pass++)
             {
                 float duration = pass == 0 ? settings.chasePassDuration : pass == 1 ? settings.returnPassDuration : settings.finalPassDuration;
@@ -182,6 +183,23 @@ namespace GameMenus
             }
             world.CatchPlayer(1f);
             yield return RevealMenu(false);
+        }
+
+        private static bool DeliberateInputThisFrame(Keyboard keyboard, Mouse mouse, Gamepad gamepad)
+        {
+            if (keyboard != null && keyboard.anyKey.wasPressedThisFrame)
+                return true;
+            if (mouse != null && (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame ||
+                                  mouse.middleButton.wasPressedThisFrame || mouse.delta.ReadValue().sqrMagnitude > 16f))
+                return true;
+            if (gamepad == null)
+                return false;
+            if (gamepad.leftStick.ReadValue().sqrMagnitude > 0.25f || gamepad.rightStick.ReadValue().sqrMagnitude > 0.25f)
+                return true;
+            foreach (var control in gamepad.allControls)
+                if (control is UnityEngine.InputSystem.Controls.ButtonControl button && button.wasPressedThisFrame)
+                    return true;
+            return false;
         }
 
         public void SkipIntro()

@@ -26,6 +26,7 @@ namespace GameMenus
         private bool fromOptions;
         private bool ready;
         private bool closing;
+        private int appliedPercentage;
 
         public static bool IsOpen => instance != null;
 
@@ -88,7 +89,8 @@ namespace GameMenus
             previewTexture.Create();
             previewCamera.targetTexture = previewTexture;
             referenceImage.texture = previewTexture;
-            slider.SetValueWithoutNotify(BrightnessPreferences.GetBrightness() * 100f);
+            slider.SetValueWithoutNotify(Mathf.RoundToInt(BrightnessPreferences.GetBrightness() * 100f));
+            appliedPercentage = -1;
             UpdateValue(slider.value);
             slider.onValueChanged.AddListener(UpdateValue);
             confirmButton.onClick.AddListener(Confirm);
@@ -148,8 +150,12 @@ namespace GameMenus
 
         private void UpdateValue(float percentage)
         {
-            BrightnessPreferences.SetBrightness(percentage / 100f);
-            valueLabel.text = $"{Mathf.RoundToInt(percentage)}%";
+            int rounded = Mathf.RoundToInt(percentage);
+            if (rounded == appliedPercentage)
+                return;
+            appliedPercentage = rounded;
+            BrightnessPreferences.SetBrightness(rounded / 100f);
+            valueLabel.text = $"{rounded}%";
         }
 
         private void ResetToRecommended() => slider.value = 100f;

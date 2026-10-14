@@ -8,13 +8,15 @@ namespace GameMenus
         [SerializeField] private AudioVolumeChannel channel;
         [SerializeField] private UnityEngine.UI.Slider slider;
         [SerializeField] private TMP_Text valueLabel;
+        private int appliedPercentage;
 
 
         private void OnEnable()
         {
             float volume = AudioPreferences.GetVolume(channel);
-            slider.SetValueWithoutNotify(volume);
-            ShowValue(volume);
+            appliedPercentage = Mathf.RoundToInt(volume * 100f);
+            slider.SetValueWithoutNotify(appliedPercentage);
+            ShowValue(appliedPercentage);
             slider.onValueChanged.AddListener(Change);
         }
 
@@ -24,15 +26,19 @@ namespace GameMenus
             AudioPreferences.Save();
         }
 
-        private void Change(float volume)
+        private void Change(float percentage)
         {
-            AudioPreferences.SetVolume(channel, volume);
-            ShowValue(volume);
+            int rounded = Mathf.RoundToInt(percentage);
+            if (rounded == appliedPercentage)
+                return;
+            appliedPercentage = rounded;
+            AudioPreferences.SetVolume(channel, rounded / 100f);
+            ShowValue(rounded);
         }
 
-        private void ShowValue(float volume)
+        private void ShowValue(float percentage)
         {
-            valueLabel.text = $"{Mathf.RoundToInt(volume * 100f)}%";
+            valueLabel.text = $"{Mathf.RoundToInt(percentage)}%";
         }
     }
 }
