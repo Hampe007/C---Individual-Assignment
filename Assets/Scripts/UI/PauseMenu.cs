@@ -66,8 +66,14 @@ public sealed class PauseMenu : MonoBehaviour
             (!Mouse.current.leftButton.isPressed && !Mouse.current.rightButton.isPressed)))
             _waitForPointerRelease = false;
 
-        if (SceneTransition.IsTransitioning || Keyboard.current == null ||
-            !Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (SceneTransition.IsTransitioning)
+            return;
+
+        bool pausePressed = (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) ||
+            (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame);
+        bool backPressed = _ownsPause && Gamepad.current != null &&
+            Gamepad.current.buttonEast.wasPressedThisFrame;
+        if (!pausePressed && !backPressed)
             return;
 
         if (!_ownsPause)

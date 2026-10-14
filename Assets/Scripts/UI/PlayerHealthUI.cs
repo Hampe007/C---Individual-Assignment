@@ -9,7 +9,7 @@ public sealed class PlayerHealthUI : MonoBehaviour
     [Header("Health Bar")]
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _dmgHealthSlider;
-    //[SerializeField] private TMP_Text _healthText;
+    [SerializeField] private TMP_Text _healthText;
 
     [Header("Animation")]
     [SerializeField, Min(1f)] private float _dmgBarSpeed = 120f;
@@ -18,7 +18,7 @@ public sealed class PlayerHealthUI : MonoBehaviour
     
     private void Awake()
     {
-        if (_playerHealth != null && _healthSlider != null && _dmgHealthSlider != null /*&& _healthText != null*/)
+        if (_playerHealth != null && _healthSlider != null && _dmgHealthSlider != null)
             return;
 
         Debug.LogError("PlayerHealthUI is missing required references.");
@@ -27,9 +27,10 @@ public sealed class PlayerHealthUI : MonoBehaviour
 
     private void Start()
     {
+        if (_playerHealth == null || _healthSlider == null || _dmgHealthSlider == null)
+            return;
+
         UpdateHealth(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
-        
-        // Make sure both bars start full.
         _dmgHealthSlider.value = _playerHealth.CurrentHealth;
     }
 
@@ -43,7 +44,12 @@ public sealed class PlayerHealthUI : MonoBehaviour
     
     private void OnEnable()
     {
+        if (_playerHealth == null || _healthSlider == null || _dmgHealthSlider == null)
+            return;
+
         _playerHealth.HealthChanged += UpdateHealth;
+        UpdateHealth(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
+        _dmgHealthSlider.value = _playerHealth.CurrentHealth;
     }
 
     private void OnDisable()
@@ -62,7 +68,8 @@ public sealed class PlayerHealthUI : MonoBehaviour
         
         // Ease bar catches up afterwards.
         _targetHealth = currentHealth;
-        
-        //_healthText.text = $"{currentHealth} / {maxHealth}";
+
+        if (_healthText != null)
+            _healthText.text = $"{currentHealth} / {maxHealth}";
     }
 }

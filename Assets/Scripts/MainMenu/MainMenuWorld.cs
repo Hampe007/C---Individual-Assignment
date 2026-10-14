@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -50,7 +52,7 @@ namespace GameMenus
             {
                 camera.gameObject.hideFlags = HideFlags.NotEditable;
             }
-        }
+        } 
 #endif
 
 
@@ -270,8 +272,6 @@ namespace GameMenus
             ambience.volume = 0.38f * AudioPreferences.GetVolume(AudioVolumeChannel.Music);
             effects.volume = AudioPreferences.GetVolume(AudioVolumeChannel.Effects);
         }
-
-
 
         private void OnDestroy()
         {

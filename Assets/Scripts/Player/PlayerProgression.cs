@@ -11,7 +11,7 @@ public sealed class PlayerProgression : MonoBehaviour
     [SerializeField, Min(1f)] private float _xpGrowth = 1.25f;
 
     [Header("Damage Penalty")]
-    [SerializeField, Range(0f, 1f)] private float _damageXPLossPercent = 0.03f;
+    [SerializeField, Range(0f, 1f)] private float _damageXPLossPercent = 0.015f;
 
     private int _level = 1;
     private int _currentXP;

@@ -6,11 +6,15 @@ public sealed class PlayerHealth : MonoBehaviour
     [SerializeField, Min(1)] private int _maxHealth = 100;
     [SerializeField] private PlayerProgression _progression;
 
+    [Header("Damage Protection")]
+    [SerializeField, Min(0f)] private float _damageProtectionDuration = 0.75f;
+
     [Header("Hit Audio")]
     [SerializeField] private SoundSet _hitSFX;
     [SerializeField, Min(0f)] private float _soundCooldown = 0.3f;
 
     private int _currentHealth;
+    private float _nextDamageTime;
     private float _nextSoundTime;
 
     public int CurrentHealth => _currentHealth;
@@ -34,10 +38,11 @@ public sealed class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (damage <= 0 || _currentHealth <= 0)
+        if (damage <= 0 || _currentHealth <= 0 || Time.time < _nextDamageTime)
             return;
 
         _currentHealth = Mathf.Max(0, _currentHealth - damage);
+        _nextDamageTime = Time.time + _damageProtectionDuration;
         if (_progression != null)
             _progression.LoseXPFromDamage();
         if (Time.time >= _nextSoundTime && AudioManager.Instance != null)

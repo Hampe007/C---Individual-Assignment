@@ -8,7 +8,6 @@ public sealed class PlayerProgressionUI : MonoBehaviour
 
     [Header("XP")]
     [SerializeField] private Slider xpSlider;
-    [SerializeField] private RectTransform feedbackTarget;
 
     [Header("Feedback")]
     [SerializeField, Min(0.01f)] private float animationDuration = 0.22f;
@@ -44,7 +43,7 @@ public sealed class PlayerProgressionUI : MonoBehaviour
             levelText != null &&
             scoreText != null)
         {
-            target = feedbackTarget != null ? feedbackTarget : xpSlider.transform as RectTransform;
+            target = xpSlider.transform as RectTransform;
             if (target != null)
             {
                 basePosition = target.anchoredPosition;

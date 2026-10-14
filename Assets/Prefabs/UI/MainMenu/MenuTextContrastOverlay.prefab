@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5659443430239076443}
   - component: {fileID: 5216400934688083260}
   m_Layer: 5
-  m_Name: MainMenu-Readability
+  m_Name: MenuTextContrastOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 1694974270636410651}
   - component: {fileID: 4922508348467637930}
   m_Layer: 5
-  m_Name: Readability Gradient
+  m_Name: LeftDarkeningGradient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
