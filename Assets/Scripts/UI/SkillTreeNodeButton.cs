@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public sealed class SkillTreeNodeButton : MonoBehaviour
@@ -20,15 +21,23 @@ public sealed class SkillTreeNodeButton : MonoBehaviour
 
     private SkillTreeProgression _progression;
     private Action<string> _onSelected;
+    private Outline _focusOutline;
+    private Vector3 _normalScale;
+    private bool _isValid;
+    private bool _focused;
 
     public string NodeId => _nodeId;
     public GameObject ButtonObject => _button.gameObject;
-    public bool IsInteractable => _button.interactable;
+    public Button Button => _button;
+    public bool IsFocusable => _isValid;
+    public bool IsPurchasable => _isValid && _progression.CanPurchase(_nodeId);
+    public Vector2 Position => ((RectTransform)transform).anchoredPosition;
 
     public void Setup(SkillTreeProgression progression, Action<string> onSelected)
     {
         _progression = progression;
         _onSelected = onSelected;
+        _normalScale = transform.localScale;
 
         SkillTreeNode node = _progression.GetNode(_nodeId);
 
@@ -39,7 +48,23 @@ public sealed class SkillTreeNodeButton : MonoBehaviour
             return;
         }
 
+        _isValid = true;
         _nameText.text = node.Upgrade.DisplayName;
+        _button.transition = Selectable.Transition.None;
+
+        _focusOutline = _background.GetComponent<Outline>();
+        if (_focusOutline == null)
+            _focusOutline = _background.gameObject.AddComponent<Outline>();
+
+        _focusOutline.effectColor = new Color(1f, 0.72f, 0.12f, 1f);
+        _focusOutline.effectDistance = new Vector2(5f, -5f);
+        _focusOutline.useGraphicAlpha = false;
+        _focusOutline.enabled = false;
+
+        SkillTreeNodeHover hover = _button.GetComponent<SkillTreeNodeHover>();
+        if (hover == null)
+            hover = _button.gameObject.AddComponent<SkillTreeNodeHover>();
+        hover.SetOwner(this);
 
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(Select);
@@ -56,7 +81,7 @@ public sealed class SkillTreeNodeButton : MonoBehaviour
         {
             _statusText.text = "Purchased";
             _background.color = _purchasedColor;
-            _button.interactable = false;
+            _button.interactable = true;
             return;
         }
 
@@ -70,11 +95,43 @@ public sealed class SkillTreeNodeButton : MonoBehaviour
 
         _statusText.text = "Locked";
         _background.color = _lockedColor;
-        _button.interactable = false;
+        _button.interactable = true;
+    }
+
+    public void SetFocused(bool focused)
+    {
+        if (!_isValid)
+            return;
+
+        if (_focused == focused)
+            return;
+
+        _focused = focused;
+        _focusOutline.enabled = focused;
+        transform.localScale = focused ? _normalScale * 1.04f : _normalScale;
+        if (focused)
+            transform.SetAsLastSibling();
+    }
+
+    public void Focus()
+    {
+        if (_isValid && EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(ButtonObject);
     }
 
     private void Select()
     {
-        _onSelected?.Invoke(_nodeId);
+        if (IsPurchasable)
+            _onSelected?.Invoke(_nodeId);
     }
+}
+
+// A Button handles pointer events itself, so the hover listener belongs on that same object.
+public sealed class SkillTreeNodeHover : MonoBehaviour, IPointerEnterHandler
+{
+    private SkillTreeNodeButton _owner;
+
+    public void SetOwner(SkillTreeNodeButton owner) => _owner = owner;
+
+    public void OnPointerEnter(PointerEventData eventData) => _owner?.Focus();
 }

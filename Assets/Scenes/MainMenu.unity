@@ -122829,6 +122829,10 @@ PrefabInstance:
       propertyPath: readability
       value: 
       objectReference: {fileID: 746391725}
+    - target: {fileID: 196055386067431508, guid: 18739c4fe9617354897b53f517e72e2d, type: 3}
+      propertyPath: defaultStatus
+      value: Why are you still here instead of playing?
+      objectReference: {fileID: 0}
     - target: {fileID: 504154233789069771, guid: 18739c4fe9617354897b53f517e72e2d, type: 3}
       propertyPath: m_Name
       value: SkipLabel
@@ -123667,6 +123671,10 @@ PrefabInstance:
     - target: {fileID: 6239262943563069626, guid: 18739c4fe9617354897b53f517e72e2d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344719378165780841, guid: 18739c4fe9617354897b53f517e72e2d, type: 3}
+      propertyPath: m_text
+      value: Why are you still here instead of playing?
       objectReference: {fileID: 0}
     - target: {fileID: 6387809557945830618, guid: 18739c4fe9617354897b53f517e72e2d, type: 3}
       propertyPath: m_Name
