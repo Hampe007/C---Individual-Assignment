@@ -12,6 +12,8 @@ public struct EnemyRuntime
     public int Health;
     public byte HasHit;
     public int DefinitionIndex;
+    public float PoisonRemaining;
+    public float PoisonTickTimer;
 
     public EnemyState State;
 
@@ -24,6 +26,8 @@ public struct EnemyRuntime
         Health = health;
         HasHit = 0;
         DefinitionIndex = definitionIndex;
+        PoisonRemaining = 0f;
+        PoisonTickTimer = 0f;
         State = EnemyState.Chase;
     }
 }

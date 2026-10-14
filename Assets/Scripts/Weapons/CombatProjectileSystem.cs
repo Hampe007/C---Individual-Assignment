@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Pool;
 
-/// <summary>Moves pooled, straight-line combat projectiles in the ground plane.</summary>
+/// <summary>Moves pooled combat projectiles with swept hits and optional forward tracking.</summary>
 public sealed class CombatProjectileSystem : MonoBehaviour
 {
     [SerializeField] private HordeManager _hordeManager;
@@ -15,6 +15,11 @@ public sealed class CombatProjectileSystem : MonoBehaviour
     [SerializeField, Min(1)] private int _maxPlayerProjectiles = 48;
     [SerializeField, Min(1)] private int _maxEnemyProjectiles = 128;
     [SerializeField, Min(0.1f)] private float _playerHitRadius = 0.65f;
+    [SerializeField] private PoisonAreaSystem _poisonAreas;
+    [Header("Tracking Tiers 1 / 2 / 3")]
+    [SerializeField] private Vector3 _trackingRadii = new(1.5f, 3f, 5f);
+    [SerializeField] private Vector3 _trackingHalfAngles = new(20f, 40f, 60f);
+    [SerializeField] private Vector3 _trackingTurnSpeeds = new(30f, 70f, 120f);
 
     private readonly List<Projectile> _active = new();
     private ObjectPool<GameObject> _soulPool;
@@ -27,11 +32,14 @@ public sealed class CombatProjectileSystem : MonoBehaviour
     {
         public GameObject View;
         public Vector3 Direction;
+        public Vector3 OriginalDirection;
         public float Speed;
         public float Lifetime;
         public float Radius;
         public int Damage;
         public bool FromPlayer;
+        public bool LeavesPoison;
+        public int TrackingTier;
     }
 
     private void Awake()
@@ -66,24 +74,35 @@ public sealed class CombatProjectileSystem : MonoBehaviour
 
     public void SpawnSoulBolt(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime)
     {
-        Spawn(origin, direction, damage, speed, lifetime, 0.42f, true);
+        SpawnSoulBolt(origin, direction, damage, speed, lifetime, 0);
+    }
+
+    public void SpawnSoulBolt(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime, int trackingTier)
+    {
+        Spawn(origin, direction, damage, speed, lifetime, 0.42f, true, 1f, false, trackingTier);
     }
 
     public void SpawnSpit(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime)
     {
-        Spawn(origin, direction, damage, speed, lifetime, 0.45f, false);
+        SpawnSpit(origin, direction, damage, speed, lifetime, 1f, false);
     }
 
-    private void Spawn(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime, float radius, bool fromPlayer)
+    public void SpawnSpit(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime, float scale, bool leavesPoison)
     {
+        Spawn(origin, direction, damage, speed, lifetime, 0.45f * scale, false, scale, leavesPoison, 0);
+    }
+
+    private void Spawn(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime, float radius, bool fromPlayer,
+        float scale, bool leavesPoison, int trackingTier)
+    {
+        direction.y = 0f;
         if (!isActiveAndEnabled || damage <= 0 || direction.sqrMagnitude < 0.001f ||
             (fromPlayer ? _playerCount >= _maxPlayerProjectiles : _enemyCount >= _maxEnemyProjectiles))
             return;
 
-        direction.y = 0f;
         GameObject view = (fromPlayer ? _soulPool : _spitPool).Get();
         view.transform.position = origin;
-        view.transform.localScale = Vector3.one;
+        view.transform.localScale = (fromPlayer ? _soulBoltPrefab : _spitPrefab).transform.localScale * scale;
         if (view.TryGetComponent(out TrailRenderer trail))
             trail.Clear();
 
@@ -91,11 +110,14 @@ public sealed class CombatProjectileSystem : MonoBehaviour
         {
             View = view,
             Direction = direction.normalized,
+            OriginalDirection = direction.normalized,
             Speed = speed,
             Lifetime = lifetime,
             Radius = radius,
             Damage = damage,
-            FromPlayer = fromPlayer
+            FromPlayer = fromPlayer,
+            LeavesPoison = leavesPoison,
+            TrackingTier = Mathf.Clamp(trackingTier, 0, 3)
         });
 
         if (fromPlayer) _playerCount++;
@@ -106,28 +128,31 @@ public sealed class CombatProjectileSystem : MonoBehaviour
     {
         if (Time.timeScale <= 0f || _playerHealth.CurrentHealth <= 0)
             return;
+        Tick(Time.deltaTime);
+    }
 
+    private void Tick(float deltaTime)
+    {
         for (int i = _active.Count - 1; i >= 0; i--)
         {
             Projectile projectile = _active[i];
             Vector3 start = projectile.View.transform.position;
-            Vector3 end = start + projectile.Direction * (projectile.Speed * Time.deltaTime);
-            projectile.Lifetime -= Time.deltaTime;
+            Track(ref projectile, start, deltaTime);
+            Vector3 end = start + projectile.Direction * (projectile.Speed * Mathf.Min(deltaTime, projectile.Lifetime));
+            projectile.Lifetime -= deltaTime;
+            bool wallHit = !_hordeManager.IsProjectileSegmentClear(start, end);
+            if (wallHit) end = _hordeManager.GetProjectileWallImpact(start, end);
 
-            if (!_hordeManager.IsProjectilePathClear(end))
-            {
-                PlayImpact(end, projectile.FromPlayer);
-                ReleaseAt(i);
-                continue;
-            }
-
+            Vector3 impact;
             bool hit = projectile.FromPlayer
-                ? HitEnemy(projectile, start, end)
-                : HitPlayer(projectile, start, end);
+                ? HitEnemy(projectile, start, end, out impact)
+                : HitPlayer(projectile, start, end, out impact);
 
-            if (hit || projectile.Lifetime <= 0f)
+            if (hit || wallHit || projectile.Lifetime <= 0f)
             {
-                if (hit) PlayImpact(end, projectile.FromPlayer);
+                Vector3 position = hit ? impact : end;
+                if (hit || wallHit) PlayImpact(position, projectile.FromPlayer);
+                if (projectile.LeavesPoison && _poisonAreas != null) _poisonAreas.SpawnPuddle(position);
                 ReleaseAt(i);
                 continue;
             }
@@ -137,30 +162,59 @@ public sealed class CombatProjectileSystem : MonoBehaviour
         }
     }
 
-    private bool HitEnemy(Projectile projectile, Vector3 start, Vector3 end)
+    private void Track(ref Projectile projectile, Vector3 position, float deltaTime)
     {
-        if (!_hordeManager.TryGetEnemyOnSegment((float3)start, (float3)end, projectile.Radius, out int index))
+        if (!projectile.FromPlayer || projectile.TrackingTier == 0) return;
+        int tier = projectile.TrackingTier - 1;
+        float halfAngle = Mathf.Clamp(_trackingHalfAngles[tier], 0f, 89f);
+        if (!_hordeManager.TryGetTrackingTarget(position, projectile.Direction, projectile.OriginalDirection,
+                _trackingRadii[tier], halfAngle, out Vector3 target)) return;
+        Vector3 desired = target - position;
+        desired.y = 0f;
+        projectile.Direction = Vector3.RotateTowards(projectile.Direction, desired.normalized,
+            Mathf.Max(0f, _trackingTurnSpeeds[tier]) * Mathf.Deg2Rad * deltaTime, 0f).normalized;
+    }
+
+    private bool HitEnemy(Projectile projectile, Vector3 start, Vector3 end, out Vector3 impact)
+    {
+        impact = end;
+        if (!_hordeManager.TryGetEnemyOnSegment((float3)start, (float3)end, projectile.Radius, out int index, out float progress))
             return false;
 
+        impact = Vector3.Lerp(start, end, progress);
         _hordeManager.DamageEnemy(index, projectile.Damage);
         return true;
     }
 
-    private bool HitPlayer(Projectile projectile, Vector3 start, Vector3 end)
+    private bool HitPlayer(Projectile projectile, Vector3 start, Vector3 end, out Vector3 impact)
     {
+        impact = end;
         Vector2 from = new(start.x, start.z);
         Vector2 to = new(end.x, end.z);
         Vector2 player = new(_player.position.x, _player.position.z);
-        Vector2 path = to - from;
-        float progress = path.sqrMagnitude > 0f
-            ? Mathf.Clamp01(Vector2.Dot(player - from, path) / path.sqrMagnitude)
-            : 0f;
         float radius = _playerHitRadius + projectile.Radius;
-        if ((player - (from + path * progress)).sqrMagnitude > radius * radius)
+        if (!TryCircleHit(from, to, player, radius, out float progress))
             return false;
 
+        impact = Vector3.Lerp(start, end, progress);
         _playerHealth.TakeDamage(projectile.Damage);
         return true;
+    }
+
+    internal static bool TryCircleHit(Vector2 from, Vector2 to, Vector2 center, float radius, out float progress)
+    {
+        progress = 0f;
+        Vector2 offset = from - center;
+        float c = offset.sqrMagnitude - radius * radius;
+        if (c <= 0f) return true;
+        Vector2 path = to - from;
+        float a = path.sqrMagnitude;
+        if (a <= 0.000001f) return false;
+        float b = Vector2.Dot(offset, path);
+        float discriminant = b * b - a * c;
+        if (discriminant < 0f) return false;
+        progress = (-b - Mathf.Sqrt(discriminant)) / a;
+        return progress >= 0f && progress <= 1f;
     }
 
     private void PlayImpact(Vector3 position, bool fromPlayer)

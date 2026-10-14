@@ -33,5 +33,6 @@ public enum UpgradeEffectType
     LanternUnlock,
     SoulBoltUnlock,
     SoulBoltDamage,
-    SoulBoltCount
+    SoulBoltCount,
+    SoulBoltTracking
 }

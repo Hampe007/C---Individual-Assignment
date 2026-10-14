@@ -24,8 +24,11 @@ MonoBehaviour:
   _preferredRange: 8
   _windupDuration: 0.69000006
   _recoveryDuration: 0.8
-  _attackCooldown: 3.4999998
+  _attackCooldown: 6
   _projectileSpeed: 10
   _projectileLifetime: 2.1
   _projectileSpread: 14
   _projectileCount: 5
+  _smallOrbScale: 0.65
+  _mediumOrbScale: 1
+  _largeOrbScale: 1.4

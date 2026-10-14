@@ -79,8 +79,14 @@ public sealed class SkillTreeProgression : MonoBehaviour
             return false;
 
         if ((node.Upgrade.Effect == UpgradeEffectType.SoulBoltDamage ||
-             node.Upgrade.Effect == UpgradeEffectType.SoulBoltCount) &&
+             node.Upgrade.Effect == UpgradeEffectType.SoulBoltCount ||
+             node.Upgrade.Effect == UpgradeEffectType.SoulBoltTracking) &&
             (_soulBoltWeapon == null || !_soulBoltWeapon.IsUnlocked))
+            return false;
+
+        if (node.Upgrade.Effect == UpgradeEffectType.SoulBoltCount && _soulBoltWeapon.BoltCount >= 5)
+            return false;
+        if (node.Upgrade.Effect == UpgradeEffectType.SoulBoltTracking && _soulBoltWeapon.TrackingTier >= 3)
             return false;
 
         _upgradeLevels.TryGetValue(node.Upgrade, out int level);
@@ -160,7 +166,14 @@ public sealed class SkillTreeProgression : MonoBehaviour
                 _soulBoltWeapon.AddDamage(Mathf.RoundToInt(upgrade.Value));
                 break;
             case UpgradeEffectType.SoulBoltCount:
+                if (_soulBoltWeapon == null || !_soulBoltWeapon.IsUnlocked || _soulBoltWeapon.BoltCount >= 5)
+                    return false;
                 _soulBoltWeapon.AddBolt();
+                break;
+            case UpgradeEffectType.SoulBoltTracking:
+                if (_soulBoltWeapon == null || !_soulBoltWeapon.IsUnlocked || _soulBoltWeapon.TrackingTier >= 3)
+                    return false;
+                _soulBoltWeapon.AddTrackingTier();
                 break;
             default:
                 return false;

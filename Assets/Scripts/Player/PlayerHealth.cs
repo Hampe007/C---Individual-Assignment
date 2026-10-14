@@ -62,6 +62,19 @@ public sealed class PlayerHealth : MonoBehaviour
         }
     }
 
+    /// <summary>Damage over time does not consume hit protection or penalize XP.</summary>
+    public void TakePoisonDamage(int damage)
+    {
+        if (damage <= 0 || _currentHealth <= 0) return;
+        _currentHealth = Mathf.Max(0, _currentHealth - damage);
+        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+        if (_currentHealth == 0)
+        {
+            if (_progression != null) _progression.SaveHighScore();
+            Died?.Invoke();
+        }
+    }
+
     public void IncreaseMaxHealth(int amount)
     {
         if (amount <= 0)

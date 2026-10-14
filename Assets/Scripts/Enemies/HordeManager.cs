@@ -154,21 +154,21 @@ public sealed class HordeManager : MonoBehaviour
 
     internal bool TryGetEnemyOnSegment(float3 start, float3 end, float radius, out int enemyIndex)
     {
+        return TryGetEnemyOnSegment(start, end, radius, out enemyIndex, out _);
+    }
+
+    internal bool TryGetEnemyOnSegment(float3 start, float3 end, float radius, out int enemyIndex, out float hitProgress)
+    {
         enemyIndex = -1;
-        float2 from = start.xz;
-        float2 path = end.xz - from;
-        float pathLengthSq = math.lengthsq(path);
-        float nearestProgress = float.MaxValue;
+        hitProgress = float.MaxValue;
 
         for (int i = 0; i < _activeEnemyCount; i++)
         {
-            float2 point = _enemies[i].Position.xz;
-            float progress = pathLengthSq > 0f
-                ? math.clamp(math.dot(point - from, path) / pathLengthSq, 0f, 1f)
-                : 0f;
-            if (math.distancesq(point, from + path * progress) > radius * radius || progress >= nearestProgress)
+            float3 point = _enemies[i].Position;
+            if (!CombatProjectileSystem.TryCircleHit(new Vector2(start.x, start.z), new Vector2(end.x, end.z),
+                    new Vector2(point.x, point.z), radius, out float progress) || progress >= hitProgress)
                 continue;
-            nearestProgress = progress;
+            hitProgress = progress;
             enemyIndex = i;
         }
         return enemyIndex >= 0;
@@ -177,6 +177,97 @@ public sealed class HordeManager : MonoBehaviour
     internal bool IsProjectilePathClear(Vector3 point)
     {
         return _navigation != null && _navigation.Grid.IsReachable(new float2(point.x, point.z));
+    }
+
+    internal bool IsProjectileSegmentClear(Vector3 start, Vector3 end)
+    {
+        return _navigation != null && _navigation.Grid.CanTravel(new float2(start.x, start.z), new float2(end.x, end.z));
+    }
+
+    internal Vector3 GetProjectileWallImpact(Vector3 start, Vector3 end)
+    {
+        float low = 0f, high = 1f;
+        for (int i = 0; i < 12; i++)
+        {
+            float middle = (low + high) * 0.5f;
+            if (IsProjectileSegmentClear(start, Vector3.Lerp(start, end, middle))) low = middle;
+            else high = middle;
+        }
+        return Vector3.Lerp(start, end, low);
+    }
+
+    internal bool TryGetTrackingTarget(Vector3 origin, Vector3 direction, Vector3 originalDirection,
+        float radius, float halfAngle, out Vector3 target)
+    {
+        target = default;
+        bool found = false;
+        float nearest = radius * radius;
+        float threshold = Mathf.Cos(halfAngle * Mathf.Deg2Rad);
+        for (int i = 0; i < _activeEnemyCount; i++)
+        {
+            float3 position = _enemies[i].Position;
+            Vector3 candidate = new(position.x, origin.y, position.z);
+            Vector3 offset = candidate - origin;
+            float distanceSq = offset.sqrMagnitude;
+            if (distanceSq >= nearest || distanceSq < 0.000001f) continue;
+            Vector3 aim = offset.normalized;
+            if (Vector3.Dot(direction, aim) < threshold || Vector3.Dot(originalDirection, aim) < threshold ||
+                !IsProjectileSegmentClear(origin, candidate)) continue;
+            nearest = distanceSq;
+            target = candidate;
+            found = true;
+        }
+        return found;
+    }
+
+    internal void ApplyPoisonInRadius(Vector3 center, float radius, float duration, float tickInterval)
+    {
+        for (int i = 0; i < _activeEnemyCount; i++)
+        {
+            EnemyRuntime enemy = _enemies[i];
+            if (_enemyConfigs[enemy.DefinitionIndex].Behaviour == EnemyBehaviourType.Spitter ||
+                math.distancesq(enemy.Position.xz, new float2(center.x, center.z)) > radius * radius) continue;
+            if (enemy.PoisonRemaining <= 0f) enemy.PoisonTickTimer = tickInterval;
+            enemy.PoisonRemaining = duration;
+            _enemies[i] = enemy;
+            _nextEnemies[i] = enemy;
+        }
+    }
+
+    internal void TickPoison(float deltaTime, int damage, float tickInterval, ParticleSystem particles)
+    {
+        // Reverse traversal remains valid when a lethal tick swaps the last enemy into this slot.
+        for (int i = _activeEnemyCount - 1; i >= 0; i--)
+        {
+            EnemyRuntime enemy = _enemies[i];
+            if (enemy.PoisonRemaining <= 0f) continue;
+            enemy.PoisonTickTimer -= Mathf.Min(deltaTime, enemy.PoisonRemaining);
+            enemy.PoisonRemaining = Mathf.Max(0f, enemy.PoisonRemaining - deltaTime);
+            int ticks = 0;
+            while (enemy.PoisonTickTimer <= 0f)
+            {
+                ticks++;
+                enemy.PoisonTickTimer += tickInterval;
+            }
+            _enemies[i] = enemy;
+            _nextEnemies[i] = enemy;
+            _views.SetPoisoned(i, enemy.PoisonRemaining > 0f, particles);
+            if (ticks > 0) DamageEnemy(i, damage * ticks);
+        }
+    }
+
+    internal void ClearPoison()
+    {
+        if (!_enemies.IsCreated) return;
+        for (int i = 0; i < _activeEnemyCount; i++)
+        {
+            EnemyRuntime enemy = _enemies[i];
+            enemy.PoisonRemaining = 0f;
+            enemy.PoisonTickTimer = 0f;
+            _enemies[i] = enemy;
+            _nextEnemies[i] = enemy;
+            _views.SetPoisoned(i, false, null);
+        }
     }
 
     internal void GetClosestEnemies(float3 position, float range, int maxCount, List<int> results)
@@ -465,8 +556,13 @@ public sealed class HordeManager : MonoBehaviour
             for (int i = 0; i < spit.Count; i++)
             {
                 float angle = (i - (spit.Count - 1) * 0.5f) * spit.Spread;
+                int distanceFromCenter = Mathf.Abs(i - spit.Count / 2);
+                float scale = spit.Count == 1 ? spit.MediumOrbScale : distanceFromCenter == 0
+                    ? spit.LargeOrbScale : spit.Count == 5 && distanceFromCenter == 1
+                        ? spit.MediumOrbScale : spit.SmallOrbScale;
                 _projectiles.SpawnSpit(origin, Quaternion.Euler(0f, angle, 0f) * direction,
-                    spit.Damage, spit.Speed, spit.Lifetime);
+                    spit.Damage, spit.Speed, spit.Lifetime, scale,
+                    spit.LeavesPoison != 0 && distanceFromCenter == 0 && spit.Count > 1);
             }
         }
     }

@@ -255,7 +255,11 @@ public struct MoveEnemiesJob : IJobParallelFor
                         Count = config.ProjectileCount,
                         Speed = config.ProjectileSpeed,
                         Lifetime = config.ProjectileLifetime,
-                        Spread = config.ProjectileSpread
+                        Spread = config.ProjectileSpread,
+                        SmallOrbScale = config.SmallOrbScale,
+                        MediumOrbScale = config.MediumOrbScale,
+                        LargeOrbScale = config.LargeOrbScale,
+                        LeavesPoison = config.LeavesPoison
                     });
                     enemy.State = EnemyState.Recover;
                     enemy.StateTimer = config.RecoveryDuration;

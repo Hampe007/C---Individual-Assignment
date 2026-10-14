@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_SoulBoltCount
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Extra Soul Bolt
-  _description: Fire one additional bolt each volley.
+  _displayName: Soul Volley I
+  _description: Fire three soul bolts in a symmetric fan.
   _effect: 9
-  _value: 1
+  _value: 2
   _maxLevel: 1

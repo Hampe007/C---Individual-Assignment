@@ -90,3 +90,19 @@ MonoBehaviour:
     _upgrade: {fileID: 11400000, guid: ca3193695d2320c4896492fe0659d7ad, type: 2}
     _prerequisiteIds:
     - soul_bolt_unlock
+  - _id: soul_bolt_count_2
+    _upgrade: {fileID: 11400000, guid: 71a3b44442ee78c4c8ee73e02e927ad7, type: 2}
+    _prerequisiteIds:
+    - soul_bolt_count
+  - _id: soul_bolt_tracking_1
+    _upgrade: {fileID: 11400000, guid: e54d411d6fb745e4ea5a5da1be663c14, type: 2}
+    _prerequisiteIds:
+    - soul_bolt_unlock
+  - _id: soul_bolt_tracking_2
+    _upgrade: {fileID: 11400000, guid: 4ebc52a3f37ec124f83ac81a22a75c7c, type: 2}
+    _prerequisiteIds:
+    - soul_bolt_tracking_1
+  - _id: soul_bolt_tracking_3
+    _upgrade: {fileID: 11400000, guid: 512b7ffe76cdcf74d91dd728003d8865, type: 2}
+    _prerequisiteIds:
+    - soul_bolt_tracking_2

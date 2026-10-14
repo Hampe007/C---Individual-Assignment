@@ -29,3 +29,6 @@ MonoBehaviour:
   _projectileLifetime: 2.1
   _projectileSpread: 14
   _projectileCount: 1
+  _smallOrbScale: 0.65
+  _mediumOrbScale: 1
+  _largeOrbScale: 1.4

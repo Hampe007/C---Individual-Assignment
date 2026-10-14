@@ -22,6 +22,7 @@ internal sealed class EnemyViewSystem : IDisposable
         public GameObject GameObject; // Pooled object currently representing this enemy.
         public EnemyHitFlash HitFlash; // Cached component avoids looking it up for every hit.
         public EnemySpitTelegraph SpitTelegraph;
+        public ParticleSystem PoisonParticles;
         public int DefinitionIndex; // Selects the correct pool when this view is released.
 
         public EnemyView(GameObject gameObject, EnemyHitFlash hitFlash, EnemySpitTelegraph spitTelegraph, int definitionIndex)
@@ -29,6 +30,7 @@ internal sealed class EnemyViewSystem : IDisposable
             GameObject = gameObject;
             HitFlash = hitFlash;
             SpitTelegraph = spitTelegraph;
+            PoisonParticles = gameObject.transform.Find("PoisonStatus")?.GetComponent<ParticleSystem>();
             DefinitionIndex = definitionIndex;
         }
     }
@@ -85,6 +87,22 @@ internal sealed class EnemyViewSystem : IDisposable
                 telegraph.SetWarning(enemies[i].State == EnemyState.Telegraph);
         }
     }
+
+    internal void SetPoisoned(int index, bool poisoned, ParticleSystem prefab)
+    {
+        if (index < 0 || index >= _activeViews.Count) return;
+        EnemyView view = _activeViews[index];
+        if (poisoned && view.PoisonParticles == null && prefab != null)
+        {
+            view.PoisonParticles = UnityEngine.Object.Instantiate(prefab, view.GameObject.transform);
+            view.PoisonParticles.name = "PoisonStatus";
+            view.PoisonParticles.transform.localPosition = Vector3.up * 0.7f;
+            _activeViews[index] = view;
+        }
+        if (view.PoisonParticles == null) return;
+        if (poisoned && !view.PoisonParticles.isPlaying) view.PoisonParticles.Play(true);
+        else if (!poisoned) view.PoisonParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
     
     internal void RemoveAtSwapBack(int index)
     {
@@ -94,6 +112,8 @@ internal sealed class EnemyViewSystem : IDisposable
 
         int lastIndex = _activeViews.Count - 1; // Swap-back removal keeps the packed collections O(1).
         EnemyView removed = _activeViews[index];
+        if (removed.PoisonParticles != null)
+            removed.PoisonParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
         if (index != lastIndex)
             _activeViews[index] = _activeViews[lastIndex];

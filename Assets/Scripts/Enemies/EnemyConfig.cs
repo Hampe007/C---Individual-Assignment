@@ -23,6 +23,10 @@ public struct EnemyConfig
     public float ProjectileLifetime;
     public float ProjectileSpread;
     public byte ProjectileCount;
+    public float SmallOrbScale;
+    public float MediumOrbScale;
+    public float LargeOrbScale;
+    public byte LeavesPoison;
 }
 
 public enum EnemyBehaviourType : byte

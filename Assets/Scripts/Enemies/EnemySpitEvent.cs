@@ -10,4 +10,8 @@ public struct EnemySpitEvent
     public float Speed;
     public float Lifetime;
     public float Spread;
+    public float SmallOrbScale;
+    public float MediumOrbScale;
+    public float LargeOrbScale;
+    public byte LeavesPoison;
 }

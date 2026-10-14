@@ -15,12 +15,16 @@ public sealed class SoulBoltWeapon : MonoBehaviour
 
     private bool _unlocked;
     private int _boltCount = 1;
+    private int _trackingTier;
     private float _timer;
 
     public bool IsUnlocked => _unlocked;
+    public int BoltCount => _boltCount;
+    public int TrackingTier => _trackingTier;
     public void Unlock() { _unlocked = true; _timer = 0f; }
     public void AddDamage(int amount) { _damage += Mathf.Max(0, amount); }
-    public void AddBolt() { _boltCount = Mathf.Min(5, _boltCount + 1); }
+    public void AddBolt() { _boltCount = Mathf.Min(5, _boltCount + 2); }
+    public void AddTrackingTier() { _trackingTier = Mathf.Min(3, _trackingTier + 1); }
 
     private void Update()
     {
@@ -40,7 +44,7 @@ public sealed class SoulBoltWeapon : MonoBehaviour
             // Keep the first bolt aimed at the target as extra side bolts are added.
             float angle = i == 0 ? 0f : ((i + 1) / 2) * (i % 2 == 1 ? -_spreadDegrees : _spreadDegrees);
             _projectiles.SpawnSoulBolt(origin, Quaternion.Euler(0f, angle, 0f) * direction,
-                _damage, _speed, _lifetime);
+                _damage, _speed, _lifetime, _trackingTier);
         }
         _timer = _cooldown;
     }
