@@ -267,7 +267,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291418590
   m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -395,13 +395,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Start at the recommended brightness.
+  m_text: 'Adjust brightness until the left half disappears into the background while
+    the right half remains clearly visible.
 
-    The right half should be clearly
-    visible and the left half faintly visible.
 
-    Increase brightness if details
-    are difficult to see.'
+    If the left half is visible, lower
+    brightness. If the right half is difficult to see, increase it.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 75dfde6d8f7d8cc46b3fae0ab5b45e66, type: 2}
   m_sharedMaterial: {fileID: 442828169641225362, guid: 75dfde6d8f7d8cc46b3fae0ab5b45e66, type: 2}
@@ -410,7 +409,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291418590
   m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -423,7 +422,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -675,7 +674,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4280295631
   m_fontColor: {r: 0.8117647, g: 0.1254902, b: 0.1254902, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -688,7 +687,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -968,7 +967,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3872514278
   m_fontColor: {r: 0.9, g: 0.88, b: 0.82, a: 0.9}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -981,7 +980,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1103,7 +1102,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 32767
@@ -1194,6 +1193,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0e0cd1e3d955e47ba0499fb2c10fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameMenus.BrightnessCalibrationScreen
+  leftLevel: 1
+  rightLevel: 175
+  leftAtMaximum: 174
+  leftHalf: {fileID: 5398197169838082824}
+  rightHalf: {fileID: 4023946652690009805}
   presentation: {fileID: 6451579937528650205}
   previewCamera: {fileID: 4520195222850323581}
   previewVolume: {fileID: 8343889673532645854}
@@ -1277,7 +1281,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291418590
   m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1290,7 +1294,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1564,7 +1568,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291418590
   m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1577,7 +1581,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1806,7 +1810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 2100000, guid: 010a266e13324ef49a489da5d49941b2, type: 2}
-  m_Color: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
+  m_Color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2004,7 +2008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 2100000, guid: 010a266e13324ef49a489da5d49941b2, type: 2}
-  m_Color: {r: 0.03137255, g: 0.03137255, b: 0.03137255, a: 1}
+  m_Color: {r: 0.015686275, g: 0.015686275, b: 0.015686275, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2095,7 +2099,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291418590
   m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2108,7 +2112,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -2324,7 +2328,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291418590
   m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2337,7 +2341,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -2630,7 +2634,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2361443712826069531}
   m_Direction: 0
   m_MinValue: 50
-  m_MaxValue: 300
+  m_MaxValue: 150
   m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:

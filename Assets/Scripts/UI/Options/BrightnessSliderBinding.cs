@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace GameMenus
+namespace BrightnessCalibration
 {
     public sealed class BrightnessSliderBinding : MonoBehaviour
     {
@@ -11,7 +11,10 @@ namespace GameMenus
 
         private void OnEnable()
         {
+            slider.minValue = BrightnessPreferences.Minimum * 100f;
+            slider.maxValue = BrightnessPreferences.Maximum * 100f;
             Refresh();
+            BrightnessPreferences.Changed += Refresh;
             slider.onValueChanged.AddListener(Change);
         }
 
@@ -25,6 +28,7 @@ namespace GameMenus
         private void OnDisable()
         {
             slider.onValueChanged.RemoveListener(Change);
+            BrightnessPreferences.Changed -= Refresh;
             BrightnessPreferences.Save();
         }
 

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace GameMenus
+namespace BrightnessCalibration
 {
     public sealed class SmoothPercentSlider : Slider
     {

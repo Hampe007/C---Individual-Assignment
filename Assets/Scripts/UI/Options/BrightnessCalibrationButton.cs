@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameMenus
+namespace BrightnessCalibration
 {
     [RequireComponent(typeof(UnityEngine.UI.Button))]
     public sealed class BrightnessCalibrationButton : MonoBehaviour

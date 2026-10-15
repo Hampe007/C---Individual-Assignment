@@ -5,10 +5,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
-namespace GameMenus
+namespace BrightnessCalibration
 {
     public sealed class BrightnessCalibrationScreen : MonoBehaviour
     {
+        [Header("Skull calibration")]
+        [SerializeField, Range(1, 254)] private int leftLevel = 1;
+        [SerializeField, Range(2, 255)] private int rightLevel = 175;
+        [SerializeField, Range(1, 254)] private int leftAtMaximum = 24;
+        [Header("Reference rig")]
+        [SerializeField] private UnityEngine.UI.Image leftHalf;
+        [SerializeField] private UnityEngine.UI.Image rightHalf;
+
+        [Header("Screen references")]
         [SerializeField] private CanvasGroup presentation;
         [SerializeField] private Camera previewCamera;
         [SerializeField] private Volume previewVolume;
@@ -27,6 +36,50 @@ namespace GameMenus
         private bool ready;
         private bool closing;
         private int appliedPercentage;
+        private Material leftMaterial;
+        private Material rightMaterial;
+
+        public UnityEngine.UI.Image LeftHalf => leftHalf;
+        public UnityEngine.UI.Image RightHalf => rightHalf;
+        public Camera PreviewCamera => previewCamera;
+        public Volume PreviewVolume => previewVolume;
+
+        private void OnValidate()
+        {
+            rightLevel = Mathf.Clamp(rightLevel, 2, 255);
+            leftLevel = Mathf.Clamp(leftLevel, 1, rightLevel - 1);
+            leftAtMaximum = Mathf.Clamp(leftAtMaximum, leftLevel, rightLevel - 1);
+        }
+
+        public float GetLeftLevel(float brightness)
+        {
+            float progress = Mathf.InverseLerp(1f, BrightnessPreferences.Maximum, brightness);
+            return Mathf.Lerp(leftLevel, leftAtMaximum, Mathf.SmoothStep(0f, 1f, progress));
+        }
+
+        public static Material CreateSilhouetteMaterial(UnityEngine.UI.Image image) =>
+            new Material(image.material) { name = "Brightness calibration tint", hideFlags = HideFlags.HideAndDontSave };
+
+        public static void SetMaterialLevel(Material material, float level)
+        {
+            // A material color preserves near-black precision lost by UI vertex colors.
+            float value = Mathf.Clamp(level, 0f, 255f) / 255f;
+            material.SetColor("_Color", new Color(value, value, value, 1f));
+        }
+
+        private void ApplyReference(float brightness)
+        {
+            if (leftMaterial == null)
+            {
+                leftMaterial = CreateSilhouetteMaterial(leftHalf);
+                rightMaterial = CreateSilhouetteMaterial(rightHalf);
+                leftHalf.material = leftMaterial;
+                rightHalf.material = rightMaterial;
+                leftHalf.color = rightHalf.color = Color.white;
+            }
+            SetMaterialLevel(leftMaterial, GetLeftLevel(brightness));
+            SetMaterialLevel(rightMaterial, rightLevel);
+        }
 
         public static bool IsOpen => instance != null;
 
@@ -89,6 +142,8 @@ namespace GameMenus
             previewTexture.Create();
             previewCamera.targetTexture = previewTexture;
             referenceImage.texture = previewTexture;
+            slider.minValue = BrightnessPreferences.Minimum * 100f;
+            slider.maxValue = BrightnessPreferences.Maximum * 100f;
             slider.SetValueWithoutNotify(Mathf.RoundToInt(BrightnessPreferences.GetBrightness() * 100f));
             appliedPercentage = -1;
             UpdateValue(slider.value);
@@ -155,6 +210,7 @@ namespace GameMenus
                 return;
             appliedPercentage = rounded;
             BrightnessPreferences.SetBrightness(rounded / 100f);
+            ApplyReference(rounded / 100f);
             valueLabel.text = $"{rounded}%";
         }
 
@@ -206,6 +262,8 @@ namespace GameMenus
             slider.onValueChanged.RemoveListener(UpdateValue);
             confirmButton.onClick.RemoveListener(Confirm);
             resetButton.onClick.RemoveListener(ResetToRecommended);
+            if (leftMaterial != null) Destroy(leftMaterial);
+            if (rightMaterial != null) Destroy(rightMaterial);
             Time.timeScale = previousTimeScale;
             AudioListener.pause = previousAudioPause;
             previewCamera.enabled = false;
@@ -227,10 +285,6 @@ namespace GameMenus
             }
             if (fromOptions)
             {
-                foreach (BrightnessSliderBinding binding in FindObjectsByType<BrightnessSliderBinding>(FindObjectsSortMode.None))
-                {
-                    binding.Refresh();
-                }
                 if (returnSelection != null && returnSelection.activeInHierarchy && EventSystem.current != null)
                 {
                     EventSystem.current.SetSelectedGameObject(returnSelection);

@@ -3,10 +3,11 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
-namespace GameMenus
+namespace BrightnessCalibration
 {
     public static class BrightnessPreferences
     {
+        public static event System.Action Changed;
         private const string PreferenceKey = "Display.Brightness";
         private const string CalibrationKey = "Display.BrightnessCalibrated";
         private const string ScaleVersionKey = "Display.BrightnessScaleVersion";
@@ -14,7 +15,10 @@ namespace GameMenus
         private const float BaselineMultiplier = 1.5f;
         public static bool HasCalibrated => PlayerPrefs.GetInt(CalibrationKey, 0) == CurrentVersion;
         public const float Minimum = 0.5f;
-        public const float Maximum = 3f;
+        public const float Maximum = 1.5f;
+
+        public static float GetExposureOffset(float brightness) =>
+            Mathf.Log(Mathf.Clamp(brightness, Minimum, Maximum) * BaselineMultiplier, 2f);
 
         public static float GetBrightness()
         {
@@ -27,6 +31,7 @@ namespace GameMenus
             MigrateScale();
             PlayerPrefs.SetFloat(PreferenceKey, Mathf.Clamp(brightness, Minimum, Maximum));
             Apply();
+            Changed?.Invoke();
         }
 
         public static void Save()
@@ -59,6 +64,7 @@ namespace GameMenus
         private static void Reset()
         {
             SceneManager.sceneLoaded -= ApplyToScene;
+            Changed = null;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -75,7 +81,7 @@ namespace GameMenus
 
         private static void Apply()
         {
-            float exposureOffset = Mathf.Log(GetBrightness() * BaselineMultiplier, 2f);
+            float exposureOffset = GetExposureOffset(GetBrightness());
             foreach (Volume volume in Object.FindObjectsByType<Volume>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 if (!volume.isGlobal || volume.sharedProfile == null || !volume.sharedProfile.TryGet(out ColorAdjustments authored) || !authored.active || !authored.postExposure.overrideState)

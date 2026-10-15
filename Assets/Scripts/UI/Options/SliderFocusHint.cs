@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GameMenus
+namespace BrightnessCalibration
 {
     [RequireComponent(typeof(TMP_Text))]
     public sealed class SliderFocusHint : MonoBehaviour

@@ -3,6 +3,8 @@ using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations;
+using UnityEngine.Playables;
 
 namespace GameMenus
 {
@@ -41,6 +43,9 @@ namespace GameMenus
         private float impactTime;
         private float catchDirection;
         private int chasePass = -1;
+        private PlayableGraph introCameraGraph;
+        private AnimationClipPlayable introCameraPlayable;
+        private int animatedCamera = -1;
 
         public bool ImpactStarted { get; private set; }
         public Vector3 ImpactPosition => player.position + Vector3.up;
@@ -94,7 +99,7 @@ namespace GameMenus
             patrol.StopPatrol();
             playerObstacle.enabled = false;
             SelectCamera(pass);
-            introCameraMoves[pass].SampleAnimation(cameras[pass].gameObject, progress * introCameraMoves[pass].length);
+            EvaluateIntroCamera(pass, progress);
             float direction = pass == 1 ? -1f : 1f;
             float extent = Mathf.Max(chaseExtent, chaseExtent * Screen.width / Mathf.Max(1f, Screen.height) / 2.4f);
             float start = -extent * direction;
@@ -126,8 +131,37 @@ namespace GameMenus
             }
         }
 
+        private void EvaluateIntroCamera(int pass, float progress)
+        {
+            if (!introCameraGraph.IsValid() || animatedCamera != pass)
+            {
+                ReleaseIntroCamera();
+                introCameraGraph = PlayableGraph.Create("Main menu intro camera");
+                introCameraGraph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
+                introCameraPlayable = AnimationClipPlayable.Create(introCameraGraph, introCameraMoves[pass]);
+                introCameraPlayable.SetSpeed(0d);
+                var output = AnimationPlayableOutput.Create(introCameraGraph, "Camera", cameras[pass].GetComponent<Animator>());
+                output.SetSourcePlayable(introCameraPlayable);
+                animatedCamera = pass;
+            }
+
+            // The intro director owns time, including pauses and the initial pose in Awake.
+            introCameraPlayable.SetTime(Mathf.Clamp01(progress) * introCameraMoves[pass].length);
+            introCameraGraph.Evaluate(0f);
+        }
+
+        private void ReleaseIntroCamera()
+        {
+            if (introCameraGraph.IsValid())
+                introCameraGraph.Destroy();
+            animatedCamera = -1;
+        }
+
+        private void OnDisable() => ReleaseIntroCamera();
+
         public void BeginCatch()
         {
+            ReleaseIntroCamera();
             SelectCamera(3);
             catchStarts = new Vector3[enemies.Length];
             enemyImpacts = new bool[enemies.Length];
@@ -194,6 +228,7 @@ namespace GameMenus
 
         public void PrepareMenu(MenuReaction reaction)
         {
+            ReleaseIntroCamera();
             menuActive = true;
             player.gameObject.SetActive(true);
             blood.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
