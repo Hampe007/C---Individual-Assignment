@@ -21,6 +21,7 @@ namespace GameMenus
         [SerializeField] private CanvasGroup quitFade;
         [SerializeField, Min(0.1f), InspectorName("Menu Run Speed")] private float walkSpeed = 6f;
         [SerializeField, Min(0.1f)] private float quitRunSpeed = 9f;
+        [SerializeField, Min(1f), Tooltip("Scales menu travel speed and shortens the Stay celebration wait.")] private float actionSpeedMultiplier = 2f;
         [SerializeField, Min(1f)] private float departureDuration = 6.5f;
         [SerializeField, Min(0.1f)] private float happyDuration = 2.5f;
         [SerializeField, Min(0.1f)] private float fadeDuration = 0.45f;
@@ -39,6 +40,7 @@ namespace GameMenus
             yield return null;
             yield return null;
             player.enabled = true;
+            player.acceleration = Mathf.Max(player.acceleration, walkSpeed * actionSpeedMultiplier * 3f);
             ReachedDestination = player.isOnNavMesh;
             if (!ReachedDestination)
             {
@@ -83,9 +85,10 @@ namespace GameMenus
 
         public IEnumerator ReturnHome()
         {
+            world.EmoteSpeech.SetActive(false);
             running = false;
             world.AnimatePlayer("Happy");
-            yield return new WaitForSecondsRealtime(happyDuration);
+            yield return new WaitForSecondsRealtime(happyDuration / actionSpeedMultiplier);
             aim.Composition.ScreenPosition = Vector2.zero;
             if (!playToGate)
             {
@@ -102,7 +105,12 @@ namespace GameMenus
 
         public IEnumerator LeaveGate()
         {
+            world.EmoteSpeech.SetActive(false);
+            yield return new WaitForSecondsRealtime(0.05f);
+            world.EmoteHeartbroken.SetActive(true);
+            yield return new WaitForSecondsRealtime(1.5f);
             aim.Composition.ScreenPosition = Vector2.zero;
+            world.EmoteHeartbroken.SetActive(false);
             yield return WalkTo(playToGate ? quitExit.position : gateExit.position, runSpeed: quitRunSpeed);
             if (!ReachedDestination)
             {
@@ -159,7 +167,7 @@ namespace GameMenus
             
                 yield break;
             }
-            player.speed = walkSpeed;
+            player.speed = walkSpeed * actionSpeedMultiplier;
             player.isStopped = false;
             player.SetDestination(playExit.position);
             yield return null;
@@ -202,7 +210,7 @@ namespace GameMenus
             {
                 yield break;
             }
-            player.speed = runSpeed > 0f ? runSpeed : walkSpeed;
+            player.speed = (runSpeed > 0f ? runSpeed : walkSpeed) * actionSpeedMultiplier;
             player.autoBraking = stopAtEnd;
             player.isStopped = false;
             player.SetDestination(destination);

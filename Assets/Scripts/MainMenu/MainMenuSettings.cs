@@ -18,7 +18,7 @@ namespace GameMenus
         [Min(0.1f)] public float bloodDrainDuration = 2.2f;
         [Min(0.1f)] public float skipHoldDuration = 1f;
         public Vector2 idleEventInterval = new(9f, 17f);
-        [TextArea(4, 12)] public string credits = "DEVELOPMENT\nAdd your name here\n\nCHARACTERS & ANIMATIONS\nQuaternius\n\nUI & PARTICLE ASSETS\nKenney\n\nAdditional credits can be added here.";
+        [TextArea(8, 30)] public string credits;
         public MenuReaction[] reactions;
 
         public MenuReaction GetReaction(MenuOption option)

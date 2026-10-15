@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace GameMenus
 {
@@ -17,6 +18,7 @@ namespace GameMenus
         [SerializeField, Min(0.05f)] private float fadeDuration = 0.4f;
         [SerializeField] private TMP_Text modalTitle;
         [SerializeField] private TMP_Text modalBody;
+        [SerializeField] private UnityEngine.UI.ScrollRect modalBodyScroll;
         [SerializeField] private GameObject optionsContent;
         [SerializeField] private UnityEngine.UI.Button primaryButton;
         [SerializeField] private TMP_Text primaryLabel;
@@ -184,6 +186,9 @@ namespace GameMenus
             primaryLabel.text = primary;
             backLabel.text = back;
             modal.SetActive(true);
+            Canvas.ForceUpdateCanvases();
+            modalBodyScroll.StopMovement();
+            modalBodyScroll.verticalNormalizedPosition = 1f;
             modalVisible = true;
             modalGroup.interactable = true;
             modalGroup.blocksRaycasts = true;
@@ -203,6 +208,27 @@ namespace GameMenus
                 }
             
                 EventSystem.current.SetSelectedGameObject(selection);
+            }
+        }
+
+        private void Update()
+        {
+            if (!modalVisible || !modalBodyScroll.isActiveAndEnabled || !Application.isFocused)
+                return;
+            float overflow = modalBodyScroll.content.rect.height - modalBodyScroll.viewport.rect.height;
+            if (overflow <= 0f)
+                return;
+            float direction = Gamepad.current != null ? Gamepad.current.rightStick.ReadValue().y : 0f;
+            var keyboard = Keyboard.current;
+            if (keyboard != null)
+            {
+                if (keyboard.upArrowKey.isPressed || keyboard.pageUpKey.isPressed) direction = 1f;
+                if (keyboard.downArrowKey.isPressed || keyboard.pageDownKey.isPressed) direction = -1f;
+            }
+            if (Mathf.Abs(direction) > 0.1f)
+            {
+                modalBodyScroll.StopMovement();
+                modalBodyScroll.verticalNormalizedPosition = Mathf.Clamp01(modalBodyScroll.verticalNormalizedPosition + direction * 400f * Time.unscaledDeltaTime / overflow);
             }
         }
 

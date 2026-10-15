@@ -256,6 +256,7 @@ namespace GameMenus
                 return;
             }
             highlight = option;
+            world.SetHoverEmote(option);
             view.Highlight(option);
             world.React(settings.GetReaction(option));
             ScheduleIdle();
@@ -268,6 +269,7 @@ namespace GameMenus
                 return;
             }
             Highlight(option);
+            world.SetHoverEmote(MenuOption.None);
             if (option == MenuOption.Play)
             {
                 StartDeparture(settings.gameScene);
@@ -390,6 +392,7 @@ namespace GameMenus
             view.SetQuitLayout(true);
             Phase = MenuPhase.Modal;
             view.ShowModal("LEAVE THE NIGHT?", "The horde will still be here when you return.", "Quit game", "Stay");
+            world.EmoteSpeech.SetActive(true);
         }
 
         private IEnumerator LeaveQuit()

@@ -29,6 +29,16 @@ namespace GameMenus
         [SerializeField] private AnimationClip[] introCameraMoves;
         [SerializeField] private Vector3 runPlayback = new(1f, 0.78f, 0.58f);
 
+        [SerializeField] private GameObject emoteSpeech;
+        [SerializeField] private GameObject emoteExclamation;
+        [SerializeField] private GameObject emoteQuestion;
+        [SerializeField] private GameObject emoteHeartbroken;
+
+        public GameObject EmoteSpeech => emoteSpeech;
+        public GameObject EmoteExclamation => emoteExclamation;
+        public GameObject EmoteQuestion => emoteQuestion;
+        public GameObject EmoteHeartbroken => emoteHeartbroken;
+
         private Color targetLight;
         private float targetIntensity;
         private float worldClock;
@@ -63,6 +73,7 @@ namespace GameMenus
 
         private void Start()
         {
+            SetHoverEmote(MenuOption.None);
             targetLight = moonLight.color;
             targetIntensity = moonLight.intensity;
             ambience.loop = true;
@@ -238,6 +249,14 @@ namespace GameMenus
             playerAnimator.speed = 1f;
             React(reaction);
             patrol.StartPatrol();
+        }
+
+        public void SetHoverEmote(MenuOption option)
+        {
+            if (emoteQuestion != null)
+                emoteQuestion.SetActive(option == MenuOption.Tutorial);
+            if (emoteExclamation != null)
+                emoteExclamation.SetActive(option == MenuOption.Quit);
         }
 
         public void React(MenuReaction reaction)
