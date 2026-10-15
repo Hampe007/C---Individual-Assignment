@@ -117,7 +117,7 @@ public sealed class TutorialDirector : MonoBehaviour
             case TutorialGoal.DefeatEnemies:
             case TutorialGoal.ReachLevel:
                 ReplenishEnemies(lesson.targetCount);
-                if (lesson.goal == TutorialGoal.ReachLevel && progression.Level >= 2)
+                if (lesson.goal == TutorialGoal.ReachLevel && progression.Level >= 1)
                 {
                     Advance();
                 }
@@ -159,7 +159,7 @@ public sealed class TutorialDirector : MonoBehaviour
         }
         else if (lesson.goal == TutorialGoal.ReachLevel)
         {
-            view.ShowProgress($"Level {progression.Level}/2");
+            view.ShowProgress($"Level {progression.Level}/1");
         }
     }
 
@@ -230,7 +230,7 @@ public sealed class TutorialDirector : MonoBehaviour
 
     private void OnLeveledUp(int level)
     {
-        if (!finished && level >= 2 && settings.lessons[lessonIndex].goal == TutorialGoal.ReachLevel)
+        if (!finished && level >= 1 && settings.lessons[lessonIndex].goal == TutorialGoal.ReachLevel)
         {
             Advance();
         }

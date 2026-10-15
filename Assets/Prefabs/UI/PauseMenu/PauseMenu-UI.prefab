@@ -150,7 +150,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4285244354
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_Color: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -739,7 +739,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -969,7 +969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_Color: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -1273,7 +1273,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -1438,9 +1438,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.7, b: 0.55, a: 1}
-    m_SelectedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
@@ -1709,7 +1709,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.9, g: 0.88, b: 0.82, a: 0.9}
+  m_fontColor: {r: 0.867, g: 0.867, b: 0.867, a: 0.9}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1936,7 +1936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_Color: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2055,9 +2055,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.7, b: 0.55, a: 1}
-    m_SelectedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
@@ -2230,7 +2230,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2430,9 +2430,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.7, b: 0.55, a: 1}
-    m_SelectedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
@@ -2644,7 +2644,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -2943,7 +2943,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -3108,9 +3108,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.7, b: 0.55, a: 1}
-    m_SelectedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
@@ -3267,7 +3267,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3554,7 +3554,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3815,7 +3815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_Color: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4459,7 +4459,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4799,7 +4799,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -4936,7 +4936,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4285244354
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5274,7 +5274,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5447,7 +5447,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5899,9 +5899,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.7, b: 0.55, a: 1}
-    m_SelectedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
@@ -6085,9 +6085,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.7, b: 0.55, a: 1}
-    m_SelectedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
@@ -6224,7 +6224,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -6361,7 +6361,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4285244354
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6526,9 +6526,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.7, b: 0.55, a: 1}
-    m_SelectedColor: {r: 1.6, g: 1.4, b: 1.05, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
@@ -6880,7 +6880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_Color: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7194,7 +7194,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291418590
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7331,7 +7331,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4285244354
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7543,7 +7543,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.87, g: 0.85, b: 0.79, a: 1}
+  m_fontColor: {r: 0.837, g: 0.837, b: 0.837, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

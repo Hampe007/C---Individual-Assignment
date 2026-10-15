@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainMenu-Text-Default
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_ColorGradient
   colorMode: 2
-  topLeft: {r: 0.87058824, g: 0.8509804, b: 0.7882353, a: 1}
-  topRight: {r: 0.87058824, g: 0.8509804, b: 0.7882353, a: 1}
-  bottomLeft: {r: 0.69803923, g: 0, b: 0, a: 1}
-  bottomRight: {r: 0.69803923, g: 0, b: 0, a: 1}
+  topLeft: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  topRight: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  bottomLeft: {r: 0.46, g: 0.015, b: 0.045, a: 1}
+  bottomRight: {r: 0.46, g: 0.015, b: 0.045, a: 1}

@@ -27,7 +27,7 @@ public enum UpgradeEffectType
     MoveSpeed,
     SwordDamage,
     SwordCooldown,
-    SwordCount,
+    Cleave,
     MaxHealth,
     LanternRange,
     LanternUnlock,

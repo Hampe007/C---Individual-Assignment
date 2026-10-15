@@ -14,8 +14,18 @@ public sealed class SkillTreeMenu : MonoBehaviour
     [SerializeField] private GameObject _panel;
     [SerializeField] private TMP_Text _skillPointsText;
     [SerializeField] private SkillTreeNodeButton[] _nodeButtons;
-    private RectTransform _nodesContainer;
+    [SerializeField] private RectTransform _nodesContainer;
+    [SerializeField] private RectTransform _detailsPanel;
+    [SerializeField] private TMP_Text _detailName;
+    [SerializeField] private TMP_Text _detailLevel;
+    [SerializeField] private TMP_Text _detailDescription;
+    [SerializeField] private TMP_Text _detailHint;
+    [SerializeField] private TMP_Text _detailRequirements;
+    [SerializeField] private TMP_Text _actionText;
+    [SerializeField] private UnityEngine.UI.Button _actionButton;
+    [SerializeField] private UnityEngine.UI.Button _continueButton;
     private SkillTreeNodeButton _lastFocusedNode;
+    private string _selectedNodeId;
 
     private void Awake()
     {
@@ -24,6 +34,10 @@ public sealed class SkillTreeMenu : MonoBehaviour
             _skillTreeProgression == null ||
             _panel == null ||
             _skillPointsText == null ||
+            _nodesContainer == null || _detailsPanel == null ||
+            _detailName == null || _detailLevel == null ||
+            _detailDescription == null || _detailHint == null || _detailRequirements == null ||
+            _actionText == null || _actionButton == null || _continueButton == null ||
             _nodeButtons == null ||
             _nodeButtons.Length == 0)
         {
@@ -42,7 +56,8 @@ public sealed class SkillTreeMenu : MonoBehaviour
             return;
         }
 
-        _nodesContainer = (RectTransform)_nodeButtons[0].transform.parent;
+        _actionButton.onClick.AddListener(PurchaseSelected);
+        _continueButton.onClick.AddListener(Close);
         _panel.SetActive(false);
     }
 
@@ -51,7 +66,12 @@ public sealed class SkillTreeMenu : MonoBehaviour
         if (!_panel.activeSelf)
             return;
 
-        FitNodes();
+        if ((Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) ||
+            (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
+        {
+            Close();
+            return;
+        }
 
         EventSystem eventSystem = EventSystem.current;
         if (eventSystem == null)
@@ -75,16 +95,6 @@ public sealed class SkillTreeMenu : MonoBehaviour
             if (focused)
                 _lastFocusedNode = node;
         }
-    }
-
-    private void FitNodes()
-    {
-        // Fit only the skill grid, preserving the existing HUD's canvas scale.
-        Rect bounds = ((RectTransform)_panel.transform).rect;
-        float scale = Mathf.Clamp(Mathf.Min(bounds.width / 1920f, bounds.height / 1080f), 0.1f, 1f);
-        Vector3 size = Vector3.one * scale;
-        if (_nodesContainer.localScale != size)
-            _nodesContainer.localScale = size;
     }
 
     private void Start()
@@ -122,46 +132,36 @@ public sealed class SkillTreeMenu : MonoBehaviour
             return;
 
         _panel.SetActive(true);
-        FitNodes();
+        Canvas.ForceUpdateCanvases();
         Time.timeScale = 0f;
 
+        _selectedNodeId = null;
+        for (int i = 0; i < _nodeButtons.Length; i++)
+            _nodeButtons[i].SetSelected(false);
         Refresh();
+        ConfigureNavigation();
         FocusAvailableNode(null);
     }
 
     private void SelectNode(string nodeId)
     {
-        if (_playerHealth.CurrentHealth <= 0)
-            return;
+        _selectedNodeId = nodeId;
+        for (int i = 0; i < _nodeButtons.Length; i++)
+            _nodeButtons[i].SetSelected(_nodeButtons[i].NodeId == nodeId);
+        RefreshDetails();
+        ConfigureNavigation();
+    }
 
-        if (!_skillTreeProgression.TryPurchase(nodeId))
+    private void PurchaseSelected()
+    {
+        if (_playerHealth.CurrentHealth <= 0 ||
+            !_skillTreeProgression.TryPurchase(_selectedNodeId))
             return;
 
         Refresh();
-
+        ConfigureNavigation();
         if (_playerProgression.SkillPoints <= 0)
-        {
-            Close();
-            return;
-        }
-
-        if (!_skillTreeProgression.HasAvailableNode())
-        {
-            Close();
-            return;
-        }
-
-        SkillTreeNodeButton purchasedNode = null;
-        for (int i = 0; i < _nodeButtons.Length; i++)
-        {
-            if (_nodeButtons[i].NodeId == nodeId)
-            {
-                purchasedNode = _nodeButtons[i];
-                break;
-            }
-        }
-
-        FocusAvailableNode(purchasedNode);
+            _continueButton.Select();
     }
 
     private void Refresh()
@@ -170,6 +170,52 @@ public sealed class SkillTreeMenu : MonoBehaviour
 
         for (int i = 0; i < _nodeButtons.Length; i++)
             _nodeButtons[i].Refresh();
+
+        RefreshDetails();
+    }
+
+    private void RefreshDetails()
+    {
+        SkillTreeNode node = _skillTreeProgression.GetNode(_selectedNodeId);
+        if (node == null || node.Upgrade == null)
+        {
+            _detailName.text = "Select an upgrade";
+            _detailLevel.text = "";
+            _detailDescription.text = "";
+            _detailHint.text = "Click an upgrade or press Confirm to inspect it.";
+            _detailRequirements.text = "";
+            _actionText.text = "Select";
+            _actionButton.interactable = false;
+            return;
+        }
+
+        int level = _skillTreeProgression.GetLevel(_selectedNodeId);
+        _detailName.text = node.Upgrade.DisplayName;
+        _detailLevel.text = $"Level {level} / {node.Upgrade.MaxLevel}";
+        _detailDescription.text = node.Upgrade.Description;
+        _detailRequirements.text = "";
+
+        if (_skillTreeProgression.IsMaxed(_selectedNodeId))
+        {
+            _actionText.text = "Maxed";
+            _detailHint.text = "This upgrade is complete.";
+            _actionButton.interactable = false;
+        }
+        else if (_skillTreeProgression.IsLocked(_selectedNodeId))
+        {
+            _actionText.text = "Locked";
+            _detailHint.text = "Requirements not met yet.";
+            _detailRequirements.text = string.Join("\n", _skillTreeProgression.GetUnmetRequirements(_selectedNodeId));
+            _actionButton.interactable = false;
+        }
+        else
+        {
+            _actionText.text = level == 0 ? "Unlock" : "Upgrade";
+            _actionButton.interactable = _skillTreeProgression.CanPurchase(_selectedNodeId);
+            _detailHint.text = _playerProgression.SkillPoints > 0
+                ? "Cost: 1 skill point"
+                : "Earn a skill point to continue.";
+        }
     }
 
     private void ConfigureNavigation()
@@ -185,9 +231,21 @@ public sealed class SkillTreeMenu : MonoBehaviour
             navigation.selectOnUp = FindNeighbor(node, Vector2.up)?.Button;
             navigation.selectOnDown = FindNeighbor(node, Vector2.down)?.Button;
             navigation.selectOnLeft = FindNeighbor(node, Vector2.left)?.Button;
-            navigation.selectOnRight = FindNeighbor(node, Vector2.right)?.Button;
+            navigation.selectOnRight = FindNeighbor(node, Vector2.right)?.Button ??
+                                       (_actionButton.interactable ? _actionButton : _continueButton);
             node.Button.navigation = navigation;
         }
+
+        Navigation actionNavigation = _actionButton.navigation;
+        actionNavigation.mode = Navigation.Mode.Explicit;
+        actionNavigation.selectOnLeft = _lastFocusedNode?.Button;
+        actionNavigation.selectOnRight = _continueButton;
+        _actionButton.navigation = actionNavigation;
+
+        Navigation continueNavigation = _continueButton.navigation;
+        continueNavigation.mode = Navigation.Mode.Explicit;
+        continueNavigation.selectOnLeft = _actionButton.interactable ? _actionButton : _lastFocusedNode?.Button;
+        _continueButton.navigation = continueNavigation;
     }
 
     private SkillTreeNodeButton FindNeighbor(SkillTreeNodeButton from, Vector2 direction)
@@ -284,5 +342,8 @@ public sealed class SkillTreeMenu : MonoBehaviour
             _nodeButtons[i].SetFocused(false);
 
         _lastFocusedNode = null;
+        _selectedNodeId = null;
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
     }
 }

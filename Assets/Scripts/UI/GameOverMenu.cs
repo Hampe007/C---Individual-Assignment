@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,13 +6,18 @@ public sealed class GameOverMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _panel;
     [SerializeField] private PlayerHealth _playerHealth;
+    [SerializeField] private PlayerProgression _progression;
+    [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _bestText;
+    [SerializeField] private TMP_Text _levelText;
     [SerializeField] private string _mainMenuSceneName = "MainMenu";
 
     private void Awake()
     {
-        if (_panel == null || _playerHealth == null)
+        if (_panel == null || _playerHealth == null || _progression == null ||
+            _scoreText == null || _bestText == null || _levelText == null)
         {
-            Debug.LogError("GameOverMenu requires a panel and player health.");
+            Debug.LogError("GameOverMenu is missing required scene references.");
             enabled = false;
             return;
         }
@@ -33,6 +39,9 @@ public sealed class GameOverMenu : MonoBehaviour
 
     public void Show()
     {
+        _scoreText.text = _progression.Score.ToString();
+        _bestText.text = Mathf.Max(PlayerProgression.HighScore, _progression.Score).ToString();
+        _levelText.text = _progression.Level.ToString();
         _panel.SetActive(true);
         Time.timeScale = 0f;
     }

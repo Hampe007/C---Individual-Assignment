@@ -1,34 +1,42 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public sealed class SkillTreeNodeButton : MonoBehaviour
 {
     [SerializeField] private string _nodeId;
 
-    [Header("UI")]
-    [SerializeField] private Button _button;
-    [SerializeField] private Image _background;
+    [Header("Scene UI")]
+    [SerializeField] private UnityEngine.UI.Button _button;
+    [SerializeField] private UnityEngine.UI.Image _background;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _statusText;
+    [SerializeField] private UnityEngine.UI.Image _badgeBackground;
+    [SerializeField] private TMP_Text _levelBadgeText;
+    [SerializeField] private UnityEngine.UI.Outline _badgeOutline;
+    [SerializeField] private UnityEngine.UI.Outline _stateOutline;
+    [SerializeField] private UnityEngine.UI.Outline _focusOutline;
+    [SerializeField] private UnityEngine.UI.Outline _selectionOutline;
 
-    [Header("Colors")]
-    [SerializeField] private Color _lockedColor = Color.gray;
-    [SerializeField] private Color _availableColor = Color.white;
-    [SerializeField] private Color _purchasedColor = Color.green;
+    [Header("Node States")]
+    [SerializeField] private Color _lockedColor = new(0.07f, 0.06f, 0.08f);
+    [SerializeField] private Color _availableColor = new(0.4f, 0.025f, 0.05f);
+    [SerializeField] private Color _maxedColor = new(0.18f, 0.05f, 0.08f);
+    [SerializeField] private Color _noPointsColor = new(0.16f, 0.06f, 0.08f);
+    [SerializeField] private Color _lockedBorderColor = new(0.32f, 0.31f, 0.34f);
+    [SerializeField] private Color _availableBorderColor = new(0.82f, 0.13f, 0.18f);
+    [SerializeField] private Color _maxedBorderColor = new(0.68f, 0.68f, 0.72f);
+    [SerializeField] private Color _lockedTextColor = new(0.57f, 0.56f, 0.6f);
+    [SerializeField] private Color _normalTextColor = new(0.9f, 0.9f, 0.93f);
+    [SerializeField] private Color _maxedTextColor = new(0.75f, 0.75f, 0.79f);
 
     private SkillTreeProgression _progression;
     private Action<string> _onSelected;
-    private Outline _focusOutline;
-    private Vector3 _normalScale;
     private bool _isValid;
-    private bool _focused;
 
     public string NodeId => _nodeId;
     public GameObject ButtonObject => _button.gameObject;
-    public Button Button => _button;
+    public UnityEngine.UI.Button Button => _button;
     public bool IsFocusable => _isValid;
     public bool IsPurchasable => _isValid && _progression.CanPurchase(_nodeId);
     public Vector2 Position => ((RectTransform)transform).anchoredPosition;
@@ -37,101 +45,98 @@ public sealed class SkillTreeNodeButton : MonoBehaviour
     {
         _progression = progression;
         _onSelected = onSelected;
-        _normalScale = transform.localScale;
+
+        if (_button == null || _background == null || _nameText == null || _statusText == null ||
+            _badgeBackground == null || _levelBadgeText == null || _badgeOutline == null || _stateOutline == null ||
+            _focusOutline == null || _selectionOutline == null)
+        {
+            Debug.LogError("Skill tree node '" + _nodeId + "' is missing scene UI references.", this);
+            enabled = false;
+            return;
+        }
 
         SkillTreeNode node = _progression.GetNode(_nodeId);
-
         if (node == null || node.Upgrade == null)
         {
-            Debug.LogError($"Skill tree node '{_nodeId}' is invalid.");
+            Debug.LogError("Skill tree node '" + _nodeId + "' is invalid.", this);
             _button.interactable = false;
             return;
         }
 
         _isValid = true;
         _nameText.text = node.Upgrade.DisplayName;
-        _button.transition = Selectable.Transition.None;
-
-        _focusOutline = _background.GetComponent<Outline>();
-        if (_focusOutline == null)
-            _focusOutline = _background.gameObject.AddComponent<Outline>();
-
-        _focusOutline.effectColor = new Color(1f, 0.72f, 0.12f, 1f);
-        _focusOutline.effectDistance = new Vector2(5f, -5f);
-        _focusOutline.useGraphicAlpha = false;
         _focusOutline.enabled = false;
-
-        SkillTreeNodeHover hover = _button.GetComponent<SkillTreeNodeHover>();
-        if (hover == null)
-            hover = _button.gameObject.AddComponent<SkillTreeNodeHover>();
-        hover.SetOwner(this);
-
+        _selectionOutline.enabled = false;
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(Select);
-
         Refresh();
     }
 
     public void Refresh()
     {
-        if (_progression == null)
+        if (_progression == null || !_isValid)
             return;
 
-        if (_progression.IsPurchased(_nodeId))
+        bool maxed = _progression.IsMaxed(_nodeId);
+        _levelBadgeText.text = maxed ? "MAX" : _progression.GetLevel(_nodeId).ToString();
+        _badgeBackground.color = maxed ? _maxedColor : _lockedColor;
+        _levelBadgeText.color = _normalTextColor;
+        _badgeOutline.enabled = maxed;
+
+        if (maxed)
         {
-            _statusText.text = "Purchased";
-            _background.color = _purchasedColor;
-            _button.interactable = true;
-            return;
+            _statusText.text = "MAXED";
+            ApplyStyle(_maxedColor, _maxedBorderColor, _maxedTextColor);
+        }
+        else if (_progression.IsLocked(_nodeId))
+        {
+            _statusText.text = "LOCKED";
+            ApplyStyle(_lockedColor, _lockedBorderColor, _lockedTextColor);
+        }
+        else if (_progression.CanPurchase(_nodeId))
+        {
+            _statusText.text = _progression.GetLevel(_nodeId) == 0 ? "AVAILABLE" : "UPGRADE";
+            ApplyStyle(_availableColor, _availableBorderColor, _normalTextColor);
+        }
+        else
+        {
+            _statusText.text = "NO POINTS";
+            ApplyStyle(_noPointsColor, _lockedBorderColor, _normalTextColor);
         }
 
-        if (_progression.CanPurchase(_nodeId))
-        {
-            _statusText.text = "Available";
-            _background.color = _availableColor;
-            _button.interactable = true;
-            return;
-        }
-
-        _statusText.text = "Locked";
-        _background.color = _lockedColor;
+        // Every node remains readable, including locked and maxed upgrades.
         _button.interactable = true;
+    }
+
+    private void ApplyStyle(Color background, Color border, Color text)
+    {
+        _background.color = background;
+        _stateOutline.effectColor = border;
+        _nameText.color = text;
+        _statusText.color = text;
     }
 
     public void SetFocused(bool focused)
     {
-        if (!_isValid)
-            return;
+        if (_isValid)
+            _focusOutline.enabled = focused;
+    }
 
-        if (_focused == focused)
-            return;
-
-        _focused = focused;
-        _focusOutline.enabled = focused;
-        transform.localScale = focused ? _normalScale * 1.04f : _normalScale;
-        if (focused)
-            transform.SetAsLastSibling();
+    public void SetSelected(bool selected)
+    {
+        if (_isValid)
+            _selectionOutline.enabled = selected;
     }
 
     public void Focus()
     {
-        if (_isValid && EventSystem.current != null)
-            EventSystem.current.SetSelectedGameObject(ButtonObject);
+        if (_isValid && UnityEngine.EventSystems.EventSystem.current != null)
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(ButtonObject);
     }
 
     private void Select()
     {
-        if (IsPurchasable)
+        if (_isValid)
             _onSelected?.Invoke(_nodeId);
     }
-}
-
-// A Button handles pointer events itself, so the hover listener belongs on that same object.
-public sealed class SkillTreeNodeHover : MonoBehaviour, IPointerEnterHandler
-{
-    private SkillTreeNodeButton _owner;
-
-    public void SetOwner(SkillTreeNodeButton owner) => _owner = owner;
-
-    public void OnPointerEnter(PointerEventData eventData) => _owner?.Focus();
 }

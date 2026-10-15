@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bfe652ed524924196c762d5d6471ae, type: 3}
   m_Name: Tutorial-Settings
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSettings
-  gameScene: Game
   menuScene: MainMenu
   practiceEnemy: {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
   lessons:
@@ -38,7 +37,7 @@ MonoBehaviour:
     targetCount: 3
     duration: 20
   - title: Grow stronger
-    instruction: Defeat more imps to earn experience. Reach level 2 and watch the
+    instruction: Defeat more imps to earn experience. Reach level 1 and watch the
       experience bar fill.
     goal: 2
     markerIndex: 0

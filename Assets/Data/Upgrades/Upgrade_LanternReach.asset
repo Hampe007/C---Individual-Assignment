@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
-  m_Name: Upgrade_LanternReach2
+  m_Name: Upgrade_LanternReach
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Lantern Reach II
-  _description: 'Brighter light reveals more of the darkness.
-
-    Reach: 8 m'
+  _displayName: Lantern Reach
+  _description: Increase lantern range by 1.5 m per level.
   _effect: 5
   _value: 1.5
-  _maxLevel: 1
+  _maxLevel: 3

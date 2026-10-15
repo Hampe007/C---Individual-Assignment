@@ -103,13 +103,17 @@ public static class CombatUpgradeChecks
 
         // Verify actual purchases, prerequisites and spending rather than direct setters.
         Write(progression, "_skillPoints", 10);
-        Check(!skills.CanPurchase("soul_bolt_count") && !skills.CanPurchase("soul_bolt_tracking_1"), "Locked weapon upgrades became available.");
+        Check(!skills.CanPurchase("soul_bolt_count") && !skills.CanPurchase("soul_bolt_tracking"), "Locked weapon upgrades became available.");
         Check(skills.TryPurchase("soul_bolt_unlock") && weapon.BoltCount == 1, "Weapon unlock failed.");
-        Check(!skills.CanPurchase("soul_bolt_count_2") && !skills.CanPurchase("soul_bolt_tracking_2"), "Prerequisites bypassed.");
+        Check(skills.GetLevel("soul_bolt_count") == 0 && skills.GetLevel("soul_bolt_tracking") == 0,
+            "New upgrades started above level zero.");
         Check(skills.TryPurchase("soul_bolt_count") && weapon.BoltCount == 3, "First volley purchase failed.");
-        Check(skills.TryPurchase("soul_bolt_count_2") && weapon.BoltCount == 5, "Second volley purchase failed.");
-        for (int tier = 1; tier <= 3; tier++) Check(skills.TryPurchase($"soul_bolt_tracking_{tier}") && weapon.TrackingTier == tier, "Tracking purchase failed.");
-        Check(progression.SkillPoints == 4 && !skills.TryPurchase("soul_bolt_count_2") && !skills.TryPurchase("soul_bolt_tracking_3"), "Duplicate purchase or spending error.");
+        Check(skills.TryPurchase("soul_bolt_count") && weapon.BoltCount == 5, "Second volley purchase failed.");
+        for (int tier = 1; tier <= 3; tier++) Check(skills.TryPurchase("soul_bolt_tracking") && weapon.TrackingTier == tier, "Tracking purchase failed.");
+        Check(progression.SkillPoints == 4 && skills.IsMaxed("soul_bolt_count") &&
+              skills.IsMaxed("soul_bolt_tracking") &&
+              !skills.TryPurchase("soul_bolt_count") && !skills.TryPurchase("soul_bolt_tracking"),
+            "Upgrade caps or skill point spending failed.");
         weapon.AddBolt(); weapon.AddTrackingTier(); Check(weapon.BoltCount == 5 && weapon.TrackingTier == 3, "Upgrade caps failed.");
         Spawn(imp, center + Vector3.forward * 2f); health.transform.position = center;
         Time.timeScale = 1f; Call(weapon, "Update"); Time.timeScale = 0f;

@@ -581,7 +581,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.95, g: 0.36, b: 0.32, a: 1}
+  m_fontColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -859,9 +859,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.95, g: 0.36, b: 0.32, a: 1}
-    m_PressedColor: {r: 0.65, g: 0.2, b: 0.17, a: 1}
-    m_SelectedColor: {r: 0.95, g: 0.36, b: 0.32, a: 1}
+    m_HighlightedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_PressedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+    m_SelectedColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.15
@@ -2372,6 +2372,7 @@ MonoBehaviour:
   eastIcon: {fileID: 3755615656619355046}
   southFallbackLabel: {fileID: 1052831935237267277}
   eastFallbackLabel: {fileID: 6922598982930822137}
+  skipActionLabel: {fileID: 0}
   xboxSouth: {fileID: 21300000, guid: 804a70a6eabe306479743497b99a6d68, type: 3}
   xboxEast: {fileID: 21300000, guid: d78c3c9189aee644abf8f0133de9c888, type: 3}
   playStationSouth: {fileID: 21300000, guid: 4f82371fd7eeb624280fdcea5d748bb1, type: 3}

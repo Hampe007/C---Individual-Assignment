@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
-  m_Name: Upgrade_SoulBoltTracking2
+  m_Name: Upgrade_Cleave
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Soul Tracking II
-  _description: Bolts seek enemies within 3 units with stronger forward steering.
-  _effect: 10
+  _displayName: Cleave
+  _description: Each level lets a sword swing hit one additional enemy.
+  _effect: 3
   _value: 1
-  _maxLevel: 1
+  _maxLevel: 4

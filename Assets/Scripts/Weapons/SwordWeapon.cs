@@ -12,7 +12,7 @@ public sealed class SwordWeapon : MonoBehaviour
     [SerializeField, Min(0.05f)] private float _cooldown = 1f;
     [SerializeField, Min(1)] private int _damage = 20;
     [SerializeField, Min(0.1f)] private float _range = 4f;
-    [SerializeField, Min(1)] private int _swordCount = 1;
+    [SerializeField, Min(1)] private int _targetsPerSwing = 1;
 
     private readonly List<int> _targets = new();
 
@@ -56,7 +56,7 @@ public sealed class SwordWeapon : MonoBehaviour
     {
         float3 position = transform.position;
 
-        _hordeManager.GetClosestEnemies(position, _range, _swordCount, _targets);
+        _hordeManager.GetClosestEnemies(position, _range, _targetsPerSwing, _targets);
 
         _targets.Sort();
 
@@ -69,9 +69,9 @@ public sealed class SwordWeapon : MonoBehaviour
         _damage += amount;
     }
 
-    public void AddSword()
+    public void IncreaseTargetsPerSwing()
     {
-        _swordCount++;
+        _targetsPerSwing++;
     }
 
     public void PlaySwingSound()

@@ -345,7 +345,7 @@ MonoBehaviour:
   _cooldown: 1
   _damage: 20
   _range: 4
-  _swordCount: 1
+  _targetsPerSwing: 1
 --- !u!114 &7723262217838937948
 MonoBehaviour:
   m_ObjectHideFlags: 0
