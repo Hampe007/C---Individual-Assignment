@@ -225,8 +225,10 @@ namespace GameMenus
             UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(creditsScroll.content);
             creditsScroll.StopMovement();
             creditsScroll.verticalNormalizedPosition = 1f;
+            TMPLinkOpener links = creditsBody.GetComponent<TMPLinkOpener>();
+            links.Configure(creditsScroll, creditsBackButton);
             if (EventSystem.current != null)
-                EventSystem.current.SetSelectedGameObject(creditsBackButton.gameObject);
+                EventSystem.current.SetSelectedGameObject(links.gameObject);
         }
 
         private void Update()
@@ -242,8 +244,8 @@ namespace GameMenus
             var keyboard = Keyboard.current;
             if (keyboard != null)
             {
-                if (keyboard.upArrowKey.isPressed || keyboard.pageUpKey.isPressed) direction = 1f;
-                if (keyboard.downArrowKey.isPressed || keyboard.pageDownKey.isPressed) direction = -1f;
+                if (keyboard.pageUpKey.isPressed) direction = 1f;
+                if (keyboard.pageDownKey.isPressed) direction = -1f;
             }
             if (Mathf.Abs(direction) > 0.1f)
             {

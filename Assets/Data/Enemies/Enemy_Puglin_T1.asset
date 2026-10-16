@@ -15,17 +15,17 @@ MonoBehaviour:
   _displayName: Puglin
   _tier: 0
   _prefab: {fileID: 5193671605813572048, guid: 8959bee520c932d4e8b3decb51518a2b, type: 3}
-  _health: 28
+  _health: 10
   _moveSpeed: 2.3
-  _damage: 4
+  _damage: 3
   _xpReward: 2
   _scoreReward: 20
   _attackRange: 12
   _preferredRange: 8
-  _windupDuration: 0.85
+  _windupDuration: 1
   _recoveryDuration: 0.8
   _attackCooldown: 4.2
-  _projectileSpeed: 8
+  _projectileSpeed: 7
   _projectileLifetime: 2.1
   _projectileSpread: 14
   _projectileCount: 1

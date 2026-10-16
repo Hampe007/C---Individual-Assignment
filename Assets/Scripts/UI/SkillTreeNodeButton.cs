@@ -78,7 +78,10 @@ public sealed class SkillTreeNodeButton : MonoBehaviour
             return;
 
         bool maxed = _progression.IsMaxed(_nodeId);
-        _levelBadgeText.text = maxed ? "MAX" : _progression.GetLevel(_nodeId).ToString();
+        SkillTreeNode node = _progression.GetNode(_nodeId);
+        bool repeatable = node.Upgrade.IsRepeatable;
+        bool healing = node.Upgrade.Effect == UpgradeEffectType.RestoreHealth;
+        _levelBadgeText.text = repeatable ? "+" : maxed ? "MAX" : _progression.GetLevel(_nodeId).ToString();
         _badgeBackground.color = maxed ? _maxedColor : _lockedColor;
         _levelBadgeText.color = _normalTextColor;
         _badgeOutline.enabled = maxed;
@@ -90,12 +93,13 @@ public sealed class SkillTreeNodeButton : MonoBehaviour
         }
         else if (_progression.IsLocked(_nodeId))
         {
-            _statusText.text = "LOCKED";
+            _statusText.text = healing ? "FULL HP" : "LOCKED";
             ApplyStyle(_lockedColor, _lockedBorderColor, _lockedTextColor);
         }
         else if (_progression.CanPurchase(_nodeId))
         {
-            _statusText.text = _progression.GetLevel(_nodeId) == 0 ? "AVAILABLE" : "UPGRADE";
+            _statusText.text = healing ? "HEAL" : repeatable ? "REPEATABLE" :
+                _progression.GetLevel(_nodeId) == 0 ? "AVAILABLE" : "UPGRADE";
             ApplyStyle(_availableColor, _availableBorderColor, _normalTextColor);
         }
         else

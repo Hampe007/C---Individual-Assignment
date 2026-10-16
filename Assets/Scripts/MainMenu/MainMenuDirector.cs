@@ -191,17 +191,28 @@ namespace GameMenus
         private static bool DeliberateInputThisFrame(Keyboard keyboard, Mouse mouse, Gamepad gamepad)
         {
             if (keyboard != null && keyboard.anyKey.wasPressedThisFrame)
+            {
                 return true;
-            if (mouse != null && (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame ||
-                                  mouse.middleButton.wasPressedThisFrame || mouse.delta.ReadValue().sqrMagnitude > 16f))
+            }
+            if (mouse != null && (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame || mouse.middleButton.wasPressedThisFrame || mouse.delta.ReadValue().sqrMagnitude > 16f))
+            {
                 return true;
+            }
             if (gamepad == null)
+            {
                 return false;
+            }
             if (gamepad.leftStick.ReadValue().sqrMagnitude > 0.25f || gamepad.rightStick.ReadValue().sqrMagnitude > 0.25f)
+            {
                 return true;
+            }
             foreach (var control in gamepad.allControls)
+            {
                 if (control is UnityEngine.InputSystem.Controls.ButtonControl button && button.wasPressedThisFrame)
+                {
                     return true;
+                }
+            }
             return false;
         }
 
@@ -244,10 +255,7 @@ namespace GameMenus
                 PlayerPrefs.Save();
                 Phase = MenuPhase.Modal;
                 modalOption = MenuOption.Tutorial;
-                view.ShowModal("FIRST TIME IN THE NIGHT?", settings.tutorialAvailable
-                        ? "A little preparation can keep you alive. Would you like to play the tutorial?"
-                        : "The tutorial is still being prepared. You can return to it from the menu when it becomes available.",
-                    "Play tutorial", "Go to main menu", false, settings.tutorialAvailable);
+                view.ShowModal("FIRST TIME IN THE NIGHT?", settings.tutorialAvailable ? "A little preparation can keep you alive. Would you like to play the tutorial?" : "The tutorial is still being prepared. You can return to it from the menu when it becomes available.", "Play tutorial", "Go to main menu", false, settings.tutorialAvailable);
             }
         }
 
@@ -294,10 +302,7 @@ namespace GameMenus
             switch (option)
             {
                 case MenuOption.Tutorial:
-                    view.ShowModal("PREPARE FOR THE NIGHT", settings.tutorialAvailable
-                            ? "Learn movement, combat, and the art of surviving the horde."
-                            : "The tutorial will be added after the living menu is finished.",
-                        settings.tutorialAvailable ? "Play tutorial" : null, "Back");
+                    view.ShowModal("PREPARE FOR THE NIGHT", settings.tutorialAvailable ? "Learn movement, combat, and the art of surviving the horde." : "The tutorial will be added after the living menu is finished.", settings.tutorialAvailable ? "Play tutorial" : null, "Back");
                     break;
                 case MenuOption.Options:
                     view.ShowModal("SOUND OF THE NIGHT", "", null, "Back", true);

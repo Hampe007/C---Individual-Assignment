@@ -15,7 +15,7 @@ MonoBehaviour:
   _displayName: Puglin
   _tier: 1
   _prefab: {fileID: 3559093721100980254, guid: 8c54f87d909f29648adc153e1cbd3f52, type: 3}
-  _health: 45
+  _health: 25
   _moveSpeed: 2.55
   _damage: 5
   _xpReward: 4

@@ -75,6 +75,16 @@ public sealed class PlayerHealth : MonoBehaviour
         }
     }
 
+    public bool TryHeal(int amount)
+    {
+        if (amount <= 0 || _currentHealth <= 0 || _currentHealth >= _maxHealth)
+            return false;
+
+        _currentHealth += Mathf.Min(amount, _maxHealth - _currentHealth);
+        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+        return true;
+    }
+
     public void IncreaseMaxHealth(int amount)
     {
         if (amount <= 0)

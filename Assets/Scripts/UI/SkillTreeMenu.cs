@@ -63,10 +63,16 @@ public sealed class SkillTreeMenu : MonoBehaviour
 
     private void Update()
     {
+        bool toggle = (Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame) ||
+                      (Gamepad.current != null && Gamepad.current.selectButton.wasPressedThisFrame);
         if (!_panel.activeSelf)
+        {
+            if (toggle && Time.timeScale > 0f && !PauseMenu.BlocksGameplayInput)
+                Show(_playerProgression.Level);
             return;
+        }
 
-        if ((Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) ||
+        if (toggle || (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) ||
             (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
         {
             Close();
@@ -191,7 +197,10 @@ public sealed class SkillTreeMenu : MonoBehaviour
 
         int level = _skillTreeProgression.GetLevel(_selectedNodeId);
         _detailName.text = node.Upgrade.DisplayName;
-        _detailLevel.text = $"Level {level} / {node.Upgrade.MaxLevel}";
+        bool healing = node.Upgrade.Effect == UpgradeEffectType.RestoreHealth;
+        _detailLevel.text = healing
+            ? $"Repeatable | HP: {_playerHealth.CurrentHealth} / {_playerHealth.MaxHealth}"
+            : node.Upgrade.IsRepeatable ? "Repeatable" : $"Level {level} / {node.Upgrade.MaxLevel}";
         _detailDescription.text = node.Upgrade.Description;
         _detailRequirements.text = "";
 
@@ -203,14 +212,14 @@ public sealed class SkillTreeMenu : MonoBehaviour
         }
         else if (_skillTreeProgression.IsLocked(_selectedNodeId))
         {
-            _actionText.text = "Locked";
+            _actionText.text = healing ? "Full HP" : "Locked";
             _detailHint.text = "Requirements not met yet.";
             _detailRequirements.text = string.Join("\n", _skillTreeProgression.GetUnmetRequirements(_selectedNodeId));
             _actionButton.interactable = false;
         }
         else
         {
-            _actionText.text = level == 0 ? "Unlock" : "Upgrade";
+            _actionText.text = healing ? "Heal 50%" : level == 0 ? "Unlock" : "Upgrade";
             _actionButton.interactable = _skillTreeProgression.CanPurchase(_selectedNodeId);
             _detailHint.text = _playerProgression.SkillPoints > 0
                 ? "Cost: 1 skill point"

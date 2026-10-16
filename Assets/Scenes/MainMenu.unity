@@ -29670,7 +29670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce0a43887d7227f4d9197841da1aa3e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameMenus.MainMenuRenderQuality
-  pixelSize: 4
+  menuPipeline: {fileID: 11400000, guid: 0f2f1764ca657d540b9e3d4f58641fed, type: 2}
 --- !u!114 &539084036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76081,7 +76081,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Click underlined sources  |  Scroll: wheel / drag / arrows / right stick'
+  m_text: 'Links: D-pad / left stick / arrows  |  Open: A / Cross / Enter  |  Scroll:
+    wheel / right stick / PgUp / PgDn'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -87797,6 +87798,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0821a24b4fcf24c9adc780bf8cb871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameMenus.TMPLinkOpener
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
 --- !u!1001 &1511042674
 PrefabInstance:
   m_ObjectHideFlags: 0

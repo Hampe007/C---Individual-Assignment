@@ -13,6 +13,7 @@ public sealed class UpgradeDefinition : ScriptableObject
     [SerializeField] private UpgradeEffectType _effect;
     [SerializeField] private float _value = 1f;
     [SerializeField, Min(1)] private int _maxLevel = 5;
+    [SerializeField] private bool _repeatable;
 
     public string DisplayName => _displayName;
     public string Description => _description;
@@ -20,6 +21,7 @@ public sealed class UpgradeDefinition : ScriptableObject
     public UpgradeEffectType Effect => _effect;
     public float Value => _value;
     public int MaxLevel => _maxLevel;
+    public bool IsRepeatable => _repeatable;
 }
 
 public enum UpgradeEffectType
@@ -34,5 +36,6 @@ public enum UpgradeEffectType
     SoulBoltUnlock,
     SoulBoltDamage,
     SoulBoltCount,
-    SoulBoltTracking
+    SoulBoltTracking,
+    RestoreHealth
 }

@@ -44,10 +44,10 @@ namespace BrightnessCalibration
             base.OnDeselect(eventData);
         }
 
-        private void Update()
+        protected override void Update()
         {
-            if (!Application.isFocused || !IsActive() || !IsInteractable() ||
-                EventSystem.current == null || EventSystem.current.currentSelectedGameObject != gameObject)
+            base.Update();
+            if (!Application.isFocused || !IsActive() || !IsInteractable() || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != gameObject)
             {
                 heldDirection = 0;
                 return;

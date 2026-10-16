@@ -120,7 +120,7 @@ namespace GameMenus
             float elapsed = 0f;
             while (elapsed < fadeDuration)
             {
-                elapsed += Mathf.Min(Time.unscaledDeltaTime, 1f / 30f);
+                elapsed += Time.unscaledDeltaTime;
                 quitFade.alpha = Mathf.Clamp01(elapsed / fadeDuration);
                 yield return null;
             }

@@ -66,7 +66,8 @@ public sealed class SkillTreeProgression : MonoBehaviour
     public bool IsMaxed(string nodeId)
     {
         SkillTreeNode node = GetNode(nodeId);
-        return node != null && node.Upgrade != null && GetLevel(nodeId) >= node.Upgrade.MaxLevel;
+        return node != null && node.Upgrade != null && !node.Upgrade.IsRepeatable &&
+               GetLevel(nodeId) >= node.Upgrade.MaxLevel;
     }
 
     public bool HasPrerequisites(string nodeId)
@@ -112,6 +113,9 @@ public sealed class SkillTreeProgression : MonoBehaviour
 
         switch (node.Upgrade.Effect)
         {
+            case UpgradeEffectType.RestoreHealth when _playerHealth.CurrentHealth >= _playerHealth.MaxHealth:
+                requirements.Add("Health is already full");
+                break;
             case UpgradeEffectType.LanternRange when _playerLantern == null || !_playerLantern.IsReady:
                 requirements.Add("Unlock and activate the Lantern");
                 break;
@@ -155,6 +159,10 @@ public sealed class SkillTreeProgression : MonoBehaviour
     {
         SkillTreeNode node = GetNode(nodeId);
         if (node == null || node.Upgrade == null || !HasPrerequisites(nodeId))
+            return true;
+
+        if (node.Upgrade.Effect == UpgradeEffectType.RestoreHealth &&
+            _playerHealth.CurrentHealth >= _playerHealth.MaxHealth)
             return true;
 
         if (node.Upgrade.Effect == UpgradeEffectType.LanternRange && (_playerLantern == null || !_playerLantern.IsReady))
@@ -209,6 +217,8 @@ public sealed class SkillTreeProgression : MonoBehaviour
     {
         switch (upgrade.Effect)
         {
+            case UpgradeEffectType.RestoreHealth:
+                return _playerHealth.TryHeal(Mathf.CeilToInt(_playerHealth.MaxHealth * upgrade.Value));
             case UpgradeEffectType.MoveSpeed:
                 _playerMovement.AddMoveSpeed(upgrade.Value);
                 break;
