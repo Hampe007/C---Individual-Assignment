@@ -3,38 +3,42 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewSoundSet", menuName = "Audio/Sound Set")]
 public sealed class SoundSet : ScriptableObject
 {
-    [SerializeField] private AudioClip[] _clips;
+    [SerializeField] private AudioClip[] clips;
 
     [Header("Variation")]
-    [SerializeField, Range(0f, 1f)] private float _volume = 1f;
-    [SerializeField] private Vector2 _pitchRange = new Vector2(0.95f, 1.05f);
+    [SerializeField, Range(0f, 1f)] private float volume = 1f;
+    [SerializeField] private Vector2 pitchRange = new(0.95f, 1.05f);
 
     private int _lastClipIndex = -1;
 
-    public float Volume => _volume;
+    public float Volume => volume;
 
     public float GetPitch()
     {
-        return Random.Range(_pitchRange.x, _pitchRange.y);
+        return Random.Range(pitchRange.x, pitchRange.y);
     }
 
     public AudioClip GetClip()
     {
-        if (_clips == null || _clips.Length == 0)
+        if (clips == null || clips.Length == 0)
+        {
             return null;
+        }
 
-        if (_clips.Length == 1)
-            return _clips[0];
+        if (clips.Length == 1)
+        {
+            return clips[0];
+        }
 
         int index;
 
         do
         {
-            index = Random.Range(0, _clips.Length);
+            index = Random.Range(0, clips.Length);
         }
         while (index == _lastClipIndex);
 
         _lastClipIndex = index;
-        return _clips[index];
+        return clips[index];
     }
 }

@@ -77,7 +77,7 @@ public sealed class SwordWeapon : MonoBehaviour
     public void PlaySwingSound()
     {
         if (AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFX(_swingSFX, transform.position);
+            AudioManager.Instance.PlaySfx(_swingSFX, transform.position);
     }
 
 }

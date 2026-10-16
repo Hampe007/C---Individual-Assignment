@@ -3,8 +3,8 @@ using UnityEngine.EventSystems;
 
 public sealed class UIButtonAudio : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, ISelectHandler, ISubmitHandler
 {
-    [SerializeField] private SoundSet _hoverSFX;
-    [SerializeField] private SoundSet _clickSFX;
+    [SerializeField] private SoundSet hoverSfx;
+    [SerializeField] private SoundSet clickSfx;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -29,12 +29,16 @@ public sealed class UIButtonAudio : MonoBehaviour, IPointerEnterHandler, IPointe
     private void PlayHover()
     {
         if (AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFX(_hoverSFX);
+        {
+            AudioManager.Instance.PlaySfx(hoverSfx);
+        }
     }
 
     private void PlayClick()
     {
         if (AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFX(_clickSFX);
+        {
+            AudioManager.Instance.PlaySfx(clickSfx);
+        }
     }
 }

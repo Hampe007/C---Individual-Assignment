@@ -8,17 +8,17 @@ public sealed class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [Header("Mixer")]
-    [SerializeField] private AudioMixerGroup _musicGroup;
-    [SerializeField] private AudioMixerGroup _sfxGroup;
+    [SerializeField] private AudioMixerGroup musicGroup;
+    [SerializeField] private AudioMixerGroup sfxGroup;
 
     [Header("Music")]
-    [SerializeField] private AudioSource _musicSource;
+    [SerializeField] private AudioSource musicSource;
 
     [Header("SFX")]
-    [SerializeField, Min(1)] private int _maxSFXSources = 64;
+    [SerializeField, Min(1)] private int maxSfxSources = 64;
 
     private ObjectPool<AudioSource> _sfxPool;
-    private readonly List<AudioSource> _activeSFX = new();
+    private readonly List<AudioSource> _activeSfx = new();
     private readonly Dictionary<AudioSource, float> _sfxBaseVolumes = new();
     private float _musicBaseVolume;
 
@@ -35,62 +35,61 @@ public sealed class AudioManager : MonoBehaviour
         transform.SetParent(null, true);
         DontDestroyOnLoad(gameObject);
 
-        if (_musicSource == null || _musicGroup == null || _sfxGroup == null)
+        if (musicSource == null || musicGroup == null || sfxGroup == null)
         {
             Debug.LogError("AudioManager is missing required references.");
             enabled = false;
             return;
         }
 
-        _musicSource.outputAudioMixerGroup = _musicGroup;
-        _musicBaseVolume = _musicSource.volume;
+        musicSource.outputAudioMixerGroup = musicGroup;
+        _musicBaseVolume = musicSource.volume;
         AudioPreferences.Changed += ApplyVolumes;
         ApplyVolumes();
 
-        _sfxPool = new ObjectPool<AudioSource>(
-            CreateSFXSource,
-            GetSFXSource,
-            ReleaseSFXSource,
-            DestroySFXSource,
-            true,
-            16,
-            _maxSFXSources);
+        _sfxPool = new ObjectPool<AudioSource>(CreateSfxSource, GetSfxSource, ReleaseSfxSource, DestroySfxSource, true, 16, maxSfxSources);
     }
 
     private void Update()
     {
-        for (int i = _activeSFX.Count - 1; i >= 0; i--)
+        for (int i = _activeSfx.Count - 1; i >= 0; i--)
         {
-            AudioSource source = _activeSFX[i];
+            AudioSource source = _activeSfx[i];
 
             if (source.isPlaying)
+            {
                 continue;
+            }
 
-            _activeSFX.RemoveAt(i);
+            _activeSfx.RemoveAt(i);
             _sfxBaseVolumes.Remove(source);
             _sfxPool.Release(source);
         }
     }
 
-    public void PlaySFX(SoundSet sound)
+    public void PlaySfx(SoundSet sound)
     {
-        PlaySFX(sound, transform.position, 0f);
+        PlaySfx(sound, transform.position, 0f);
     }
 
-    public void PlaySFX(SoundSet sound, Vector3 position)
+    public void PlaySfx(SoundSet sound, Vector3 position)
     {
-        PlaySFX(sound, position, 1f);
+        PlaySfx(sound, position, 1f);
     }
 
-    private void PlaySFX(SoundSet sound, Vector3 position, float spatialBlend)
+    private void PlaySfx(SoundSet sound, Vector3 position, float spatialBlend)
     {
         if (sound == null)
+        {
             return;
+        }
 
         AudioClip clip = sound.GetClip();
 
         if (clip == null)
+        {
             return;
+        }
 
         AudioSource source = _sfxPool.Get();
 
@@ -102,71 +101,79 @@ public sealed class AudioManager : MonoBehaviour
         source.pitch = sound.GetPitch();
 
         source.Play();
-        _activeSFX.Add(source);
+        _activeSfx.Add(source);
     }
 
     public void PlayMusic(AudioClip clip)
     {
-        if (clip == null || _musicSource.clip == clip)
+        if (clip == null || musicSource.clip == clip)
+        {
             return;
+        }
 
-        _musicSource.clip = clip;
-        _musicSource.loop = true;
-        _musicSource.Play();
+        musicSource.clip = clip;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     public void StopMusic()
     {
-        _musicSource.Stop();
-        _musicSource.clip = null;
+        musicSource.Stop();
+        musicSource.clip = null;
     }
 
-    private AudioSource CreateSFXSource()
+    private AudioSource CreateSfxSource()
     {
-        GameObject gameObject = new("SFXSource");
-        gameObject.transform.SetParent(transform);
+        GameObject sourceObject = new("SFXSource");
+        sourceObject.transform.SetParent(transform);
 
-        AudioSource source = gameObject.AddComponent<AudioSource>();
+        AudioSource source = sourceObject.AddComponent<AudioSource>();
 
         source.playOnAwake = false;
-        source.outputAudioMixerGroup = _sfxGroup;
+        source.outputAudioMixerGroup = sfxGroup;
 
         return source;
     }
 
-    private static void GetSFXSource(AudioSource source)
+    private static void GetSfxSource(AudioSource source)
     {
         source.gameObject.SetActive(true);
     }
 
-    private static void ReleaseSFXSource(AudioSource source)
+    private static void ReleaseSfxSource(AudioSource source)
     {
         source.Stop();
         source.clip = null;
         source.gameObject.SetActive(false);
     }
 
-    private static void DestroySFXSource(AudioSource source)
+    private static void DestroySfxSource(AudioSource source)
     {
         if (source != null)
+        {
             Destroy(source.gameObject);
+        }
     }
 
     private void OnDestroy()
     {
         AudioPreferences.Changed -= ApplyVolumes;
         if (Instance == this)
+        {
             Instance = null;
+        }
 
         _sfxPool?.Clear();
-        _activeSFX.Clear();
+        _activeSfx.Clear();
         _sfxBaseVolumes.Clear();
     }
 
     private void ApplyVolumes()
     {
-        _musicSource.volume = _musicBaseVolume * AudioPreferences.GetVolume(AudioVolumeChannel.Music);
-        foreach (AudioSource source in _activeSFX)
+        musicSource.volume = _musicBaseVolume * AudioPreferences.GetVolume(AudioVolumeChannel.Music);
+        foreach (AudioSource source in _activeSfx)
+        {
             source.volume = _sfxBaseVolumes[source] * AudioPreferences.GetVolume(AudioVolumeChannel.Effects);
+        }
     }
 }

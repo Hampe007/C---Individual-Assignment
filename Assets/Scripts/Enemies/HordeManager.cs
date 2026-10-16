@@ -315,7 +315,7 @@ public sealed class HordeManager : MonoBehaviour
         _views.PlayHitFlash(index);
 
         if (AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFX(_enemyHitSFX, new Vector3(enemy.Position.x, enemy.Position.y, enemy.Position.z));
+            AudioManager.Instance.PlaySfx(_enemyHitSFX, new Vector3(enemy.Position.x, enemy.Position.y, enemy.Position.z));
 
         if (enemy.Health <= 0)
         {

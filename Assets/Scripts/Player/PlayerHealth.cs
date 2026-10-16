@@ -47,7 +47,7 @@ public sealed class PlayerHealth : MonoBehaviour
             _progression.LoseXPFromDamage();
         if (Time.time >= _nextSoundTime && AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlaySFX(_hitSFX, transform.position);
+            AudioManager.Instance.PlaySfx(_hitSFX, transform.position);
             _nextSoundTime = Time.time + _soundCooldown;
         }
 
