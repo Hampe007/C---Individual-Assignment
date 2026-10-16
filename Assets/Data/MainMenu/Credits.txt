@@ -5,6 +5,9 @@ Hampus Carlström Svanberg
 <b>Quaternius — Universal Base Characters</b>  /  CC0 1.0
 <link="https://quaternius.com/packs/universalbasecharacters.html"><color=#E6E6ED><u>View source</u></color></link>
 
+<b>Quaternius — Modular Character Outfits: Fantasy</b>  /  CC0 1.0
+<link="https://quaternius.com/packs/modularcharacteroutfitsfantasy.html"><color=#E6E6ED><u>View source</u></color></link>
+
 <b>Quaternius — Universal Animation Library & Universal Animation Library 2</b>  /  CC0 1.0
 <link="https://quaternius.com/packs/universalanimationlibrary.html"><color=#E6E6ED><u>Animation Library 1</u></color></link>
 <link="https://quaternius.com/packs/universalanimationlibrary2.html"><color=#E6E6ED><u>Animation Library 2</u></color></link>
@@ -28,9 +31,6 @@ Cursor Pack — <link="https://kenney.nl/assets/cursor-pack"><color=#E6E6ED><u>V
 Emotes Pack — <link="https://kenney.nl/assets/emotes-pack"><color=#E6E6ED><u>View source</u></color></link>
 Particle Pack — <link="https://kenney.nl/assets/particle-pack"><color=#E6E6ED><u>View source</u></color></link>
 Splat Pack — <link="https://kenney.nl/assets/splat-pack"><color=#E6E6ED><u>View source</u></color></link>
-Particle Pack filter templates: Indigo Ray, Craig Nisbet, Zoltan Erdokovy,
-Heliagon, ThreeDee, Killst4r and Tim2501.
-
 <size=32><color=#C44351><b>SURFACE TEXTURES & MOON</b></color></size>
 <b>Rob Tuytel / Poly Haven — Brown Mud Leaves 01</b>  /  CC0 1.0
 <link="https://polyhaven.com/a/brown_mud_leaves_01"><color=#E6E6ED><u>View source</u></color></link>
@@ -63,6 +63,10 @@ Adapted for the brightness calibration screen.
 Copyright © 2010 Vernon Adams. Reserved Font Name: Bangers.
 <link="https://fonts.google.com/specimen/Bangers"><color=#E6E6ED><u>View source</u></color></link>
 
+<b>Vernon Adams — Anton</b>  /  SIL Open Font License 1.1
+Copyright © 2011 Vernon Adams. Reserved Font Name: Anton.
+<link="https://fonts.google.com/specimen/Anton"><color=#E6E6ED><u>View source</u></color></link>
+
 <b>Liberation Sans</b>  /  SIL Open Font License 1.1
 Digitized data © 2010 Google Corporation; © 2012 Red Hat, Inc.
 Reserved Font Names: Arimo, Tinos, Cousine and Liberation.
@@ -89,6 +93,23 @@ Reserved Font Names: Arimo, Tinos, Cousine and Liberation.
 <b>SoundShelfStudio — UI Click Deep / UI Tap Light</b>
 <link="https://pixabay.com/sound-effects/technology-ui-click-deep-512211/"><color=#E6E6ED><u>UI Click Deep</u></color></link>
 <link="https://pixabay.com/sound-effects/technology-ui-tap-light-513023/"><color=#E6E6ED><u>UI Tap Light</u></color></link>
+
+<b>joelfazhari — Haunted Graveyard Ambience</b>
+<link="https://pixabay.com/sound-effects/horror-haunted-graveyard-ambience-sound-for-halloween-loopable-170880/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>alesiadavina — Horror Ambience: Hard to Trust</b>
+<link="https://pixabay.com/sound-effects/musical-horror-ambience-seamless-loop-hard-to-trust-148627/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>yarzur_ofc — ST1 / ST2 / ST3 Footstep SFX</b>
+<link="https://pixabay.com/sound-effects/film-special-effects-st1-footstep-sfx-323053/"><color=#E6E6ED><u>ST1</u></color></link>
+<link="https://pixabay.com/sound-effects/film-special-effects-st2-footstep-sfx-323055/"><color=#E6E6ED><u>ST2</u></color></link>
+<link="https://pixabay.com/sound-effects/film-special-effects-st3-footstep-sfx-323056/"><color=#E6E6ED><u>ST3</u></color></link>
+
+<b>freesound_community — Soul Steal 02</b>
+<link="https://pixabay.com/sound-effects/film-special-effects-soul-steal-02-43483/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>Universfield — Horror Liquid Splash</b>
+<link="https://pixabay.com/sound-effects/horror-horror-liquid-splash-352472/"><color=#E6E6ED><u>View source</u></color></link>
 All sound effects above were obtained from Pixabay under the Pixabay Content License.
 
 <size=32><color=#C44351><b>ENGINE & TOOLS</b></color></size>
@@ -103,4 +124,4 @@ Pixabay Content License — <link="https://pixabay.com/service/license-summary/"
 Poly Haven — <link="https://polyhaven.com/license"><color=#E6E6ED><u>Poly Haven license</u></color></link>
 ambientCG — <link="https://docs.ambientcg.com/license/"><color=#E6E6ED><u>ambientCG license</u></color></link>
 
-Thank you to everyone who shared their work.
+Thank you to everyone who shared their work for others to use.

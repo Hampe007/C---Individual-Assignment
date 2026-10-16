@@ -87806,75 +87806,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=32><color=#C44351><b>DEVELOPMENT</b></color></size>\nHampus Carlstr\xF6m
-    Svanberg\n\n<size=32><color=#C44351><b>CHARACTERS & ANIMATIONS</b></color></size>\n<b>Quaternius
-    \u2014 Universal Base Characters</b>  /  CC0 1.0\n<link=\"https://quaternius.com/packs/universalbasecharacters.html\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>Quaternius \u2014 Universal Animation Library
-    & Universal Animation Library 2</b>  /  CC0 1.0\n<link=\"https://quaternius.com/packs/universalanimationlibrary.html\"><color=#E6E6ED><u>Animation
-    Library 1</u></color></link>\n<link=\"https://quaternius.com/packs/universalanimationlibrary2.html\"><color=#E6E6ED><u>Animation
-    Library 2</u></color></link>\n\n<b>Quaternius \u2014 Bestiary: Dungeon Monsters
-    Kit</b>  /  Quaternius Asset License v1.0\n<link=\"https://quaternius.com/packs/bestiarydungeonmonsterskit.html\"><color=#E6E6ED><u>View
-    source</u></color></link>\n<link=\"https://quaternius.com/license.html\"><color=#E6E6ED><u>Quaternius
-    Asset License</u></color></link>\n\n<size=32><color=#C44351><b>ENVIRONMENT &
-    BACKGROUNDS</b></color></size>\n<b>Kay Lousberg \u2014 KayKit: Halloween Bits</b> 
-    /  CC0 1.0\n<link=\"https://kaylousberg.itch.io/halloween-bits\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>ansimuz \u2014 Mountain Dusk Parallax Background
-    (Super Mountain Dusk)</b>  /  CC0 1.0\n<link=\"https://ansimuz.itch.io/mountain-dusk-parallax-background\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<size=32><color=#C44351><b>UI, CURSORS, EMOTES &
-    EFFECTS</b></color></size>\n<b>Kenney / Kenney Vleugels</b>  /  CC0 1.0\nFantasy
-    UI Borders \u2014 <link=\"https://kenney.nl/assets/fantasy-ui-borders\"><color=#E6E6ED><u>View
-    source</u></color></link>\nInput Prompts \u2014 <link=\"https://kenney.nl/assets/input-prompts\"><color=#E6E6ED><u>View
-    source</u></color></link>\nCursor Pack \u2014 <link=\"https://kenney.nl/assets/cursor-pack\"><color=#E6E6ED><u>View
-    source</u></color></link>\nEmotes Pack \u2014 <link=\"https://kenney.nl/assets/emotes-pack\"><color=#E6E6ED><u>View
-    source</u></color></link>\nParticle Pack \u2014 <link=\"https://kenney.nl/assets/particle-pack\"><color=#E6E6ED><u>View
-    source</u></color></link>\nSplat Pack \u2014 <link=\"https://kenney.nl/assets/splat-pack\"><color=#E6E6ED><u>View
-    source</u></color></link>\nParticle Pack filter templates: Indigo Ray, Craig
-    Nisbet, Zoltan Erdokovy,\nHeliagon, ThreeDee, Killst4r and Tim2501.\n\n<size=32><color=#C44351><b>SURFACE
-    TEXTURES & MOON</b></color></size>\n<b>Rob Tuytel / Poly Haven \u2014 Brown Mud
-    Leaves 01</b>  /  CC0 1.0\n<link=\"https://polyhaven.com/a/brown_mud_leaves_01\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>ambientCG \u2014 Moss002 & Ice002</b>  /  CC0
-    1.0\n<link=\"https://ambientcg.com/view?id=Moss002\"><color=#E6E6ED><u>Moss002
-    source</u></color></link>\n<link=\"https://ambientcg.com/view?id=Ice002\"><color=#E6E6ED><u>Ice002
-    source</u></color></link>\n\n<b>klookiea \u2014 The Moon (No Background)</b> 
-    /  CC0 1.0\n<link=\"https://opengameart.org/content/the-moon-no-background\"><color=#E6E6ED><u>View
-    source</u></color></link>\nMoon texture source: NASA's Scientific Visualization
-    Studio \u2014 CGI Moon Kit.\n<link=\"https://svs.gsfc.nasa.gov/4720/\"><color=#E6E6ED><u>NASA
-    CGI Moon Kit</u></color></link>\n\n<size=32><color=#C44351><b>ICONS & CALIBRATION
-    ART</b></color></size>\n<b>Clker-Free-Vector-Images \u2014 Skull / Wrench / Screwdriver</b> 
-    /  Pixabay Content License\nAdapted for the brightness calibration screen.\n<link=\"https://pixabay.com/vectors/skull-wrench-screwdriver-flat-44753/\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>OpenClipart-Vectors \u2014 Cranium / Head / Human</b> 
-    /  Pixabay Content License\n<link=\"https://pixabay.com/vectors/cranium-head-human-male-man-1299985/\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>janjf93 \u2014 Exit / The End / Emergency Exit</b> 
-    /  Pixabay Content License\n<link=\"https://pixabay.com/vectors/exit-the-end-emergency-exit-door-1699614/\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<size=32><color=#C44351><b>FONTS</b></color></size>\n<b>GGBotNet
-    \u2014 Bitrimus</b>  /  CC0 1.0\n<link=\"https://ggbot.itch.io/bitrimus-font\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>Vernon Adams \u2014 Bangers</b>  /  SIL Open
-    Font License 1.1\nCopyright \xA9 2010 Vernon Adams. Reserved Font Name: Bangers.\n<link=\"https://fonts.google.com/specimen/Bangers\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>Liberation Sans</b>  /  SIL Open Font License
-    1.1\nDigitized data \xA9 2010 Google Corporation; \xA9 2012 Red Hat, Inc.\nReserved
-    Font Names: Arimo, Tinos, Cousine and Liberation.\n<link=\"https://github.com/liberationfonts/liberation-fonts\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<size=32><color=#C44351><b>SOUND EFFECTS</b></color></size>\n<b>DRAGON-STUDIO
-    \u2014 Bone Breaking / Bone Break SFX / Bone Breaking Effect</b>\n<link=\"https://pixabay.com/sound-effects/film-special-effects-bone-breaking-393842/\"><color=#E6E6ED><u>Bone
-    Breaking</u></color></link>\n<link=\"https://pixabay.com/sound-effects/film-special-effects-bone-break-sfx-393835/\"><color=#E6E6ED><u>Bone
-    Break SFX</u></color></link>\n<link=\"https://pixabay.com/sound-effects/film-special-effects-bone-breaking-effect-393836/\"><color=#E6E6ED><u>Bone
-    Breaking Effect</u></color></link>\n\n<b>OxidVideos \u2014 Sword swing SFX</b>\n<link=\"https://pixabay.com/sound-effects/sword-swing-sfx-407574/\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>u_xg7ssi08yr \u2014 Sword Air Swing 2</b>\n<link=\"https://pixabay.com/sound-effects/film-special-effects-sword-air-swing-2-437695/\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>micahlg (Freesound), distributed by freesound_community
-    \u2014 male_hurt7</b>\n<link=\"https://pixabay.com/sound-effects/people-male-hurt7-48124/\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>Emilianodleon \u2014 Button UI Sound Effect</b>\n<link=\"https://pixabay.com/sound-effects/film-special-effects-button-ui-sound-effect-395762/\"><color=#E6E6ED><u>View
-    source</u></color></link>\n\n<b>SoundShelfStudio \u2014 UI Click Deep / UI Tap
-    Light</b>\n<link=\"https://pixabay.com/sound-effects/technology-ui-click-deep-512211/\"><color=#E6E6ED><u>UI
-    Click Deep</u></color></link>\n<link=\"https://pixabay.com/sound-effects/technology-ui-tap-light-513023/\"><color=#E6E6ED><u>UI
-    Tap Light</u></color></link>\nAll sound effects above were obtained from Pixabay
-    under the Pixabay Content License.\n\n<size=32><color=#C44351><b>ENGINE & TOOLS</b></color></size>\nUnity
-    \u2014 Universal Render Pipeline, Cinemachine, TextMeshPro, Input System,\nBurst,
-    Collections, Mathematics, AI Navigation and ProBuilder.\n<link=\"https://unity.com/\"><color=#E6E6ED><u>Unity</u></color></link>\n\n<size=32><color=#C44351><b>LICENSE
-    REFERENCES</b></color></size>\nCC0 1.0 \u2014 <link=\"https://creativecommons.org/publicdomain/zero/1.0/\"><color=#E6E6ED><u>CC0
-    1.0</u></color></link>\nSIL Open Font License 1.1 \u2014 <link=\"https://openfontlicense.org/\"><color=#E6E6ED><u>SIL
-    Open Font License 1.1</u></color></link>\nPixabay Content License \u2014 <link=\"https://pixabay.com/service/license-summary/\"><color=#E6E6ED><u>Pixabay
-    Content License</u></color></link>\nPoly Haven \u2014 <link=\"https://polyhaven.com/license\"><color=#E6E6ED><u>Poly
-    Haven license</u></color></link>\nambientCG \u2014 <link=\"https://docs.ambientcg.com/license/\"><color=#E6E6ED><u>ambientCG
-    license</u></color></link>\n\nThank you to everyone who shared their work.\n"
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
