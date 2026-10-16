@@ -18,12 +18,16 @@ namespace GameMenus
         [SerializeField, Min(0.05f)] private float fadeDuration = 0.4f;
         [SerializeField] private TMP_Text modalTitle;
         [SerializeField] private TMP_Text modalBody;
-        [SerializeField] private UnityEngine.UI.ScrollRect modalBodyScroll;
         [SerializeField] private GameObject optionsContent;
         [SerializeField] private UnityEngine.UI.Button primaryButton;
         [SerializeField] private TMP_Text primaryLabel;
         [SerializeField] private UnityEngine.UI.Button backButton;
         [SerializeField] private UnityEngine.UI.Button optionsBackButton;
+        [Header("Credits Screen")]
+        [SerializeField] private GameObject creditsContent;
+        [SerializeField] private TMP_Text creditsBody;
+        [SerializeField] private UnityEngine.UI.ScrollRect creditsScroll;
+        [SerializeField] private UnityEngine.UI.Button creditsBackButton;
         [SerializeField] private TMP_Text backLabel;
         [SerializeField] private TMP_Text status;
         [SerializeField, TextArea] private string defaultStatus = "Stay quiet. You are not alone.";
@@ -57,6 +61,8 @@ namespace GameMenus
             primaryButton.onClick.AddListener(director.ConfirmModal);
             backButton.onClick.AddListener(director.CloseModal);
             optionsBackButton.onClick.AddListener(director.CloseModal);
+            creditsBackButton.onClick.AddListener(director.CloseModal);
+            creditsContent.SetActive(false);
             ShowMenu(false);
             modalGroup.alpha = 0f;
             modalGroup.interactable = false;
@@ -179,6 +185,7 @@ namespace GameMenus
             }
             modalTitle.text = title;
             modalBody.text = body;
+            creditsContent.SetActive(false);
             optionsContent.SetActive(options);
             modalPanel.gameObject.SetActive(!options);
             primaryButton.gameObject.SetActive(!string.IsNullOrEmpty(primary));
@@ -186,9 +193,6 @@ namespace GameMenus
             primaryLabel.text = primary;
             backLabel.text = back;
             modal.SetActive(true);
-            Canvas.ForceUpdateCanvases();
-            modalBodyScroll.StopMovement();
-            modalBodyScroll.verticalNormalizedPosition = 1f;
             modalVisible = true;
             modalGroup.interactable = true;
             modalGroup.blocksRaycasts = true;
@@ -211,11 +215,27 @@ namespace GameMenus
             }
         }
 
+        public void ShowCredits(string credits)
+        {
+            ShowModal("", "", null, "Back");
+            modalPanel.gameObject.SetActive(false);
+            creditsBody.text = credits;
+            creditsContent.SetActive(true);
+            Canvas.ForceUpdateCanvases();
+            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(creditsScroll.content);
+            creditsScroll.StopMovement();
+            creditsScroll.verticalNormalizedPosition = 1f;
+            if (EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(creditsBackButton.gameObject);
+        }
+
         private void Update()
         {
-            if (!modalVisible || !modalBodyScroll.isActiveAndEnabled || !Application.isFocused)
+            if (!modalVisible || !creditsContent.activeInHierarchy ||
+                !creditsScroll.isActiveAndEnabled || !Application.isFocused)
                 return;
-            float overflow = modalBodyScroll.content.rect.height - modalBodyScroll.viewport.rect.height;
+            UnityEngine.UI.ScrollRect scroll = creditsScroll;
+            float overflow = scroll.content.rect.height - scroll.viewport.rect.height;
             if (overflow <= 0f)
                 return;
             float direction = Gamepad.current != null ? Gamepad.current.rightStick.ReadValue().y : 0f;
@@ -227,8 +247,8 @@ namespace GameMenus
             }
             if (Mathf.Abs(direction) > 0.1f)
             {
-                modalBodyScroll.StopMovement();
-                modalBodyScroll.verticalNormalizedPosition = Mathf.Clamp01(modalBodyScroll.verticalNormalizedPosition + direction * 400f * Time.unscaledDeltaTime / overflow);
+                scroll.StopMovement();
+                scroll.verticalNormalizedPosition = Mathf.Clamp01(scroll.verticalNormalizedPosition + direction * 400f * Time.unscaledDeltaTime / overflow);
             }
         }
 

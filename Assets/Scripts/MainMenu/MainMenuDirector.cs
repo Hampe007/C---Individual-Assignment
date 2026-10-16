@@ -114,7 +114,9 @@ namespace GameMenus
             
                 return;
             }
-            if (Phase == MenuPhase.Modal && keyboard != null && keyboard.escapeKey.wasPressedThisFrame)
+            if (Phase == MenuPhase.Modal &&
+                ((keyboard != null && keyboard.escapeKey.wasPressedThisFrame) ||
+                 (gamepad != null && gamepad.buttonEast.wasPressedThisFrame)))
             {
                 CloseModal();
             }
@@ -301,7 +303,7 @@ namespace GameMenus
                     view.ShowModal("SOUND OF THE NIGHT", "", null, "Back", true);
                     break;
                 case MenuOption.Credits:
-                    view.ShowModal("BEHIND THE NIGHT", settings.credits, null, "Back");
+                    view.ShowCredits(settings.Credits);
                     break;
             }
         }

@@ -1,0 +1,106 @@
+<size=32><color=#C44351><b>DEVELOPMENT</b></color></size>
+Hampus Carlström Svanberg
+
+<size=32><color=#C44351><b>CHARACTERS & ANIMATIONS</b></color></size>
+<b>Quaternius — Universal Base Characters</b>  /  CC0 1.0
+<link="https://quaternius.com/packs/universalbasecharacters.html"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>Quaternius — Universal Animation Library & Universal Animation Library 2</b>  /  CC0 1.0
+<link="https://quaternius.com/packs/universalanimationlibrary.html"><color=#E6E6ED><u>Animation Library 1</u></color></link>
+<link="https://quaternius.com/packs/universalanimationlibrary2.html"><color=#E6E6ED><u>Animation Library 2</u></color></link>
+
+<b>Quaternius — Bestiary: Dungeon Monsters Kit</b>  /  Quaternius Asset License v1.0
+<link="https://quaternius.com/packs/bestiarydungeonmonsterskit.html"><color=#E6E6ED><u>View source</u></color></link>
+<link="https://quaternius.com/license.html"><color=#E6E6ED><u>Quaternius Asset License</u></color></link>
+
+<size=32><color=#C44351><b>ENVIRONMENT & BACKGROUNDS</b></color></size>
+<b>Kay Lousberg — KayKit: Halloween Bits</b>  /  CC0 1.0
+<link="https://kaylousberg.itch.io/halloween-bits"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>ansimuz — Mountain Dusk Parallax Background (Super Mountain Dusk)</b>  /  CC0 1.0
+<link="https://ansimuz.itch.io/mountain-dusk-parallax-background"><color=#E6E6ED><u>View source</u></color></link>
+
+<size=32><color=#C44351><b>UI, CURSORS, EMOTES & EFFECTS</b></color></size>
+<b>Kenney / Kenney Vleugels</b>  /  CC0 1.0
+Fantasy UI Borders — <link="https://kenney.nl/assets/fantasy-ui-borders"><color=#E6E6ED><u>View source</u></color></link>
+Input Prompts — <link="https://kenney.nl/assets/input-prompts"><color=#E6E6ED><u>View source</u></color></link>
+Cursor Pack — <link="https://kenney.nl/assets/cursor-pack"><color=#E6E6ED><u>View source</u></color></link>
+Emotes Pack — <link="https://kenney.nl/assets/emotes-pack"><color=#E6E6ED><u>View source</u></color></link>
+Particle Pack — <link="https://kenney.nl/assets/particle-pack"><color=#E6E6ED><u>View source</u></color></link>
+Splat Pack — <link="https://kenney.nl/assets/splat-pack"><color=#E6E6ED><u>View source</u></color></link>
+Particle Pack filter templates: Indigo Ray, Craig Nisbet, Zoltan Erdokovy,
+Heliagon, ThreeDee, Killst4r and Tim2501.
+
+<size=32><color=#C44351><b>SURFACE TEXTURES & MOON</b></color></size>
+<b>Rob Tuytel / Poly Haven — Brown Mud Leaves 01</b>  /  CC0 1.0
+<link="https://polyhaven.com/a/brown_mud_leaves_01"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>ambientCG — Moss002 & Ice002</b>  /  CC0 1.0
+<link="https://ambientcg.com/view?id=Moss002"><color=#E6E6ED><u>Moss002 source</u></color></link>
+<link="https://ambientcg.com/view?id=Ice002"><color=#E6E6ED><u>Ice002 source</u></color></link>
+
+<b>klookiea — The Moon (No Background)</b>  /  CC0 1.0
+<link="https://opengameart.org/content/the-moon-no-background"><color=#E6E6ED><u>View source</u></color></link>
+Moon texture source: NASA's Scientific Visualization Studio — CGI Moon Kit.
+<link="https://svs.gsfc.nasa.gov/4720/"><color=#E6E6ED><u>NASA CGI Moon Kit</u></color></link>
+
+<size=32><color=#C44351><b>ICONS & CALIBRATION ART</b></color></size>
+<b>Clker-Free-Vector-Images — Skull / Wrench / Screwdriver</b>  /  Pixabay Content License
+Adapted for the brightness calibration screen.
+<link="https://pixabay.com/vectors/skull-wrench-screwdriver-flat-44753/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>OpenClipart-Vectors — Cranium / Head / Human</b>  /  Pixabay Content License
+<link="https://pixabay.com/vectors/cranium-head-human-male-man-1299985/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>janjf93 — Exit / The End / Emergency Exit</b>  /  Pixabay Content License
+<link="https://pixabay.com/vectors/exit-the-end-emergency-exit-door-1699614/"><color=#E6E6ED><u>View source</u></color></link>
+
+<size=32><color=#C44351><b>FONTS</b></color></size>
+<b>GGBotNet — Bitrimus</b>  /  CC0 1.0
+<link="https://ggbot.itch.io/bitrimus-font"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>Vernon Adams — Bangers</b>  /  SIL Open Font License 1.1
+Copyright © 2010 Vernon Adams. Reserved Font Name: Bangers.
+<link="https://fonts.google.com/specimen/Bangers"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>Liberation Sans</b>  /  SIL Open Font License 1.1
+Digitized data © 2010 Google Corporation; © 2012 Red Hat, Inc.
+Reserved Font Names: Arimo, Tinos, Cousine and Liberation.
+<link="https://github.com/liberationfonts/liberation-fonts"><color=#E6E6ED><u>View source</u></color></link>
+
+<size=32><color=#C44351><b>SOUND EFFECTS</b></color></size>
+<b>DRAGON-STUDIO — Bone Breaking / Bone Break SFX / Bone Breaking Effect</b>
+<link="https://pixabay.com/sound-effects/film-special-effects-bone-breaking-393842/"><color=#E6E6ED><u>Bone Breaking</u></color></link>
+<link="https://pixabay.com/sound-effects/film-special-effects-bone-break-sfx-393835/"><color=#E6E6ED><u>Bone Break SFX</u></color></link>
+<link="https://pixabay.com/sound-effects/film-special-effects-bone-breaking-effect-393836/"><color=#E6E6ED><u>Bone Breaking Effect</u></color></link>
+
+<b>OxidVideos — Sword swing SFX</b>
+<link="https://pixabay.com/sound-effects/sword-swing-sfx-407574/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>u_xg7ssi08yr — Sword Air Swing 2</b>
+<link="https://pixabay.com/sound-effects/film-special-effects-sword-air-swing-2-437695/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>micahlg (Freesound), distributed by freesound_community — male_hurt7</b>
+<link="https://pixabay.com/sound-effects/people-male-hurt7-48124/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>Emilianodleon — Button UI Sound Effect</b>
+<link="https://pixabay.com/sound-effects/film-special-effects-button-ui-sound-effect-395762/"><color=#E6E6ED><u>View source</u></color></link>
+
+<b>SoundShelfStudio — UI Click Deep / UI Tap Light</b>
+<link="https://pixabay.com/sound-effects/technology-ui-click-deep-512211/"><color=#E6E6ED><u>UI Click Deep</u></color></link>
+<link="https://pixabay.com/sound-effects/technology-ui-tap-light-513023/"><color=#E6E6ED><u>UI Tap Light</u></color></link>
+All sound effects above were obtained from Pixabay under the Pixabay Content License.
+
+<size=32><color=#C44351><b>ENGINE & TOOLS</b></color></size>
+Unity — Universal Render Pipeline, Cinemachine, TextMeshPro, Input System,
+Burst, Collections, Mathematics, AI Navigation and ProBuilder.
+<link="https://unity.com/"><color=#E6E6ED><u>Unity</u></color></link>
+
+<size=32><color=#C44351><b>LICENSE REFERENCES</b></color></size>
+CC0 1.0 — <link="https://creativecommons.org/publicdomain/zero/1.0/"><color=#E6E6ED><u>CC0 1.0</u></color></link>
+SIL Open Font License 1.1 — <link="https://openfontlicense.org/"><color=#E6E6ED><u>SIL Open Font License 1.1</u></color></link>
+Pixabay Content License — <link="https://pixabay.com/service/license-summary/"><color=#E6E6ED><u>Pixabay Content License</u></color></link>
+Poly Haven — <link="https://polyhaven.com/license"><color=#E6E6ED><u>Poly Haven license</u></color></link>
+ambientCG — <link="https://docs.ambientcg.com/license/"><color=#E6E6ED><u>ambientCG license</u></color></link>
+
+Thank you to everyone who shared their work.

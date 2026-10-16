@@ -19,6 +19,8 @@ namespace GameMenus
         [Min(0.1f)] public float skipHoldDuration = 1f;
         public Vector2 idleEventInterval = new(9f, 17f);
         [TextArea(8, 30)] public string credits;
+        public TextAsset creditsSource;
+        public string Credits => creditsSource != null ? creditsSource.text : credits;
         public MenuReaction[] reactions;
 
         public MenuReaction GetReaction(MenuOption option)

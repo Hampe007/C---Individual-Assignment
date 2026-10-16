@@ -24,24 +24,8 @@ MonoBehaviour:
   bloodDrainDuration: 2.2
   skipHoldDuration: 1.5
   idleEventInterval: {x: 9, y: 17}
-  credits: "<size=18>Scroll: mouse wheel / drag / arrows / right stick</size>\n\n<b>DEVELOPMENT</b>\nHampus
-    Carlstr\xF6m Svanberg\n\n<b>CHARACTERS & ANIMATIONS</b>\nQuaternius\nUniversal
-    Base Characters / Universal Animation Library 2\nModular Character Outfits -
-    Fantasy\nBestiary - Dungeon Monsters Kit\n\n<b>ENVIRONMENT</b>\nKay Lousberg
-    / KayKit - Halloween Bits\nansimuz - Super Mountain Dusk\n\n<b>UI, INPUT PROMPTS
-    & PARTICLES</b>\nKenney / Kenney Vleugels\nFantasy UI Borders / Input Prompts
-    / Cursors\nParticle Pack / Splat Pack\nParticle filter templates: Indigo Ray,
-    Craig Nisbet,\nZoltan Erdokovy, Heliagon, ThreeDee, Killst4r, Tim2501\n\n<b>TEXTURES
-    & MOON</b>\nPoly Haven - Brown Mud Leaves 01 / Moon 04\nambientCG - Moss002 /
-    Ice002\nklookiea - The Moon (No Background), OpenGameArt\nMoon source: NASA's
-    Scientific Visualization Studio\n\n<b>ICONS & CALIBRATION ART</b>\nClker-Free-Vector-Images
-    - calibration skull\nOpenClipart-Vectors - head silhouette\njanjf93 - exit icon\nDistributed
-    through Pixabay\n\n<b>FONT</b>\nGGBotNet - Bitrimus\n\n<b>AUDIO</b>\nDragon Studio
-    - bone break / bone breaking effects\nOxidVideos / u_xg7ssi08yr - sword swings\nmicahlg
-    (Freesound) - male_hurt7\nEmilianodleon - Button UI Sound Effect\nSoundShelfStudio
-    - UI Click Deep / UI Tap Light\nMagmi.Soundtracks (Freesound) - Sci-Fi Music
-    Loop 01\nDistributed through Pixabay / freesound_community\n\n<b>ENGINE & TOOLS</b>\nMade
-    with Unity\nUniversal Render Pipeline / Cinemachine / TextMeshPro"
+  credits: 
+  creditsSource: {fileID: 4900000, guid: 6f767d8f0b990b8448b7fa93f414ce46, type: 3}
   reactions:
   - option: 0
     animationState: Rest
