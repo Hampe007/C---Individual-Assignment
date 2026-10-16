@@ -44,7 +44,7 @@ namespace GameMenus
 
         private IEnumerator Start()
         {
-            while (!PhotosensitivityWarning.Accepted || PhotosensitivityWarning.IsTransitioning)
+            while (!PhotosensitivityWarning.Accepted)
             {
                 yield return null;
             }

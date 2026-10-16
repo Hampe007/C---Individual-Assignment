@@ -246,7 +246,7 @@ namespace BrightnessCalibration
             float elapsed = 0f;
             while (elapsed < 0.25f)
             {
-                elapsed += Mathf.Min(Time.unscaledDeltaTime, 0.05f);
+                elapsed += Time.unscaledDeltaTime;
                 presentation.alpha = Mathf.SmoothStep(start, target, elapsed / 0.25f);
                 yield return null;
             }

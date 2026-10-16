@@ -150,7 +150,7 @@ namespace GameMenus
             float startingAlpha = group.alpha;
             while (elapsed < duration)
             {
-                elapsed += Mathf.Min(Time.unscaledDeltaTime, 0.05f);
+                elapsed += Time.unscaledDeltaTime;
                 group.alpha = Mathf.SmoothStep(startingAlpha, target, elapsed / Mathf.Max(0.05f, duration));
                 if (fadingAudio)
                 {
