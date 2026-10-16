@@ -9,8 +9,6 @@ namespace GameMenus
         [SerializeField] private UnityEngine.UI.Slider slider;
         [SerializeField] private TMP_Text valueLabel;
         private int appliedPercentage;
-
-
         private void OnEnable()
         {
             float volume = AudioPreferences.GetVolume(channel);
@@ -30,7 +28,10 @@ namespace GameMenus
         {
             int rounded = Mathf.RoundToInt(percentage);
             if (rounded == appliedPercentage)
+            {
                 return;
+            }
+
             appliedPercentage = rounded;
             AudioPreferences.SetVolume(channel, rounded / 100f);
             ShowValue(rounded);

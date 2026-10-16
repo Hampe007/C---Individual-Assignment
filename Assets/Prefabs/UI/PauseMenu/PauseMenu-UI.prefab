@@ -4711,19 +4711,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e65dbd29e83454649bd4aad82a496284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
-  _panel: {fileID: 8634838190788328973}
-  _menuPage: {fileID: 5054337498032609541}
-  _optionsPage: {fileID: 4740289275995242616}
-  _confirmationPage: {fileID: 7912145535728312199}
-  _confirmationTitle: {fileID: 1894646762328157145}
-  _confirmationBody: {fileID: 7583338298900862672}
-  _resumeButton: {fileID: 4495234562344363748}
-  _optionsBackButton: {fileID: 7646657930765271190}
-  _cancelButton: {fileID: 6603117258130297335}
-  _playerHealth: {fileID: 0}
-  _skillTreePanel: {fileID: 0}
-  _gameOverPanel: {fileID: 0}
-  _mainMenuSceneName: MainMenu
+  panel: {fileID: 8634838190788328973}
+  menuPage: {fileID: 5054337498032609541}
+  optionsPage: {fileID: 4740289275995242616}
+  confirmationPage: {fileID: 7912145535728312199}
+  confirmationTitle: {fileID: 1894646762328157145}
+  confirmationBody: {fileID: 7583338298900862672}
+  resumeButton: {fileID: 4495234562344363748}
+  optionsBackButton: {fileID: 7646657930765271190}
+  cancelButton: {fileID: 6603117258130297335}
+  playerHealth: {fileID: 0}
+  skillTreePanel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  mainMenuSceneName: MainMenu
 --- !u!1 &5408972533884553521
 GameObject:
   m_ObjectHideFlags: 0

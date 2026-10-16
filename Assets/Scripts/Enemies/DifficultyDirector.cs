@@ -6,29 +6,26 @@ using UnityEngine;
 /// </summary>
 public sealed class DifficultyDirector : MonoBehaviour
 {
-    [SerializeField] private HordeManager _hordeManager;
-
+    [SerializeField] private HordeManager hordeManager;
     [Header("Starting Pressure")]
-    [SerializeField, Min(0)] private int _startingEnemies = 20;
-
+    [SerializeField, Min(0)] private int startingEnemies = 20;
     [Header("Difficulty Scaling")]
-    [SerializeField, Min(1f)] private float _rampSeconds = 300f;
-    [SerializeField, Min(0.1f)] private float _startSpawnInterval = 1.25f;
-    [SerializeField, Min(0.1f)] private float _endSpawnInterval = 0.4f;
-    [SerializeField, Min(1)] private int _startBatchSize = 2;
-    [SerializeField, Min(1)] private int _endBatchSize = 10;
-
+    [SerializeField, Min(1f)] private float rampSeconds = 300f;
+    [SerializeField, Min(0.1f)] private float startSpawnInterval = 1.25f;
+    [SerializeField, Min(0.1f)] private float endSpawnInterval = 0.4f;
+    [SerializeField, Min(1)] private int startBatchSize = 2;
+    [SerializeField, Min(1)] private int endBatchSize = 10;
     [Header("Enemy Spawning")]
-    [SerializeField] private EnemySpawnEntry[] _spawnEntries;
-
-    private float _elapsed;
-    private float _spawnTimer;
-    private bool _started;
-
+    [SerializeField] private EnemySpawnEntry[] spawnEntries;
+    private float elapsed;
+    private float spawnTimer;
+    private bool started;
     private void Start()
     {
-        if (_hordeManager != null && _spawnEntries != null && _spawnEntries.Length > 0)
+        if (hordeManager != null && spawnEntries != null && spawnEntries.Length > 0)
+        {
             return;
+        }
 
         Debug.LogError("DifficultyDirector is missing required references.");
         enabled = false;
@@ -37,52 +34,60 @@ public sealed class DifficultyDirector : MonoBehaviour
     private void Update()
     {
         if (Time.timeScale == 0f)
-            return;
-
-        if (!_hordeManager.IsReady)
-            return;
-
-        if (!_started)
         {
-            // Wait for HordeManager's native data and view pools to be initialized before starting the run.
-            _started = true;
-            _spawnTimer = _startSpawnInterval;
-            SpawnEnemies(_startingEnemies);
             return;
         }
 
-        _elapsed += Time.deltaTime;
-
-        if (_hordeManager.ActiveEnemyCount >= _hordeManager.MaxEnemyCount)
+        if (!hordeManager.IsReady)
+        {
             return;
+        }
 
-        _spawnTimer -= Time.deltaTime;
-
-        if (_spawnTimer > 0f)
+        if (!started)
+        {
+            // Wait for HordeManager's native data and view pools to be initialized before starting the run.
+            started = true;
+            spawnTimer = startSpawnInterval;
+            SpawnEnemies(startingEnemies);
             return;
+        }
+
+        elapsed += Time.deltaTime;
+        if (hordeManager.ActiveEnemyCount >= hordeManager.MaxEnemyCount)
+        {
+            return;
+        }
+
+        spawnTimer -= Time.deltaTime;
+        if (spawnTimer > 0f)
+        {
+            return;
+        }
 
         // Interpolate both spawn cadence and batch size over the same ramp.
-        float progress = Mathf.Clamp01(_elapsed / _rampSeconds);
-        float interval = Mathf.Lerp(_startSpawnInterval, _endSpawnInterval, progress);
-        int batchSize = Mathf.RoundToInt(Mathf.Lerp(_startBatchSize, _endBatchSize, progress));
-
+        float progress = Mathf.Clamp01(elapsed / rampSeconds);
+        float interval = Mathf.Lerp(startSpawnInterval, endSpawnInterval, progress);
+        int batchSize = Mathf.RoundToInt(Mathf.Lerp(startBatchSize, endBatchSize, progress));
         SpawnEnemies(batchSize);
-        _spawnTimer = interval;
+        spawnTimer = interval;
     }
 
     private void SpawnEnemies(int amount)
     {
         for (int i = 0; i < amount; i++)
         {
-            if (_hordeManager.ActiveEnemyCount >= _hordeManager.MaxEnemyCount)
+            if (hordeManager.ActiveEnemyCount >= hordeManager.MaxEnemyCount)
+            {
                 return;
+            }
 
             EnemyDefinition enemy = GetEnemy();
-
             if (enemy == null)
+            {
                 return;
+            }
 
-            _hordeManager.TrySpawnEnemy(enemy);
+            hordeManager.TrySpawnEnemy(enemy);
         }
     }
 
@@ -90,31 +95,34 @@ public sealed class DifficultyDirector : MonoBehaviour
     {
         // Weighted selection only considers definitions whose unlock time has passed.
         float totalWeight = 0f;
-
-        for (int i = 0; i < _spawnEntries.Length; i++)
+        for (int i = 0; i < spawnEntries.Length; i++)
         {
-            EnemySpawnEntry entry = _spawnEntries[i];
-
-            if (entry.Enemy != null && _elapsed >= entry.UnlockTime)
+            EnemySpawnEntry entry = spawnEntries[i];
+            if (entry.Enemy != null && elapsed >= entry.UnlockTime)
+            {
                 totalWeight += entry.Weight;
+            }
         }
 
         if (totalWeight <= 0f)
+        {
             return null;
+        }
 
         float roll = Random.Range(0f, totalWeight);
-
-        for (int i = 0; i < _spawnEntries.Length; i++)
+        for (int i = 0; i < spawnEntries.Length; i++)
         {
-            EnemySpawnEntry entry = _spawnEntries[i];
-
-            if (entry.Enemy == null || _elapsed < entry.UnlockTime)
+            EnemySpawnEntry entry = spawnEntries[i];
+            if (entry.Enemy == null || elapsed < entry.UnlockTime)
+            {
                 continue;
+            }
 
             roll -= entry.Weight;
-
             if (roll <= 0f)
+            {
                 return entry.Enemy;
+            }
         }
 
         return null;
@@ -125,11 +133,10 @@ public sealed class DifficultyDirector : MonoBehaviour
 [System.Serializable]
 public sealed class EnemySpawnEntry
 {
-    [SerializeField] private EnemyDefinition _enemy;
-    [SerializeField, Min(0f)] private float _unlockTime;
-    [SerializeField, Min(0f)] private float _weight = 1f;
-
-    public EnemyDefinition Enemy => _enemy;
-    public float UnlockTime => _unlockTime;
-    public float Weight => _weight;
+    [SerializeField] private EnemyDefinition enemy;
+    [SerializeField, Min(0f)] private float unlockTime;
+    [SerializeField, Min(0f)] private float weight = 1f;
+    public EnemyDefinition Enemy => enemy;
+    public float UnlockTime => unlockTime;
+    public float Weight => weight;
 }

@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 
 public sealed class TutorialDirector : MonoBehaviour
 {
-    private const string CompletionKey = "Tutorial.Completed";
-
     [SerializeField] private TutorialSettings settings;
     [SerializeField] private TutorialView view;
     [SerializeField] private Transform player;
@@ -26,8 +24,8 @@ public sealed class TutorialDirector : MonoBehaviour
 
     private void Awake()
     {
-        if (settings == null || settings.lessons == null || settings.lessons.Length == 0 ||
-            settings.practiceEnemy == null || view == null || player == null || horde == null ||
+        if (settings == null || settings.Lessons == null || settings.Lessons.Length == 0 ||
+            settings.PracticeEnemy == null || view == null || player == null || horde == null ||
             health == null || progression == null || upgrades == null)
         {
             Debug.LogError("TutorialDirector is missing required references.", this);
@@ -96,18 +94,18 @@ public sealed class TutorialDirector : MonoBehaviour
             return;
         }
 
-        TutorialLesson lesson = settings.lessons[lessonIndex];
-        switch (lesson.goal)
+        TutorialLesson lesson = settings.Lessons[lessonIndex];
+        switch (lesson.Goal)
         {
             case TutorialGoal.ReachMarker:
-                if (markers == null || lesson.markerIndex >= markers.Length || markers[lesson.markerIndex] == null)
+                if (markers == null || lesson.MarkerIndex >= markers.Length || markers[lesson.MarkerIndex] == null)
                 {
                     Debug.LogError("Tutorial marker is missing.", this);
                     enabled = false;
                     return;
                 }
 
-                Vector3 offset = player.position - markers[lesson.markerIndex].position;
+                Vector3 offset = player.position - markers[lesson.MarkerIndex].position;
                 offset.y = 0f;
                 if (offset.sqrMagnitude <= markerRadius * markerRadius)
                 {
@@ -116,14 +114,14 @@ public sealed class TutorialDirector : MonoBehaviour
                 break;
             case TutorialGoal.DefeatEnemies:
             case TutorialGoal.ReachLevel:
-                ReplenishEnemies(lesson.targetCount);
-                if (lesson.goal == TutorialGoal.ReachLevel && progression.Level >= 1)
+                ReplenishEnemies(lesson.TargetCount);
+                if (lesson.Goal == TutorialGoal.ReachLevel && progression.Level >= 1)
                 {
                     Advance();
                 }
                 break;
             case TutorialGoal.Survive:
-                ReplenishEnemies(lesson.targetCount);
+                ReplenishEnemies(lesson.TargetCount);
                 remaining -= Time.deltaTime;
                 view.ShowProgress($"{Mathf.CeilToInt(remaining)} seconds left");
                 if (remaining <= 0f)
@@ -136,28 +134,28 @@ public sealed class TutorialDirector : MonoBehaviour
 
     private void BeginLesson()
     {
-        TutorialLesson lesson = settings.lessons[lessonIndex];
+        TutorialLesson lesson = settings.Lessons[lessonIndex];
         defeated = 0;
         spawned = 0;
-        remaining = lesson.duration;
+        remaining = lesson.Duration;
         spawnRetry = 0f;
-        view.ShowLesson(lesson, lessonIndex, settings.lessons.Length);
+        view.ShowLesson(lesson, lessonIndex, settings.Lessons.Length);
 
         if (markerVisual != null)
         {
-            bool showMarker = lesson.goal == TutorialGoal.ReachMarker;
+            bool showMarker = lesson.Goal == TutorialGoal.ReachMarker;
             markerVisual.SetActive(showMarker);
-            if (showMarker && lesson.markerIndex < markers.Length && markers[lesson.markerIndex] != null)
+            if (showMarker && lesson.MarkerIndex < markers.Length && markers[lesson.MarkerIndex] != null)
             {
-                markerVisual.transform.position = markers[lesson.markerIndex].position + Vector3.up * 0.05f;
+                markerVisual.transform.position = markers[lesson.MarkerIndex].position + Vector3.up * 0.05f;
             }
         }
 
-        if (lesson.goal == TutorialGoal.DefeatEnemies)
+        if (lesson.Goal == TutorialGoal.DefeatEnemies)
         {
-            view.ShowProgress($"0/{lesson.targetCount} defeated");
+            view.ShowProgress($"0/{lesson.TargetCount} defeated");
         }
-        else if (lesson.goal == TutorialGoal.ReachLevel)
+        else if (lesson.Goal == TutorialGoal.ReachLevel)
         {
             view.ShowProgress($"Level {progression.Level}/1");
         }
@@ -170,8 +168,8 @@ public sealed class TutorialDirector : MonoBehaviour
             return;
         }
 
-        TutorialLesson lesson = settings.lessons[lessonIndex];
-        if (lesson.goal == TutorialGoal.DefeatEnemies && spawned >= targetCount)
+        TutorialLesson lesson = settings.Lessons[lessonIndex];
+        if (lesson.Goal == TutorialGoal.DefeatEnemies && spawned >= targetCount)
         {
             return;
         }
@@ -186,13 +184,13 @@ public sealed class TutorialDirector : MonoBehaviour
             float angle = (spawned * 137f + attempt * 47f) * Mathf.Deg2Rad;
             float radius = 7f + (attempt % 3) * 1.5f;
             Vector3 position = player.position + new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
-            if (!horde.TrySpawnEnemyAt(settings.practiceEnemy, position))
+            if (!horde.TrySpawnEnemyAt(settings.PracticeEnemy, position))
             {
                 continue;
             }
 
             spawned++;
-            spawnRetry = Time.time + (lesson.goal == TutorialGoal.Survive ? 3f : 1f);
+            spawnRetry = Time.time + (lesson.Goal == TutorialGoal.Survive ? 3f : 1f);
             return;
         }
 
@@ -201,20 +199,20 @@ public sealed class TutorialDirector : MonoBehaviour
 
     private void OnEnemyDied(int experience, int score)
     {
-        if (finished || lessonIndex >= settings.lessons.Length)
+        if (finished || lessonIndex >= settings.Lessons.Length)
         {
             return;
         }
 
-        TutorialLesson lesson = settings.lessons[lessonIndex];
-        if (lesson.goal != TutorialGoal.DefeatEnemies)
+        TutorialLesson lesson = settings.Lessons[lessonIndex];
+        if (lesson.Goal != TutorialGoal.DefeatEnemies)
         {
             return;
         }
 
         defeated++;
-        view.ShowProgress($"{Mathf.Min(defeated, lesson.targetCount)}/{lesson.targetCount} defeated");
-        if (defeated >= lesson.targetCount)
+        view.ShowProgress($"{Mathf.Min(defeated, lesson.TargetCount)}/{lesson.TargetCount} defeated");
+        if (defeated >= lesson.TargetCount)
         {
             Advance();
         }
@@ -222,7 +220,7 @@ public sealed class TutorialDirector : MonoBehaviour
 
     private void OnUpgradePurchased()
     {
-        if (!finished && settings.lessons[lessonIndex].goal == TutorialGoal.ChooseUpgrade)
+        if (!finished && settings.Lessons[lessonIndex].Goal == TutorialGoal.ChooseUpgrade)
         {
             Advance();
         }
@@ -230,7 +228,7 @@ public sealed class TutorialDirector : MonoBehaviour
 
     private void OnLeveledUp(int level)
     {
-        if (!finished && level >= 1 && settings.lessons[lessonIndex].goal == TutorialGoal.ReachLevel)
+        if (!finished && level >= 1 && settings.Lessons[lessonIndex].Goal == TutorialGoal.ReachLevel)
         {
             Advance();
         }
@@ -248,7 +246,7 @@ public sealed class TutorialDirector : MonoBehaviour
     private void Advance()
     {
         lessonIndex++;
-        if (lessonIndex < settings.lessons.Length)
+        if (lessonIndex < settings.Lessons.Length)
         {
             BeginLesson();
             return;
@@ -259,8 +257,7 @@ public sealed class TutorialDirector : MonoBehaviour
         {
             markerVisual.SetActive(false);
         }
-        PlayerPrefs.SetInt(CompletionKey, 1);
-        PlayerPrefs.Save();
+        GameProgress.CompleteTutorial();
         Time.timeScale = 0f;
         view.ShowCompletion();
     }
@@ -268,7 +265,7 @@ public sealed class TutorialDirector : MonoBehaviour
     public void ReturnToMenu()
     {
         Time.timeScale = 1f;
-        SceneTransition.LoadScene(settings.menuScene);
+        SceneTransition.LoadScene(settings.MenuScene);
     }
 
     public void Replay()

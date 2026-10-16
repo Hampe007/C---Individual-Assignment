@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_LanternUnlock
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Unlock Lantern
-  _description: 'Unlock a floating lantern for this run.
+  displayName: Unlock Lantern
+  description: 'Unlock a floating lantern for this run.
 
     Reach: 5 m'
-  _effect: 6
-  _value: 0
-  _maxLevel: 1
+  effect: 6
+  value: 0
+  maxLevel: 1

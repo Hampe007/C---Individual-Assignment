@@ -8,8 +8,7 @@ namespace GameMenus
 {
     public sealed class MainMenuWorld : MonoBehaviour
     {
-        private static readonly int SpeedParameter = Animator.StringToHash("Speed");
-
+        private static readonly int speedParameter = Animator.StringToHash("Speed");
         [SerializeField] private Transform player;
         [SerializeField] private Animator playerAnimator;
         [SerializeField] private Transform[] enemies;
@@ -26,13 +25,11 @@ namespace GameMenus
         [SerializeField] private AudioClip footstep;
         [SerializeField] private AnimationClip[] introCameraMoves;
         [SerializeField] private Vector3 runPlayback = new(1f, 0.78f, 0.58f);
-
         [SerializeField] private GameObject emoteSpeech;
         [SerializeField] private GameObject emoteExclamation;
         [SerializeField] private GameObject emoteQuestion;
         [SerializeField] private GameObject emoteHeartbroken;
         [SerializeField] private Transform playerHead;
-
         public GameObject EmoteSpeech => emoteSpeech;
         public GameObject EmoteExclamation => emoteExclamation;
         public GameObject EmoteQuestion => emoteQuestion;
@@ -57,7 +54,6 @@ namespace GameMenus
         private PlayableGraph introCameraGraph;
         private AnimationClipPlayable introCameraPlayable;
         private int animatedCamera = -1;
-
         public bool ImpactStarted { get; private set; }
         public Vector3 ImpactPosition => player.position + Vector3.up;
 
@@ -70,14 +66,13 @@ namespace GameMenus
             }
         } 
 #endif
-
-
         private void Start()
         {
             if (playerHead != null && emoteExclamation != null)
             {
                 exclamationHeadOffset = emoteExclamation.transform.position - playerHead.position;
             }
+
             if (playerHead != null && emoteHeartbroken != null)
             {
                 heartbrokenHeadOffset = emoteHeartbroken.transform.position - playerHead.position;
@@ -107,6 +102,7 @@ namespace GameMenus
             {
                 return;
             }
+
             if (idleUntil > 0f && worldClock >= idleUntil)
             {
                 idleUntil = 0f;
@@ -125,6 +121,7 @@ namespace GameMenus
             {
                 emoteExclamation.transform.position = playerHead.position + exclamationHeadOffset;
             }
+
             if (emoteHeartbroken != null && emoteHeartbroken.activeInHierarchy)
             {
                 emoteHeartbroken.transform.position = playerHead.position + heartbrokenHeadOffset;
@@ -151,6 +148,7 @@ namespace GameMenus
             {
                 AnimatePlayer("Run");
             }
+
             chasePass = pass;
             playerAnimator.speed = runPlayback[pass];
             for (int index = 0; index < enemies.Length; index++)
@@ -159,9 +157,10 @@ namespace GameMenus
                 int row = index / 4;
                 enemies[index].position = new Vector3(playerX - direction * (gap + row * 1.7f), 0f, lane + (index % 4 - 1.5f) * 1.05f);
                 enemies[index].rotation = player.rotation;
-                enemyAnimators[index].SetFloat(SpeedParameter, 5f);
+                enemyAnimators[index].SetFloat(speedParameter, 5f);
                 enemyAnimators[index].speed = Mathf.Max(0.7f, runPlayback[pass] + 0.1f);
             }
+
             if (worldClock >= nextStep && progress > 0.1f && progress < 0.9f)
             {
                 nextStep = worldClock + 0.3f / runPlayback[pass];
@@ -194,12 +193,14 @@ namespace GameMenus
         private void ReleaseIntroCamera()
         {
             if (introCameraGraph.IsValid())
+            {
                 introCameraGraph.Destroy();
+            }
+
             animatedCamera = -1;
         }
 
         private void OnDisable() => ReleaseIntroCamera();
-
         public void BeginCatch()
         {
             ReleaseIntroCamera();
@@ -233,7 +234,7 @@ namespace GameMenus
                 {
                     enemies[index].rotation = Quaternion.LookRotation(direction);
                 }
-            
+
                 enemyAnimators[index].speed = progress >= 1f ? 0f : 1.35f;
                 if (!enemyImpacts[index] && (position.x - player.position.x) * catchDirection >= -0.3f)
                 {
@@ -251,6 +252,7 @@ namespace GameMenus
                     }
                 }
             }
+
             if (ImpactStarted && catchElapsed - impactTime > 0.28f)
             {
                 player.gameObject.SetActive(false);
@@ -284,9 +286,14 @@ namespace GameMenus
         public void SetHoverEmote(MenuOption option)
         {
             if (emoteQuestion != null)
+            {
                 emoteQuestion.SetActive(option == MenuOption.Tutorial);
+            }
+
             if (emoteExclamation != null)
+            {
                 emoteExclamation.SetActive(option == MenuOption.Quit);
+            }
         }
 
         public void React(MenuReaction reaction)
@@ -296,14 +303,14 @@ namespace GameMenus
             {
                 return;
             }
-            selectedAnimation = reaction.animationState;
-            AnimatePlayer(selectedAnimation);
-            SelectCamera(reaction.cameraIndex);
-            targetLight = reaction.lightColor;
-            targetIntensity = reaction.lightIntensity;
-            patrol.SetActivity(reaction.enemyActivity);
-        }
 
+            selectedAnimation = reaction.AnimationState;
+            AnimatePlayer(selectedAnimation);
+            SelectCamera(reaction.CameraIndex);
+            targetLight = reaction.LightColor;
+            targetIntensity = reaction.LightIntensity;
+            patrol.SetActivity(reaction.EnemyActivity);
+        }
 
         public void IdleEvent()
         {
@@ -311,6 +318,7 @@ namespace GameMenus
             {
                 return;
             }
+
             AnimatePlayer(Random.value > 0.5f ? "LookAround" : "Prepare");
             idleUntil = worldClock + 3.5f;
         }
@@ -344,6 +352,7 @@ namespace GameMenus
             {
                 return;
             }
+
             shot = index;
             for (int cameraIndex = 0; cameraIndex < cameras.Length; cameraIndex++)
             {

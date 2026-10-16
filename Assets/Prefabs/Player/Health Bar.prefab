@@ -338,10 +338,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910d699f98e047445a9cb6eeeca2b475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthUI
-  _playerHealth: {fileID: 0}
-  _healthSlider: {fileID: 8702015367930430962}
-  _dmgHealthSlider: {fileID: 8285928133707455693}
-  _dmgBarSpeed: 80
+  playerHealth: {fileID: 0}
+  healthSlider: {fileID: 8702015367930430962}
+  dmgHealthSlider: {fileID: 8285928133707455693}
+  dmgBarSpeed: 80
 --- !u!1 &5018376518908576332
 GameObject:
   m_ObjectHideFlags: 0

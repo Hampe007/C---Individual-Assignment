@@ -11,10 +11,8 @@ namespace BrightnessCalibration
         private const float RampDuration = 0.7f;
         private const float StartSpeed = 8f;
         private const float MaximumSpeed = 60f;
-
         private int heldDirection;
         private float heldSince;
-
         public override void OnMove(AxisEventData eventData)
         {
             int direction = eventData.moveDir switch
@@ -30,7 +28,9 @@ namespace BrightnessCalibration
             }
 
             if (heldDirection == direction)
+            {
                 return;
+            }
 
             heldDirection = direction;
             heldSince = Time.unscaledTime;
@@ -57,13 +57,18 @@ namespace BrightnessCalibration
             if (direction != heldDirection)
             {
                 if (direction == 0)
+                {
                     heldDirection = 0;
+                }
+
                 return;
             }
 
             float heldFor = Time.unscaledTime - heldSince;
             if (direction == 0 || heldFor < HoldDelay)
+            {
                 return;
+            }
 
             float ramp = Mathf.Clamp01((heldFor - HoldDelay) / RampDuration);
             float speed = Mathf.Lerp(StartSpeed, MaximumSpeed, ramp * ramp * (3f - 2f * ramp));
@@ -81,6 +86,7 @@ namespace BrightnessCalibration
                 left |= gamepad.dpad.left.isPressed || gamepad.leftStick.ReadValue().x < -0.5f;
                 right |= gamepad.dpad.right.isPressed || gamepad.leftStick.ReadValue().x > 0.5f;
             }
+
             return left == right ? 0 : right ? 1 : -1;
         }
     }

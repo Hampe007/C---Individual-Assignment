@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_SoulBoltUnlock
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Soul Bolt
-  _description: Automatically fire spectral bolts at nearby enemies.
-  _effect: 7
-  _value: 1
-  _maxLevel: 1
+  displayName: Soul Bolt
+  description: Automatically fire spectral bolts at nearby enemies.
+  effect: 7
+  value: 1
+  maxLevel: 1

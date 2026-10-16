@@ -5,7 +5,7 @@ namespace GameMenus
 {
     public sealed class MainMenuPatrol : MonoBehaviour
     {
-        private static readonly int SpeedParameter = Animator.StringToHash("Speed");
+        private static readonly int speedParameter = Animator.StringToHash("Speed");
 
         [SerializeField] private NavMeshAgent[] agents;
         [SerializeField] private Animator[] animators;
@@ -78,7 +78,7 @@ namespace GameMenus
             
                 agent.speed = Mathf.MoveTowards(agent.speed, this.speed * activity, Time.deltaTime * 3f);
                 float speed = agent.velocity.magnitude;
-                animators[index].SetFloat(SpeedParameter, speed);
+                animators[index].SetFloat(speedParameter, speed);
                 animators[index].speed = speed < 0.15f ? 1f : Mathf.Clamp(speed / 3f, 0.75f, 1.5f);
                 if (!agent.pathPending && Time.time >= nextMove[index] && (!agent.hasPath || agent.remainingDistance <= agent.stoppingDistance + 0.25f))
                 {

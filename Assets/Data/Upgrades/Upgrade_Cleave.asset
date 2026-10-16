@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_Cleave
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Cleave
-  _description: Each level lets a sword swing hit one additional enemy.
-  _effect: 3
-  _value: 1
-  _maxLevel: 4
+  displayName: Cleave
+  description: Each level lets a sword swing hit one additional enemy.
+  effect: 3
+  value: 1
+  maxLevel: 4

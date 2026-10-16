@@ -17,10 +17,10 @@ public sealed class AudioManager : MonoBehaviour
     [Header("SFX")]
     [SerializeField, Min(1)] private int maxSfxSources = 64;
 
-    private ObjectPool<AudioSource> _sfxPool;
-    private readonly List<AudioSource> _activeSfx = new();
-    private readonly Dictionary<AudioSource, float> _sfxBaseVolumes = new();
-    private float _musicBaseVolume;
+    private ObjectPool<AudioSource> sfxPool;
+    private readonly List<AudioSource> activeSfx = new();
+    private readonly Dictionary<AudioSource, float> sfxBaseVolumes = new();
+    private float musicBaseVolume;
 
     private void Awake()
     {
@@ -43,27 +43,27 @@ public sealed class AudioManager : MonoBehaviour
         }
 
         musicSource.outputAudioMixerGroup = musicGroup;
-        _musicBaseVolume = musicSource.volume;
+        musicBaseVolume = musicSource.volume;
         AudioPreferences.Changed += ApplyVolumes;
         ApplyVolumes();
 
-        _sfxPool = new ObjectPool<AudioSource>(CreateSfxSource, GetSfxSource, ReleaseSfxSource, DestroySfxSource, true, 16, maxSfxSources);
+        sfxPool = new ObjectPool<AudioSource>(CreateSfxSource, GetSfxSource, ReleaseSfxSource, DestroySfxSource, true, 16, maxSfxSources);
     }
 
     private void Update()
     {
-        for (int i = _activeSfx.Count - 1; i >= 0; i--)
+        for (int i = activeSfx.Count - 1; i >= 0; i--)
         {
-            AudioSource source = _activeSfx[i];
+            AudioSource source = activeSfx[i];
 
             if (source.isPlaying || (AudioListener.pause && !source.ignoreListenerPause))
             {
                 continue;
             }
 
-            _activeSfx.RemoveAt(i);
-            _sfxBaseVolumes.Remove(source);
-            _sfxPool.Release(source);
+            activeSfx.RemoveAt(i);
+            sfxBaseVolumes.Remove(source);
+            sfxPool.Release(source);
         }
     }
 
@@ -91,19 +91,19 @@ public sealed class AudioManager : MonoBehaviour
             return;
         }
 
-        AudioSource source = _sfxPool.Get();
+        AudioSource source = sfxPool.Get();
 
         source.transform.position = position;
         source.spatialBlend = spatialBlend;
         source.outputAudioMixerGroup = sound.OutputMixerGroup != null ? sound.OutputMixerGroup : sfxGroup;
         source.ignoreListenerPause = sound.IgnoreListenerPause;
         source.clip = clip;
-        _sfxBaseVolumes[source] = sound.Volume;
+        sfxBaseVolumes[source] = sound.Volume;
         source.volume = sound.Volume * AudioPreferences.GetVolume(AudioVolumeChannel.Effects);
         source.pitch = sound.GetPitch();
 
         source.Play();
-        _activeSfx.Add(source);
+        activeSfx.Add(source);
     }
 
     public void PlayMusic(AudioClip clip)
@@ -165,17 +165,17 @@ public sealed class AudioManager : MonoBehaviour
             Instance = null;
         }
 
-        _sfxPool?.Clear();
-        _activeSfx.Clear();
-        _sfxBaseVolumes.Clear();
+        sfxPool?.Clear();
+        activeSfx.Clear();
+        sfxBaseVolumes.Clear();
     }
 
     private void ApplyVolumes()
     {
-        musicSource.volume = _musicBaseVolume * AudioPreferences.GetVolume(AudioVolumeChannel.Music);
-        foreach (AudioSource source in _activeSfx)
+        musicSource.volume = musicBaseVolume * AudioPreferences.GetVolume(AudioVolumeChannel.Music);
+        foreach (AudioSource source in activeSfx)
         {
-            source.volume = _sfxBaseVolumes[source] * AudioPreferences.GetVolume(AudioVolumeChannel.Effects);
+            source.volume = sfxBaseVolumes[source] * AudioPreferences.GetVolume(AudioVolumeChannel.Effects);
         }
     }
 }

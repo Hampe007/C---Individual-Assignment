@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_MoveSpeed
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Movement Speed
-  _description: Increase movement speed.
-  _effect: 0
-  _value: 0.5
-  _maxLevel: 5
+  displayName: Movement Speed
+  description: Increase movement speed.
+  effect: 0
+  value: 0.5
+  maxLevel: 5

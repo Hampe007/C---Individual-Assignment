@@ -2689,7 +2689,7 @@ MonoBehaviour:
   content: {fileID: 608584422589360276}
   warningFadeInDuration: 0.8
   fadeOutDuration: 0.45
-  fadeInDuration: 1.1
+  fadeInDuration: 0.35
 --- !u!225 &1869270552910328883
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -382,27 +382,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: soul_bolt_tracking
-  _button: {fileID: 1426176250}
-  _background: {fileID: 1426176251}
-  _nameText: {fileID: 1108215950}
-  _statusText: {fileID: 1966043983}
-  _badgeBackground: {fileID: 17815596}
-  _levelBadgeText: {fileID: 1736732341}
-  _badgeOutline: {fileID: 17815595}
-  _stateOutline: {fileID: 1426176255}
-  _focusOutline: {fileID: 1426176254}
-  _selectionOutline: {fileID: 1426176253}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: soul_bolt_tracking
+  button: {fileID: 1426176250}
+  background: {fileID: 1426176251}
+  nameText: {fileID: 1108215950}
+  statusText: {fileID: 1966043983}
+  badgeBackground: {fileID: 17815596}
+  levelBadgeText: {fileID: 1736732341}
+  badgeOutline: {fileID: 17815595}
+  stateOutline: {fileID: 1426176255}
+  focusOutline: {fileID: 1426176254}
+  selectionOutline: {fileID: 1426176253}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!1 &17815593
 GameObject:
   m_ObjectHideFlags: 0
@@ -2789,7 +2789,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 292, y: -27}
+  m_AnchoredPosition: {x: 80.70001, y: -113}
   m_SizeDelta: {x: 180, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172454587
@@ -2804,27 +2804,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: cleave
-  _button: {fileID: 2030837413}
-  _background: {fileID: 2030837414}
-  _nameText: {fileID: 25959695}
-  _statusText: {fileID: 1050847789}
-  _badgeBackground: {fileID: 684711468}
-  _levelBadgeText: {fileID: 750371496}
-  _badgeOutline: {fileID: 684711467}
-  _stateOutline: {fileID: 2030837418}
-  _focusOutline: {fileID: 2030837417}
-  _selectionOutline: {fileID: 2030837416}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: cleave
+  button: {fileID: 2030837413}
+  background: {fileID: 2030837414}
+  nameText: {fileID: 25959695}
+  statusText: {fileID: 1050847789}
+  badgeBackground: {fileID: 684711468}
+  levelBadgeText: {fileID: 750371496}
+  badgeOutline: {fileID: 684711467}
+  stateOutline: {fileID: 2030837418}
+  focusOutline: {fileID: 2030837417}
+  selectionOutline: {fileID: 2030837416}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!1 &182119809
 GameObject:
   m_ObjectHideFlags: 0
@@ -3013,27 +3013,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: lantern_unlock
-  _button: {fileID: 1515431816}
-  _background: {fileID: 1515431817}
-  _nameText: {fileID: 1479665139}
-  _statusText: {fileID: 1359644053}
-  _badgeBackground: {fileID: 2074071251}
-  _levelBadgeText: {fileID: 302370431}
-  _badgeOutline: {fileID: 2074071250}
-  _stateOutline: {fileID: 1515431821}
-  _focusOutline: {fileID: 1515431820}
-  _selectionOutline: {fileID: 1515431819}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: lantern_unlock
+  button: {fileID: 1515431816}
+  background: {fileID: 1515431817}
+  nameText: {fileID: 1479665139}
+  statusText: {fileID: 1359644053}
+  badgeBackground: {fileID: 2074071251}
+  levelBadgeText: {fileID: 302370431}
+  badgeOutline: {fileID: 2074071250}
+  stateOutline: {fileID: 1515431821}
+  focusOutline: {fileID: 1515431820}
+  selectionOutline: {fileID: 1515431819}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!1 &187691572
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,27 +3085,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: move_speed
-  _button: {fileID: 739134201}
-  _background: {fileID: 739134202}
-  _nameText: {fileID: 561977911}
-  _statusText: {fileID: 852312818}
-  _badgeBackground: {fileID: 2064239966}
-  _levelBadgeText: {fileID: 761356362}
-  _badgeOutline: {fileID: 2064239965}
-  _stateOutline: {fileID: 739134206}
-  _focusOutline: {fileID: 739134205}
-  _selectionOutline: {fileID: 739134204}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: move_speed
+  button: {fileID: 739134201}
+  background: {fileID: 739134202}
+  nameText: {fileID: 561977911}
+  statusText: {fileID: 852312818}
+  badgeBackground: {fileID: 2064239966}
+  levelBadgeText: {fileID: 761356362}
+  badgeOutline: {fileID: 2064239965}
+  stateOutline: {fileID: 739134206}
+  focusOutline: {fileID: 739134205}
+  selectionOutline: {fileID: 739134204}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!43 &193078072
 Mesh:
   m_ObjectHideFlags: 0
@@ -8622,15 +8622,15 @@ PrefabInstance:
       value: SoundEffects
       objectReference: {fileID: 0}
     - target: {fileID: 6755017096538409442, guid: 7dab42a63eead7543bcd707eff1def30, type: 3}
-      propertyPath: _playerHealth
+      propertyPath: playerHealth
       value: 
       objectReference: {fileID: 8057403300091190146}
     - target: {fileID: 6755017096538409442, guid: 7dab42a63eead7543bcd707eff1def30, type: 3}
-      propertyPath: _gameOverPanel
+      propertyPath: gameOverPanel
       value: 
       objectReference: {fileID: 483068979}
     - target: {fileID: 6755017096538409442, guid: 7dab42a63eead7543bcd707eff1def30, type: 3}
-      propertyPath: _skillTreePanel
+      propertyPath: skillTreePanel
       value: 
       objectReference: {fileID: 1659409655}
     - target: {fileID: 7129171672604163560, guid: 7dab42a63eead7543bcd707eff1def30, type: 3}
@@ -9857,27 +9857,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: soul_bolt_unlock
-  _button: {fileID: 300605532}
-  _background: {fileID: 300605533}
-  _nameText: {fileID: 1272783362}
-  _statusText: {fileID: 473271324}
-  _badgeBackground: {fileID: 241691128}
-  _levelBadgeText: {fileID: 2129388592}
-  _badgeOutline: {fileID: 241691127}
-  _stateOutline: {fileID: 300605537}
-  _focusOutline: {fileID: 300605536}
-  _selectionOutline: {fileID: 300605535}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: soul_bolt_unlock
+  button: {fileID: 300605532}
+  background: {fileID: 300605533}
+  nameText: {fileID: 1272783362}
+  statusText: {fileID: 473271324}
+  badgeBackground: {fileID: 241691128}
+  levelBadgeText: {fileID: 2129388592}
+  badgeOutline: {fileID: 241691127}
+  stateOutline: {fileID: 300605537}
+  focusOutline: {fileID: 300605536}
+  selectionOutline: {fileID: 300605535}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!1 &527233096
 GameObject:
   m_ObjectHideFlags: 0
@@ -10277,7 +10277,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 82, y: -25}
+  m_AnchoredPosition: {x: 185, y: 31.300003}
   m_SizeDelta: {x: 180, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &538423604
@@ -10292,27 +10292,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: sword_damage
-  _button: {fileID: 1415399393}
-  _background: {fileID: 1415399394}
-  _nameText: {fileID: 182119811}
-  _statusText: {fileID: 1395522405}
-  _badgeBackground: {fileID: 735980919}
-  _levelBadgeText: {fileID: 502808927}
-  _badgeOutline: {fileID: 735980918}
-  _stateOutline: {fileID: 1415399398}
-  _focusOutline: {fileID: 1415399397}
-  _selectionOutline: {fileID: 1415399396}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: sword_damage
+  button: {fileID: 1415399393}
+  background: {fileID: 1415399394}
+  nameText: {fileID: 182119811}
+  statusText: {fileID: 1395522405}
+  badgeBackground: {fileID: 735980919}
+  levelBadgeText: {fileID: 502808927}
+  badgeOutline: {fileID: 735980918}
+  stateOutline: {fileID: 1415399398}
+  focusOutline: {fileID: 1415399397}
+  selectionOutline: {fileID: 1415399396}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!43 &542247314
 Mesh:
   m_ObjectHideFlags: 0
@@ -12701,27 +12701,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: lantern_range
-  _button: {fileID: 1762357856}
-  _background: {fileID: 1762357857}
-  _nameText: {fileID: 875977929}
-  _statusText: {fileID: 1702091014}
-  _badgeBackground: {fileID: 1810752486}
-  _levelBadgeText: {fileID: 1517584667}
-  _badgeOutline: {fileID: 1810752485}
-  _stateOutline: {fileID: 1762357861}
-  _focusOutline: {fileID: 1762357860}
-  _selectionOutline: {fileID: 1762357859}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: lantern_range
+  button: {fileID: 1762357856}
+  background: {fileID: 1762357857}
+  nameText: {fileID: 875977929}
+  statusText: {fileID: 1702091014}
+  badgeBackground: {fileID: 1810752486}
+  levelBadgeText: {fileID: 1517584667}
+  badgeOutline: {fileID: 1810752485}
+  stateOutline: {fileID: 1762357861}
+  focusOutline: {fileID: 1762357860}
+  selectionOutline: {fileID: 1762357859}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!43 &699243416
 Mesh:
   m_ObjectHideFlags: 0
@@ -13760,8 +13760,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02eb00b5ed0b68c4cb24d4b7d3691604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBarDisplay
-  _worldHealthBar: {fileID: 4871778276904961807}
-  _screenHealthBar: {fileID: 3025949924103651151}
+  worldHealthBar: {fileID: 4871778276904961807}
+  screenHealthBar: {fileID: 3025949924103651151}
 --- !u!1 &747741684
 GameObject:
   m_ObjectHideFlags: 0
@@ -14992,7 +14992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 502, y: -317}
+  m_AnchoredPosition: {x: 591, y: -317}
   m_SizeDelta: {x: 180, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &832795598
@@ -15007,27 +15007,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: restore_health
-  _button: {fileID: 278724143}
-  _background: {fileID: 278724144}
-  _nameText: {fileID: 747741686}
-  _statusText: {fileID: 1713472971}
-  _badgeBackground: {fileID: 2054763364}
-  _levelBadgeText: {fileID: 417349618}
-  _badgeOutline: {fileID: 2054763363}
-  _stateOutline: {fileID: 278724142}
-  _focusOutline: {fileID: 278724141}
-  _selectionOutline: {fileID: 278724140}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: restore_health
+  button: {fileID: 278724143}
+  background: {fileID: 278724144}
+  nameText: {fileID: 747741686}
+  statusText: {fileID: 1713472971}
+  badgeBackground: {fileID: 2054763364}
+  levelBadgeText: {fileID: 417349618}
+  badgeOutline: {fileID: 2054763363}
+  stateOutline: {fileID: 278724142}
+  focusOutline: {fileID: 278724141}
+  selectionOutline: {fileID: 278724140}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!43 &835201760
 Mesh:
   m_ObjectHideFlags: 0
@@ -18293,50 +18293,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24529012d782bdc4eba7902edd66dd86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DifficultyDirector
-  _hordeManager: {fileID: 1976173941}
-  _startingEnemies: 3
-  _rampSeconds: 900
-  _startSpawnInterval: 3.2
-  _endSpawnInterval: 1.25
-  _startBatchSize: 2
-  _endBatchSize: 4
-  _spawnEntries:
-  - _enemy: {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
-    _unlockTime: 0
-    _weight: 100
-  - _enemy: {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
-    _unlockTime: 240
-    _weight: 45
-  - _enemy: {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
-    _unlockTime: 600
-    _weight: 25
-  - _enemy: {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
-    _unlockTime: 120
-    _weight: 10
-  - _enemy: {fileID: 11400000, guid: 80172d37092e4d04cbc7bad093ab7b06, type: 2}
-    _unlockTime: 420
-    _weight: 6
-  - _enemy: {fileID: 11400000, guid: 09b8623bc472cc74993363fe0f699e86, type: 2}
-    _unlockTime: 840
-    _weight: 3
-  - _enemy: {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
-    _unlockTime: 180
-    _weight: 3
-  - _enemy: {fileID: 11400000, guid: e5fd2de2205cbcf4e97e6101fd6d51c1, type: 2}
-    _unlockTime: 510
-    _weight: 2
-  - _enemy: {fileID: 11400000, guid: 82db0263354db65478b238875adbfae7, type: 2}
-    _unlockTime: 960
-    _weight: 1
-  - _enemy: {fileID: 11400000, guid: e756a192e39d2004f94ca27d708287a0, type: 2}
-    _unlockTime: 5
-    _weight: 30
-  - _enemy: {fileID: 11400000, guid: 878a950d8f6d13b4e9d67771c9f76f6a, type: 2}
-    _unlockTime: 330
-    _weight: 6
-  - _enemy: {fileID: 11400000, guid: 9198554c2b1dd0244bcc6224a8b344ba, type: 2}
-    _unlockTime: 720
-    _weight: 3
+  hordeManager: {fileID: 1976173941}
+  startingEnemies: 3
+  rampSeconds: 900
+  startSpawnInterval: 3.2
+  endSpawnInterval: 1.25
+  startBatchSize: 2
+  endBatchSize: 4
+  spawnEntries:
+  - enemy: {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
+    unlockTime: 0
+    weight: 100
+  - enemy: {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
+    unlockTime: 240
+    weight: 45
+  - enemy: {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
+    unlockTime: 600
+    weight: 25
+  - enemy: {fileID: 11400000, guid: a98b4c5f2ada3aa46a790a0b9b31a472, type: 2}
+    unlockTime: 120
+    weight: 10
+  - enemy: {fileID: 11400000, guid: 80172d37092e4d04cbc7bad093ab7b06, type: 2}
+    unlockTime: 420
+    weight: 6
+  - enemy: {fileID: 11400000, guid: 09b8623bc472cc74993363fe0f699e86, type: 2}
+    unlockTime: 840
+    weight: 3
+  - enemy: {fileID: 11400000, guid: 2c2260b1bdca43e4abfbb84cf60c4b1d, type: 2}
+    unlockTime: 180
+    weight: 3
+  - enemy: {fileID: 11400000, guid: e5fd2de2205cbcf4e97e6101fd6d51c1, type: 2}
+    unlockTime: 510
+    weight: 2
+  - enemy: {fileID: 11400000, guid: 82db0263354db65478b238875adbfae7, type: 2}
+    unlockTime: 960
+    weight: 1
+  - enemy: {fileID: 11400000, guid: e756a192e39d2004f94ca27d708287a0, type: 2}
+    unlockTime: 5
+    weight: 30
+  - enemy: {fileID: 11400000, guid: 878a950d8f6d13b4e9d67771c9f76f6a, type: 2}
+    unlockTime: 330
+    weight: 6
+  - enemy: {fileID: 11400000, guid: 9198554c2b1dd0244bcc6224a8b344ba, type: 2}
+    unlockTime: 720
+    weight: 3
 --- !u!43 &1089014417
 Mesh:
   m_ObjectHideFlags: 0
@@ -20639,21 +20639,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f1877ac48a4f44a9858c5be9db6427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatProjectileSystem
-  _hordeManager: {fileID: 1976173941}
-  _playerHealth: {fileID: 8057403300091190146}
-  _player: {fileID: 2967830632403154743}
-  _soulBoltPrefab: {fileID: 4701029980754724519, guid: ae02aecb4b9589541a7811a68775ec68, type: 3}
-  _spitPrefab: {fileID: 8399297323028719231, guid: 756ec97695964a542a51aecbf2edae6a, type: 3}
-  _impactPrefab: {fileID: 5816230180318134139, guid: 2e073dd5c9c710141838d76a918e9ac5, type: 3}
-  _maxPlayerProjectiles: 48
-  _maxEnemyProjectiles: 128
-  _playerHitRadius: 0.65
-  _poisonAreas: {fileID: 1219981002}
+  hordeManager: {fileID: 1976173941}
+  playerHealth: {fileID: 8057403300091190146}
+  player: {fileID: 2967830632403154743}
+  soulBoltPrefab: {fileID: 4701029980754724519, guid: ae02aecb4b9589541a7811a68775ec68, type: 3}
+  spitPrefab: {fileID: 8399297323028719231, guid: 756ec97695964a542a51aecbf2edae6a, type: 3}
+  impactPrefab: {fileID: 5816230180318134139, guid: 2e073dd5c9c710141838d76a918e9ac5, type: 3}
+  maxPlayerProjectiles: 48
+  maxEnemyProjectiles: 128
+  playerHitRadius: 0.65
+  poisonAreas: {fileID: 1219981002}
   soulImpactSound: {fileID: 11400000, guid: 2974c0202b25009479aedeececfa4fe5, type: 2}
   spitImpactSound: {fileID: 11400000, guid: 32c63791cee99ae4190eb4b960d699cf, type: 2}
-  _trackingRadii: {x: 1.5, y: 3, z: 5}
-  _trackingHalfAngles: {x: 20, y: 40, z: 60}
-  _trackingTurnSpeeds: {x: 30, y: 70, z: 120}
+  trackingRadii: {x: 1.5, y: 3, z: 5}
+  trackingHalfAngles: {x: 20, y: 40, z: 60}
+  trackingTurnSpeeds: {x: 30, y: 70, z: 120}
 --- !u!4 &1219981001
 Transform:
   m_ObjectHideFlags: 0
@@ -20681,17 +20681,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 060ba27bae6b0eb44a103ffa3077c355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoisonAreaSystem
-  _hordeManager: {fileID: 1976173941}
-  _playerHealth: {fileID: 8057403300091190146}
-  _player: {fileID: 2967830632403154743}
-  _puddlePrefab: {fileID: 2644883797197082757, guid: e6cda1689ce441344b0569657fd1a23d, type: 3}
-  _statusParticlesPrefab: {fileID: 1427565722551366336, guid: 3f9e74afc5fa4f54bbc34137c2acd560, type: 3}
-  _radius: 1.5
-  _puddleLifetime: 5
-  _lingerDuration: 3
-  _tickInterval: 1
-  _damagePerTick: 2
-  _maxPuddles: 64
+  hordeManager: {fileID: 1976173941}
+  playerHealth: {fileID: 8057403300091190146}
+  player: {fileID: 2967830632403154743}
+  puddlePrefab: {fileID: 2644883797197082757, guid: e6cda1689ce441344b0569657fd1a23d, type: 3}
+  statusParticlesPrefab: {fileID: 1427565722551366336, guid: 3f9e74afc5fa4f54bbc34137c2acd560, type: 3}
+  radius: 1.5
+  puddleLifetime: 5
+  lingerDuration: 3
+  tickInterval: 1
+  damagePerTick: 2
+  maxPuddles: 64
 --- !u!1 &1226038325
 GameObject:
   m_ObjectHideFlags: 0
@@ -21166,7 +21166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1250168856
 Transform:
   m_ObjectHideFlags: 0
@@ -23170,27 +23170,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: soul_bolt_damage
-  _button: {fileID: 916295193}
-  _background: {fileID: 916295194}
-  _nameText: {fileID: 674226704}
-  _statusText: {fileID: 143351982}
-  _badgeBackground: {fileID: 906755845}
-  _levelBadgeText: {fileID: 1236969614}
-  _badgeOutline: {fileID: 906755844}
-  _stateOutline: {fileID: 916295198}
-  _focusOutline: {fileID: 916295197}
-  _selectionOutline: {fileID: 916295196}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: soul_bolt_damage
+  button: {fileID: 916295193}
+  background: {fileID: 916295194}
+  nameText: {fileID: 674226704}
+  statusText: {fileID: 143351982}
+  badgeBackground: {fileID: 906755845}
+  levelBadgeText: {fileID: 1236969614}
+  badgeOutline: {fileID: 906755844}
+  stateOutline: {fileID: 916295198}
+  focusOutline: {fileID: 916295197}
+  selectionOutline: {fileID: 916295196}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!1 &1336883177
 GameObject:
   m_ObjectHideFlags: 0
@@ -23916,12 +23916,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f750a6eb462749449dfca976a8254713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeMenu
-  _playerProgression: {fileID: 8057403300091190151}
-  _playerHealth: {fileID: 8057403300091190146}
-  _skillTreeProgression: {fileID: 8057403300091190153}
-  _panel: {fileID: 1659409655}
-  _skillPointsText: {fileID: 1102508113}
-  _nodeButtons:
+  playerProgression: {fileID: 8057403300091190151}
+  playerHealth: {fileID: 8057403300091190146}
+  skillTreeProgression: {fileID: 8057403300091190153}
+  panel: {fileID: 1659409655}
+  skillPointsText: {fileID: 1102508113}
+  nodeButtons:
   - {fileID: 538423604}
   - {fileID: 187691574}
   - {fileID: 1746527211}
@@ -23934,16 +23934,16 @@ MonoBehaviour:
   - {fileID: 1576312578}
   - {fileID: 6280889}
   - {fileID: 832795598}
-  _nodesContainer: {fileID: 484286641}
-  _detailsPanel: {fileID: 2084914140}
-  _detailName: {fileID: 1318758410}
-  _detailLevel: {fileID: 839924871}
-  _detailDescription: {fileID: 151299924}
-  _detailHint: {fileID: 1194148177}
-  _detailRequirements: {fileID: 399466646}
-  _actionText: {fileID: 369468740}
-  _actionButton: {fileID: 1100463150}
-  _continueButton: {fileID: 241701348}
+  nodesContainer: {fileID: 484286641}
+  detailsPanel: {fileID: 2084914140}
+  detailName: {fileID: 1318758410}
+  detailLevel: {fileID: 839924871}
+  detailDescription: {fileID: 151299924}
+  detailHint: {fileID: 1194148177}
+  detailRequirements: {fileID: 399466646}
+  actionText: {fileID: 369468740}
+  actionButton: {fileID: 1100463150}
+  continueButton: {fileID: 241701348}
 --- !u!1 &1395522403
 GameObject:
   m_ObjectHideFlags: 0
@@ -27360,27 +27360,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: soul_bolt_count
-  _button: {fileID: 784735563}
-  _background: {fileID: 784735564}
-  _nameText: {fileID: 1765357478}
-  _statusText: {fileID: 341327438}
-  _badgeBackground: {fileID: 227524219}
-  _levelBadgeText: {fileID: 1526887770}
-  _badgeOutline: {fileID: 227524218}
-  _stateOutline: {fileID: 784735568}
-  _focusOutline: {fileID: 784735567}
-  _selectionOutline: {fileID: 784735566}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: soul_bolt_count
+  button: {fileID: 784735563}
+  background: {fileID: 784735564}
+  nameText: {fileID: 1765357478}
+  statusText: {fileID: 341327438}
+  badgeBackground: {fileID: 227524219}
+  levelBadgeText: {fileID: 1526887770}
+  badgeOutline: {fileID: 227524218}
+  stateOutline: {fileID: 784735568}
+  focusOutline: {fileID: 784735567}
+  selectionOutline: {fileID: 784735566}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!1 &1579149094
 GameObject:
   m_ObjectHideFlags: 0
@@ -29892,27 +29892,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: max_health
-  _button: {fileID: 1509593303}
-  _background: {fileID: 1509593304}
-  _nameText: {fileID: 1075476341}
-  _statusText: {fileID: 555708970}
-  _badgeBackground: {fileID: 1336883180}
-  _levelBadgeText: {fileID: 1123322997}
-  _badgeOutline: {fileID: 1336883179}
-  _stateOutline: {fileID: 1509593308}
-  _focusOutline: {fileID: 1509593307}
-  _selectionOutline: {fileID: 1509593306}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: max_health
+  button: {fileID: 1509593303}
+  background: {fileID: 1509593304}
+  nameText: {fileID: 1075476341}
+  statusText: {fileID: 555708970}
+  badgeBackground: {fileID: 1336883180}
+  levelBadgeText: {fileID: 1123322997}
+  badgeOutline: {fileID: 1336883179}
+  stateOutline: {fileID: 1509593308}
+  focusOutline: {fileID: 1509593307}
+  selectionOutline: {fileID: 1509593306}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!43 &1749842597
 Mesh:
   m_ObjectHideFlags: 0
@@ -30705,7 +30705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 502, y: -28}
+  m_AnchoredPosition: {x: 290.7, y: -114}
   m_SizeDelta: {x: 180, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1776507746
@@ -30720,27 +30720,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918edc030fc7097458d3c828965368d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeNodeButton
-  _nodeId: sword_cooldown
-  _button: {fileID: 1713625958}
-  _background: {fileID: 1713625959}
-  _nameText: {fileID: 1189030341}
-  _statusText: {fileID: 1669759519}
-  _badgeBackground: {fileID: 1379663284}
-  _levelBadgeText: {fileID: 1470607047}
-  _badgeOutline: {fileID: 1379663283}
-  _stateOutline: {fileID: 1713625963}
-  _focusOutline: {fileID: 1713625962}
-  _selectionOutline: {fileID: 1713625961}
-  _lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
-  _availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
-  _maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
-  _noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
-  _lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
-  _availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
-  _maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
-  _lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
-  _normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
-  _maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
+  nodeId: sword_cooldown
+  button: {fileID: 1713625958}
+  background: {fileID: 1713625959}
+  nameText: {fileID: 1189030341}
+  statusText: {fileID: 1669759519}
+  badgeBackground: {fileID: 1379663284}
+  levelBadgeText: {fileID: 1470607047}
+  badgeOutline: {fileID: 1379663283}
+  stateOutline: {fileID: 1713625963}
+  focusOutline: {fileID: 1713625962}
+  selectionOutline: {fileID: 1713625961}
+  lockedColor: {r: 0.07, g: 0.06, b: 0.08, a: 1}
+  availableColor: {r: 0.4, g: 0.025, b: 0.05, a: 1}
+  maxedColor: {r: 0.28, g: 0.035, b: 0.065, a: 1}
+  noPointsColor: {r: 0.16, g: 0.06, b: 0.08, a: 1}
+  lockedBorderColor: {r: 0.32, g: 0.31, b: 0.34, a: 1}
+  availableBorderColor: {r: 0.82, g: 0.13, b: 0.18, a: 1}
+  maxedBorderColor: {r: 0.72, g: 0.105, b: 0.15, a: 1}
+  lockedTextColor: {r: 0.57, g: 0.56, b: 0.6, a: 1}
+  normalTextColor: {r: 0.9, g: 0.9, b: 0.93, a: 1}
+  maxedTextColor: {r: 0.94, g: 0.9, b: 0.91, a: 1}
 --- !u!43 &1780468743
 Mesh:
   m_ObjectHideFlags: 0
@@ -32694,9 +32694,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5a12c3848b0f948ab7771950714ade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HordeManager
-  _enemyCount: 500
-  _target: {fileID: 2967830632403154743}
-  _enemyDefinitions:
+  enemyCount: 500
+  target: {fileID: 2967830632403154743}
+  enemyDefinitions:
   - {fileID: 11400000, guid: a53608c056c824f48b7bb4d8a740a4c9, type: 2}
   - {fileID: 11400000, guid: 7944f1f96a72f54489b62659dc2574e9, type: 2}
   - {fileID: 11400000, guid: ee3e7eb5a405429499b7b5df37d4ccc8, type: 2}
@@ -32709,23 +32709,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e756a192e39d2004f94ca27d708287a0, type: 2}
   - {fileID: 11400000, guid: 878a950d8f6d13b4e9d67771c9f76f6a, type: 2}
   - {fileID: 11400000, guid: 9198554c2b1dd0244bcc6224a8b344ba, type: 2}
-  _spawnEdge: 45
-  _spawnDepth: 4
-  _minSpawnDistance: 24
-  _zoneJitter: 20
-  _camera: {fileID: 330585545}
-  _cellSize: 1.5
-  _separationDistance: 1.35
-  _separationWeight: 0.6
-  _maxSeparationNeighbours: 10
-  _obstacleRoot: {fileID: 1601872538}
-  _navigationArea: {x: 120, y: 120}
-  _navigationCellSize: 0.75
-  _obstacleClearance: 0.5
-  _playerHealth: {fileID: 8057403300091190146}
-  _combatVFX: {fileID: 1998491787}
-  _enemyHitSFX: {fileID: 11400000, guid: 96d2cbf0d0e56ba478e9dd6b0f6469a8, type: 2}
-  _projectiles: {fileID: 1219981000}
+  spawnEdge: 45
+  spawnDepth: 4
+  minSpawnDistance: 24
+  zoneJitter: 20
+  visibilityCamera: {fileID: 330585545}
+  cellSize: 1.5
+  separationDistance: 1.35
+  separationWeight: 0.6
+  maxSeparationNeighbours: 10
+  obstacleRoot: {fileID: 1601872538}
+  navigationArea: {x: 120, y: 120}
+  navigationCellSize: 0.75
+  obstacleClearance: 0.5
+  playerHealth: {fileID: 8057403300091190146}
+  combatVFX: {fileID: 1998491787}
+  enemyHitSFX: {fileID: 11400000, guid: 96d2cbf0d0e56ba478e9dd6b0f6469a8, type: 2}
+  projectiles: {fileID: 1219981000}
 --- !u!4 &1976173942
 Transform:
   m_ObjectHideFlags: 0
@@ -33100,9 +33100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20dafc962d36e64eb66a83685c58fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatVFXSystem
-  _bloodPrefab: {fileID: 9073949272390911666, guid: cf5da84707ef3604cb1229168faf76f9, type: 3}
-  _maxBloodParticles: 128
-  _bloodHeightOffset: 0.8
+  bloodPrefab: {fileID: 9073949272390911666, guid: cf5da84707ef3604cb1229168faf76f9, type: 3}
+  maxBloodParticles: 128
+  bloodHeightOffset: 0.8
 --- !u!1 &1998860216
 GameObject:
   m_ObjectHideFlags: 0
@@ -44265,10 +44265,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gravestone20
       objectReference: {fileID: 0}
-    - target: {fileID: 1526120174824809074, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -33.39
-      objectReference: {fileID: 0}
     - target: {fileID: 1534779482823111878, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: LanternLight
@@ -46097,10 +46093,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fence02
       objectReference: {fileID: 0}
-    - target: {fileID: 1981495684927164423, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -41.45
-      objectReference: {fileID: 0}
     - target: {fileID: 1982354888839096187, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: PostLantern06
@@ -47605,10 +47597,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1364339410}
-    - target: {fileID: 2295903788813232801, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -49.32
-      objectReference: {fileID: 0}
     - target: {fileID: 2297533923414868059, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: LanternLight
@@ -51380,10 +51368,6 @@ PrefabInstance:
     - target: {fileID: 3392597790663983444, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: Gravestone43
-      objectReference: {fileID: 0}
-    - target: {fileID: 3392722368640610646, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -44
       objectReference: {fileID: 0}
     - target: {fileID: 3404110770173340116, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
@@ -55997,10 +55981,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LanternLight
       objectReference: {fileID: 0}
-    - target: {fileID: 5423640232203030953, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.6
-      objectReference: {fileID: 0}
     - target: {fileID: 5423874699527362733, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: GraveADestroyed41
@@ -58489,10 +58469,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PathA48
       objectReference: {fileID: 0}
-    - target: {fileID: 6160021525891794973, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -52.03
-      objectReference: {fileID: 0}
     - target: {fileID: 6174162915707264070, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: PathA137
@@ -60600,10 +60576,6 @@ PrefabInstance:
     - target: {fileID: 6916630440217617157, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: PostLanternLantern
-      objectReference: {fileID: 0}
-    - target: {fileID: 6928891094057250388, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -36.08
       objectReference: {fileID: 0}
     - target: {fileID: 6933816823059027844, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
@@ -64753,10 +64725,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FenceGates
       objectReference: {fileID: 0}
-    - target: {fileID: 8112266226993835822, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -57.32
-      objectReference: {fileID: 0}
     - target: {fileID: 8114533478526680527, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -66716,10 +66684,6 @@ PrefabInstance:
     - target: {fileID: 8289556061882210833, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
       value: PathA94
-      objectReference: {fileID: 0}
-    - target: {fileID: 8292288778671114908, guid: b52436c0184cc564da8ff668733242f8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2.59
       objectReference: {fileID: 0}
     - target: {fileID: 8299188481814515162, guid: b52436c0184cc564da8ff668733242f8, type: 3}
       propertyPath: m_Name
@@ -69856,15 +69820,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3201397067682517427, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
-      propertyPath: _playerLantern
+      propertyPath: playerLantern
       value: 
       objectReference: {fileID: 8057403300091190154}
     - target: {fileID: 3201397067682517427, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
-      propertyPath: _soulBoltWeapon
+      propertyPath: soulBoltWeapon
       value: 
       objectReference: {fileID: 8057403300091190155}
     - target: {fileID: 3803896572903738776, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
-      propertyPath: _hordeManager
+      propertyPath: hordeManager
       value: 
       objectReference: {fileID: 1976173941}
     - target: {fileID: 4830351681695037154, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
@@ -69888,7 +69852,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7723262217838937948, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
-      propertyPath: _hordeManager
+      propertyPath: hordeManager
       value: 
       objectReference: {fileID: 1976173941}
     - target: {fileID: 8662338010108098409, guid: d63b83e73db3d0c4eb8c4181f36981c4, type: 3}
@@ -69962,11 +69926,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910d699f98e047445a9cb6eeeca2b475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthUI
-  _playerHealth: {fileID: 8057403300091190146}
-  _healthSlider: {fileID: 4692620671840206346}
-  _dmgHealthSlider: {fileID: 5413831156913612597}
-  _healthText: {fileID: 4832449045857984800}
-  _dmgBarSpeed: 120
+  playerHealth: {fileID: 8057403300091190146}
+  healthSlider: {fileID: 4692620671840206346}
+  dmgHealthSlider: {fileID: 5413831156913612597}
+  healthText: {fileID: 4832449045857984800}
+  dmgBarSpeed: 120
 --- !u!222 &5155529487533634688
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -70392,14 +70356,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ec5bc9840175d4fb98920221508ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoulBoltWeapon
-  _hordeManager: {fileID: 1976173941}
-  _projectiles: {fileID: 1219981000}
-  _range: 14
-  _cooldown: 1.7
-  _speed: 15
-  _lifetime: 1.4
-  _damage: 15
-  _spreadDegrees: 14
+  hordeManager: {fileID: 1976173941}
+  projectiles: {fileID: 1219981000}
+  range: 14
+  cooldown: 1.7
+  speed: 15
+  lifetime: 1.4
+  damage: 15
+  spreadDegrees: 14
 --- !u!224 &8113786588113117890
 RectTransform:
   m_ObjectHideFlags: 0
@@ -70482,13 +70446,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42197fe1657fccb4687aa31c65d32ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverMenu
-  _panel: {fileID: 483068979}
-  _playerHealth: {fileID: 8057403300091190146}
-  _progression: {fileID: 8057403300091190151}
-  _scoreText: {fileID: 425012177}
-  _bestText: {fileID: 357468102}
-  _levelText: {fileID: 410148891}
-  _mainMenuSceneName: MainMenu
+  panel: {fileID: 483068979}
+  playerHealth: {fileID: 8057403300091190146}
+  progression: {fileID: 8057403300091190151}
+  scoreText: {fileID: 425012177}
+  bestText: {fileID: 357468102}
+  levelText: {fileID: 410148891}
+  mainMenuSceneName: MainMenu
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

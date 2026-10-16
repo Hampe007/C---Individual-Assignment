@@ -4,27 +4,32 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewSkillTree", menuName = "Upgrades/Skill Tree")]
 public sealed class SkillTreeDefinition : ScriptableObject
 {
-    [SerializeField] private SkillTreeNode[] _nodes;
-
-    public int NodeCount => _nodes != null ? _nodes.Length : 0;
+    [SerializeField] private SkillTreeNode[] nodes;
+    public int NodeCount => nodes != null ? nodes.Length : 0;
 
     public SkillTreeNode GetNode(int index)
     {
-        if (_nodes == null || index < 0 || index >= _nodes.Length)
+        if (nodes == null || index < 0 || index >= nodes.Length)
+        {
             return null;
+        }
 
-        return _nodes[index];
+        return nodes[index];
     }
 
     public SkillTreeNode GetNode(string id)
     {
-        if (_nodes == null || string.IsNullOrEmpty(id))
-            return null;
-
-        for (int i = 0; i < _nodes.Length; i++)
+        if (nodes == null || string.IsNullOrEmpty(id))
         {
-            if (_nodes[i] != null && _nodes[i].Id == id)
-                return _nodes[i];
+            return null;
+        }
+
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            if (nodes[i] != null && nodes[i].Id == id)
+            {
+                return nodes[i];
+            }
         }
 
         return null;
@@ -34,11 +39,10 @@ public sealed class SkillTreeDefinition : ScriptableObject
 [Serializable]
 public sealed class SkillTreeNode
 {
-    [SerializeField] private string _id;
-    [SerializeField] private UpgradeDefinition _upgrade;
-    [SerializeField] private string[] _prerequisiteIds;
-
-    public string Id => _id;
-    public UpgradeDefinition Upgrade => _upgrade;
-    public string[] PrerequisiteIds => _prerequisiteIds;
+    [SerializeField] private string id;
+    [SerializeField] private UpgradeDefinition upgrade;
+    [SerializeField] private string[] prerequisiteIds;
+    public string Id => id;
+    public UpgradeDefinition Upgrade => upgrade;
+    public string[] PrerequisiteIds => prerequisiteIds;
 }

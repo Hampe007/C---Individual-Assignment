@@ -3,42 +3,31 @@ using UnityEngine;
 
 public sealed class PlayerProgression : MonoBehaviour
 {
-    private const string HighScoreKey = "HighScore";
-    [SerializeField] private HordeManager _hordeManager;
-
+    [SerializeField] private HordeManager hordeManager;
     [Header("Survival Score")]
-    [SerializeField, Min(0)] private int _scorePerSecond = 1;
-
+    [SerializeField, Min(0)] private int scorePerSecond = 1;
     [Header("Leveling")]
-    [SerializeField, Min(1)] private int _startingXPRequired = 10;
-    [SerializeField, Min(1f)] private float _xpGrowth = 1.25f;
-
+    [SerializeField, Min(1)] private int startingXPRequired = 10;
+    [SerializeField, Min(1f)] private float xpGrowth = 1.25f;
     [Header("Damage Penalty")]
-    [SerializeField, Range(0f, 1f)] private float _damageXPLossPercent = 0.015f;
-
-    private int _level;
-    private int _currentXP;
-    private int _xpRequired;
-    private int _score;
-    private int _skillPoints;
-    private float _survivalSeconds;
-    private PlayerHealth _playerHealth;
-
-    public int Level => _level;
-    public int CurrentXP => _currentXP;
-    public int XPRequired => _xpRequired;
-    public int Score => _score;
-    public int SkillPoints => _skillPoints;
-
-    public static int HighScore => PlayerPrefs.GetInt(HighScoreKey, 0);
+    [SerializeField, Range(0f, 1f)] private float damageXPLossPercent = 0.015f;
+    private int level;
+    private int currentXP;
+    private int xpRequired;
+    private int score;
+    private int skillPoints;
+    private float survivalSeconds;
+    private PlayerHealth playerHealth;
+    public int Level => level;
+    public int CurrentXP => currentXP;
+    public int XPRequired => xpRequired;
+    public int Score => score;
+    public int SkillPoints => skillPoints;
+    public static int HighScore => GameProgress.HighScore;
 
     public void SaveHighScore()
     {
-        if (_score <= HighScore)
-            return;
-
-        PlayerPrefs.SetInt(HighScoreKey, _score);
-        PlayerPrefs.Save();
+        GameProgress.SaveHighScore(score);
     }
 
     public event Action<int, int> XPChanged;
@@ -47,55 +36,59 @@ public sealed class PlayerProgression : MonoBehaviour
     public event Action<int, int> XPDepleted;
     public event Action<int> ScoreChanged;
     public event Action<int> LeveledUp;
-
     private void Awake()
     {
-        _playerHealth = GetComponent<PlayerHealth>();
-
-        if (_hordeManager == null)
+        playerHealth = GetComponent<PlayerHealth>();
+        if (hordeManager == null)
         {
             Debug.LogError("PlayerProgression is missing HordeManager.");
             enabled = false;
             return;
         }
 
-        _xpRequired = _startingXPRequired;
+        xpRequired = startingXPRequired;
     }
 
     private void OnEnable()
     {
-        _hordeManager.EnemyDied += HandleEnemyDied;
+        hordeManager.EnemyDied += HandleEnemyDied;
     }
 
     private void OnDisable()
     {
-        if (_hordeManager != null)
-            _hordeManager.EnemyDied -= HandleEnemyDied;
+        if (hordeManager != null)
+        {
+            hordeManager.EnemyDied -= HandleEnemyDied;
+        }
     }
 
     private void Update()
     {
-        if (Time.timeScale <= 0f || !_hordeManager.IsReady || _scorePerSecond <= 0 ||
-            (_playerHealth != null && _playerHealth.CurrentHealth <= 0))
+        if (Time.timeScale <= 0f || !hordeManager.IsReady || scorePerSecond <= 0 || (playerHealth != null && playerHealth.CurrentHealth <= 0))
+        {
             return;
+        }
 
-        _survivalSeconds += Time.deltaTime;
-        int wholeSeconds = Mathf.FloorToInt(_survivalSeconds);
-
+        survivalSeconds += Time.deltaTime;
+        int wholeSeconds = Mathf.FloorToInt(survivalSeconds);
         if (wholeSeconds <= 0)
+        {
             return;
+        }
 
         // Keep fractional seconds so scoring stays consistent across frame rates.
-        _survivalSeconds -= wholeSeconds;
-        AddScore(wholeSeconds * _scorePerSecond);
+        survivalSeconds -= wholeSeconds;
+        AddScore(wholeSeconds * scorePerSecond);
     }
 
     public void SpendSkillPoint()
     {
-        if (_skillPoints <= 0)
+        if (skillPoints <= 0)
+        {
             return;
+        }
 
-        _skillPoints--;
+        skillPoints--;
     }
 
     private void HandleEnemyDied(int xpReward, int scoreReward)
@@ -106,54 +99,60 @@ public sealed class PlayerProgression : MonoBehaviour
 
     public void LoseXPFromDamage()
     {
-        if (_currentXP <= 0 || _xpRequired <= 0 || _damageXPLossPercent <= 0f)
+        if (currentXP <= 0 || xpRequired <= 0 || damageXPLossPercent <= 0f)
+        {
             return;
+        }
 
-        int oldXP = _currentXP;
-        int loss = Mathf.Max(1, Mathf.RoundToInt(_xpRequired * _damageXPLossPercent));
-        _currentXP = Mathf.Max(0, _currentXP - loss);
-
-        if (_currentXP == oldXP)
+        int oldXP = currentXP;
+        int loss = Mathf.Max(1, Mathf.RoundToInt(xpRequired * damageXPLossPercent));
+        currentXP = Mathf.Max(0, currentXP - loss);
+        if (currentXP == oldXP)
+        {
             return;
+        }
 
-        XPChanged?.Invoke(_currentXP, _xpRequired);
-
-        if (_currentXP == 0)
-            XPDepleted?.Invoke(oldXP, _xpRequired);
+        XPChanged?.Invoke(currentXP, xpRequired);
+        if (currentXP == 0)
+        {
+            XPDepleted?.Invoke(oldXP, xpRequired);
+        }
         else
-            XPLost?.Invoke(oldXP - _currentXP, _xpRequired);
+        {
+            XPLost?.Invoke(oldXP - currentXP, xpRequired);
+        }
     }
 
     private void AddXP(int amount)
     {
         if (amount <= 0)
-            return;
-
-        int startingXP = _currentXP;
-        _currentXP += amount;
-
-        while (_currentXP >= _xpRequired)
         {
-            _currentXP -= _xpRequired;
-
-            _level++;
-            _skillPoints++;
-
-            _xpRequired = Mathf.CeilToInt(_xpRequired * _xpGrowth);
-
-            LeveledUp?.Invoke(_level);
+            return;
         }
 
-        XPChanged?.Invoke(_currentXP, _xpRequired);
-        XPGained?.Invoke(Mathf.Max(0, _currentXP - startingXP), _xpRequired);
+        int startingXP = currentXP;
+        currentXP += amount;
+        while (currentXP >= xpRequired)
+        {
+            currentXP -= xpRequired;
+            level++;
+            skillPoints++;
+            xpRequired = Mathf.CeilToInt(xpRequired * xpGrowth);
+            LeveledUp?.Invoke(level);
+        }
+
+        XPChanged?.Invoke(currentXP, xpRequired);
+        XPGained?.Invoke(Mathf.Max(0, currentXP - startingXP), xpRequired);
     }
 
     private void AddScore(int amount)
     {
         if (amount <= 0)
+        {
             return;
+        }
 
-        _score += amount;
-        ScoreChanged?.Invoke(_score);
+        score += amount;
+        ScoreChanged?.Invoke(score);
     }
 }

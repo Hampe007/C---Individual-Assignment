@@ -4,24 +4,23 @@ using UnityEngine;
 public sealed class UpgradeDefinition : ScriptableObject
 {
     [Header("Display")]
-    [SerializeField] private string _displayName;
+    [SerializeField] private string displayName;
 
-    [SerializeField, TextArea]
-    private string _description;
+    [SerializeField, TextArea] private string description;
 
     [Header("Effect")]
-    [SerializeField] private UpgradeEffectType _effect;
-    [SerializeField] private float _value = 1f;
-    [SerializeField, Min(1)] private int _maxLevel = 5;
-    [SerializeField] private bool _repeatable;
+    [SerializeField] private UpgradeEffectType effect;
+    [SerializeField] private float value = 1f;
+    [SerializeField, Min(1)] private int maxLevel = 5;
+    [SerializeField] private bool repeatable;
 
-    public string DisplayName => _displayName;
-    public string Description => _description;
+    public string DisplayName => displayName;
+    public string Description => description;
 
-    public UpgradeEffectType Effect => _effect;
-    public float Value => _value;
-    public int MaxLevel => _maxLevel;
-    public bool IsRepeatable => _repeatable;
+    public UpgradeEffectType Effect => effect;
+    public float Value => value;
+    public int MaxLevel => maxLevel;
+    public bool IsRepeatable => repeatable;
 }
 
 public enum UpgradeEffectType

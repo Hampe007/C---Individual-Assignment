@@ -4892,8 +4892,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b5eaa07cee9ac4d990b64f7c7fe1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitFlash
-  _duration: 0.1
-  _strength: 0.7
+  duration: 0.1
+  strength: 0.7
 --- !u!114 &25109594235971081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4906,8 +4906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ac2c667c7f5434f8f566fc1f22c091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpitTelegraph
-  _warningParticles: {fileID: 3298036799233560433}
-  _body: {fileID: 2241321246550859582}
+  warningParticles: {fileID: 3298036799233560433}
+  body: {fileID: 2241321246550859582}
 --- !u!1001 &1770051753317660885
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_SoulBoltTracking
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Soul Tracking
-  _description: Improve bolt steering and detection range each level.
-  _effect: 10
-  _value: 1
-  _maxLevel: 3
+  displayName: Soul Tracking
+  description: Improve bolt steering and detection range each level.
+  effect: 10
+  value: 1
+  maxLevel: 3

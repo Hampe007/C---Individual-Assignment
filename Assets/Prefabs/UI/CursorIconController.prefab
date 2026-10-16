@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adaaadf002a66d349af727c8bd9040c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorIconController
-  normalCursor: {fileID: 2800000, guid: eb2cb1db5af251e49bcc2fdb941bd61b, type: 3}
-  leftClickCursor: {fileID: 2800000, guid: 892850094ca7741468e72e0041f6212a, type: 3}
-  rightClickCursor: {fileID: 2800000, guid: 517626365d327684d96f1041da5284a0, type: 3}
+  NormalCursor: {fileID: 2800000, guid: eb2cb1db5af251e49bcc2fdb941bd61b, type: 3}
+  LeftClickCursor: {fileID: 2800000, guid: 892850094ca7741468e72e0041f6212a, type: 3}
+  RightClickCursor: {fileID: 2800000, guid: 517626365d327684d96f1041da5284a0, type: 3}

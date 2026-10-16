@@ -21,8 +21,8 @@ public sealed class TutorialView : MonoBehaviour
 
     public void ShowLesson(TutorialLesson lesson, int index, int total)
     {
-        title.text = $"{index + 1}/{total}  {lesson.title.ToUpperInvariant()}";
-        instruction.text = lesson.instruction;
+        title.text = $"{index + 1}/{total}  {lesson.Title.ToUpperInvariant()}";
+        instruction.text = lesson.Instruction;
         progress.text = string.Empty;
     }
 

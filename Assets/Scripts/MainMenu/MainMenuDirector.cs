@@ -8,9 +8,7 @@ namespace GameMenus
 {
     public sealed class MainMenuDirector : MonoBehaviour
     {
-        private const string FirstVisitKey = "LivingMenu.TutorialPromptDismissed";
         private static bool introPlayedThisSession;
-
         [SerializeField] private MainMenuSettings settings;
         [SerializeField] private MainMenuWorld world;
         [SerializeField] private MainMenuView view;
@@ -24,10 +22,8 @@ namespace GameMenus
         private float nextIdle;
         private bool requireSkipRelease;
         private bool skipDiscovered;
-
         public MenuPhase Phase { get; private set; } = MenuPhase.Warning;
-        public float SkipProgress => heldTime / Mathf.Max(0.1f, settings.skipHoldDuration);
-
+        public float SkipProgress => heldTime / Mathf.Max(0.1f, settings.SkipHoldDuration);
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetSession()
@@ -48,10 +44,11 @@ namespace GameMenus
 
         private IEnumerator Start()
         {
-            while (!PhotosensitivityWarning.Accepted || PhotosensitivityWarning.IsTransitioning)
+            while (!PhotosensitivityWarning.Accepted)
             {
                 yield return null;
             }
+
             requireSkipRelease = true;
             Time.timeScale = 1f;
             Cursor.visible = true;
@@ -76,6 +73,7 @@ namespace GameMenus
             {
                 return;
             }
+
             Keyboard keyboard = Keyboard.current;
             Mouse mouse = Mouse.current;
             Gamepad gamepad = Gamepad.current;
@@ -88,13 +86,16 @@ namespace GameMenus
                 {
                     requireSkipRelease = false;
                 }
-            
+
                 return;
             }
+
             if (Phase == MenuPhase.Intro)
             {
                 if (!skipDiscovered && DeliberateInputThisFrame(keyboard, mouse, gamepad))
+                {
                     skipDiscovered = true;
+                }
 
                 if (!held)
                 {
@@ -104,30 +105,32 @@ namespace GameMenus
                 {
                     holdStarted = Time.unscaledTime;
                 }
-            
+
                 heldTime = held ? Time.unscaledTime - holdStarted : 0f;
                 view.SetSkip(SkipProgress, skipDiscovered);
-                if (heldTime >= settings.skipHoldDuration)
+                if (heldTime >= settings.SkipHoldDuration)
                 {
                     SkipIntro();
                 }
-            
+
                 return;
             }
-            if (Phase == MenuPhase.Modal &&
-                ((keyboard != null && keyboard.escapeKey.wasPressedThisFrame) ||
-                 (gamepad != null && gamepad.buttonEast.wasPressedThisFrame)))
+
+            if (Phase == MenuPhase.Modal && ((keyboard != null && keyboard.escapeKey.wasPressedThisFrame) || (gamepad != null && gamepad.buttonEast.wasPressedThisFrame)))
             {
                 CloseModal();
             }
+
             if (Phase != MenuPhase.Menu)
             {
                 return;
             }
+
             if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null && ((keyboard != null && (keyboard.downArrowKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame || keyboard.tabKey.wasPressedThisFrame)) || (Gamepad.current != null && (Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.1f || Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.1f))))
             {
                 view.FocusMenu();
             }
+
             bool input = keyboard != null && keyboard.anyKey.wasPressedThisFrame;
             input |= Mouse.current != null && (Mouse.current.delta.ReadValue().sqrMagnitude > 0.1f || Mouse.current.leftButton.wasPressedThisFrame);
             input |= Gamepad.current != null && (Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.1f || Gamepad.current.buttonSouth.wasPressedThisFrame);
@@ -148,7 +151,7 @@ namespace GameMenus
             skipDiscovered = false;
             for (int pass = 0; pass < 3; pass++)
             {
-                float duration = pass == 0 ? settings.chasePassDuration : pass == 1 ? settings.returnPassDuration : settings.finalPassDuration;
+                float duration = pass == 0 ? settings.ChasePassDuration : pass == 1 ? settings.ReturnPassDuration : settings.FinalPassDuration;
                 float elapsed = 0f;
                 while (elapsed < duration)
                 {
@@ -156,20 +159,21 @@ namespace GameMenus
                     elapsed += Time.unscaledDeltaTime;
                     yield return null;
                 }
-            
+
                 world.SetChase(pass, 1f);
-                if (pass < 2 && settings.passPause > 0f)
+                if (pass < 2 && settings.PassPause > 0f)
                 {
-                    yield return new WaitForSecondsRealtime(settings.passPause);
+                    yield return new WaitForSecondsRealtime(settings.PassPause);
                 }
             }
+
             world.BeginCatch();
             float catchElapsed = 0f;
             bool lensHit = false;
             float impactStarted = 0f;
-            while (catchElapsed < settings.catchDuration)
+            while (catchElapsed < settings.CatchDuration)
             {
-                world.CatchPlayer(catchElapsed / settings.catchDuration);
+                world.CatchPlayer(catchElapsed / settings.CatchDuration);
                 if (world.ImpactStarted)
                 {
                     if (!lensHit)
@@ -179,11 +183,14 @@ namespace GameMenus
                         lensHit = true;
                         impactStarted = catchElapsed;
                     }
+
                     bloodScreen.SetEffect(Mathf.Lerp(0.24f, 0.9f, Mathf.Clamp01((catchElapsed - impactStarted) / 0.4f)));
                 }
+
                 catchElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
+
             world.CatchPlayer(1f);
             yield return RevealMenu(false);
         }
@@ -194,18 +201,22 @@ namespace GameMenus
             {
                 return true;
             }
+
             if (mouse != null && (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame || mouse.middleButton.wasPressedThisFrame || mouse.delta.ReadValue().sqrMagnitude > 16f))
             {
                 return true;
             }
+
             if (gamepad == null)
             {
                 return false;
             }
+
             if (gamepad.leftStick.ReadValue().sqrMagnitude > 0.25f || gamepad.rightStick.ReadValue().sqrMagnitude > 0.25f)
             {
                 return true;
             }
+
             foreach (var control in gamepad.allControls)
             {
                 if (control is UnityEngine.InputSystem.Controls.ButtonControl button && button.wasPressedThisFrame)
@@ -213,6 +224,7 @@ namespace GameMenus
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -222,10 +234,12 @@ namespace GameMenus
             {
                 return;
             }
+
             if (sequence != null)
             {
                 StopCoroutine(sequence);
             }
+
             requireSkipRelease = true;
             sequence = StartCoroutine(RevealMenu(true));
         }
@@ -234,12 +248,12 @@ namespace GameMenus
         {
             Phase = MenuPhase.Revealing;
             view.SetSkip(0f, false);
-            yield return Cover(skipped ? 0.3f : settings.bloodCoverDuration);
+            yield return Cover(skipped ? 0.3f : settings.BloodCoverDuration);
             world.PrepareMenu(settings.GetReaction(MenuOption.None));
             introPlayedThisSession = true;
             yield return new WaitForSecondsRealtime(0.15f);
             view.ShowMenu(true);
-            yield return Drain(skipped ? 0.7f : settings.bloodDrainDuration);
+            yield return Drain(skipped ? 0.7f : settings.BloodDrainDuration);
             EnterMenu();
         }
 
@@ -249,13 +263,12 @@ namespace GameMenus
             view.ShowMenu(true);
             Highlight(MenuOption.None);
             ScheduleIdle();
-            if (!PlayerPrefs.HasKey(FirstVisitKey))
+            if (!GameProgress.TutorialPromptDismissed)
             {
-                PlayerPrefs.SetInt(FirstVisitKey, 1);
-                PlayerPrefs.Save();
+                GameProgress.DismissTutorialPrompt();
                 Phase = MenuPhase.Modal;
                 modalOption = MenuOption.Tutorial;
-                view.ShowModal("FIRST TIME IN THE NIGHT?", settings.tutorialAvailable ? "A little preparation can keep you alive. Would you like to play the tutorial?" : "The tutorial is still being prepared. You can return to it from the menu when it becomes available.", "Play tutorial", "Go to main menu", false, settings.tutorialAvailable);
+                view.ShowModal("FIRST TIME IN THE NIGHT?", settings.TutorialAvailable ? "A little preparation can keep you alive. Would you like to play the tutorial?" : "The tutorial is still being prepared. You can return to it from the menu when it becomes available.", "Play tutorial", "Go to main menu", false, settings.TutorialAvailable);
             }
         }
 
@@ -265,6 +278,7 @@ namespace GameMenus
             {
                 return;
             }
+
             highlight = option;
             world.SetHoverEmote(option);
             view.Highlight(option);
@@ -278,13 +292,15 @@ namespace GameMenus
             {
                 return;
             }
+
             Highlight(option);
             world.SetHoverEmote(MenuOption.None);
             if (option == MenuOption.Play)
             {
-                StartDeparture(settings.gameScene);
+                StartDeparture(settings.GameScene);
                 return;
             }
+
             if (option == MenuOption.Quit)
             {
                 modalOption = option;
@@ -292,17 +308,19 @@ namespace GameMenus
                 sequence = StartCoroutine(ApproachQuit());
                 return;
             }
+
             MenuReaction reaction = settings.GetReaction(option);
             if (reaction != null)
             {
-                world.SelectCamera(reaction.pressedCameraIndex);
+                world.SelectCamera(reaction.PressedCameraIndex);
             }
+
             Phase = MenuPhase.Modal;
             modalOption = option;
             switch (option)
             {
                 case MenuOption.Tutorial:
-                    view.ShowModal("PREPARE FOR THE NIGHT", settings.tutorialAvailable ? "Learn movement, combat, and the art of surviving the horde." : "The tutorial will be added after the living menu is finished.", settings.tutorialAvailable ? "Play tutorial" : null, "Back");
+                    view.ShowModal("PREPARE FOR THE NIGHT", settings.TutorialAvailable ? "Learn movement, combat, and the art of surviving the horde." : "The tutorial will be added after the living menu is finished.", settings.TutorialAvailable ? "Play tutorial" : null, "Back");
                     break;
                 case MenuOption.Options:
                     view.ShowModal("SOUND OF THE NIGHT", "", null, "Back", true);
@@ -319,15 +337,16 @@ namespace GameMenus
             {
                 return;
             }
+
             if (modalOption == MenuOption.Quit)
             {
                 view.CloseModal(false);
                 HideForAction();
                 sequence = StartCoroutine(LeaveQuit());
             }
-            else if (modalOption == MenuOption.Tutorial && settings.tutorialAvailable)
+            else if (modalOption == MenuOption.Tutorial && settings.TutorialAvailable)
             {
-                StartDeparture(settings.tutorialScene);
+                StartDeparture(settings.TutorialScene);
             }
         }
 
@@ -337,6 +356,7 @@ namespace GameMenus
             {
                 return;
             }
+
             if (modalOption == MenuOption.Quit)
             {
                 view.CloseModal(false);
@@ -344,6 +364,7 @@ namespace GameMenus
                 sequence = StartCoroutine(ReturnFromQuit());
                 return;
             }
+
             AudioPreferences.Save();
             Phase = MenuPhase.Menu;
             view.CloseModal();
@@ -360,6 +381,7 @@ namespace GameMenus
                 view.ShowModal("SCENE UNAVAILABLE", $"Add {sceneName} to the active build profile before opening it.", null, "Back");
                 return;
             }
+
             Phase = MenuPhase.Departing;
             view.ShowMenu(false);
             view.SetSkip(0f, false);
@@ -368,7 +390,7 @@ namespace GameMenus
 
         private IEnumerator Depart(string sceneName)
         {
-            if (sceneName == settings.gameScene)
+            if (sceneName == settings.GameScene)
             {
                 yield return actions.Depart();
                 if (!actions.ReachedDestination)
@@ -377,6 +399,7 @@ namespace GameMenus
                     yield break;
                 }
             }
+
             AudioPreferences.Save();
             SceneTransition.LoadScene(sceneName);
         }
@@ -396,6 +419,7 @@ namespace GameMenus
                 yield return ReturnFromQuit();
                 yield break;
             }
+
             view.SetQuitLayout(true);
             Phase = MenuPhase.Modal;
             view.ShowModal("LEAVE THE NIGHT?", "The horde will still be here when you return.", "Quit game", "Stay");
@@ -431,6 +455,7 @@ namespace GameMenus
                 elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
+
             bloodScreen.SetEffect(1f);
         }
 
@@ -443,15 +468,25 @@ namespace GameMenus
                 elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
+
             bloodScreen.SetEffect(0f);
             bloodScreen.raycastTarget = false;
         }
 
         private void ScheduleIdle()
         {
-            nextIdle = Time.unscaledTime + Random.Range(settings.idleEventInterval.x, settings.idleEventInterval.y);
+            nextIdle = Time.unscaledTime + Random.Range(settings.IdleEventInterval.x, settings.IdleEventInterval.y);
         }
     }
 
-    public enum MenuPhase { Intro, Revealing, Menu, Modal, Departing, Acting, Warning }
+    public enum MenuPhase
+    {
+        Intro,
+        Revealing,
+        Menu,
+        Modal,
+        Departing,
+        Acting,
+        Warning
+    }
 }

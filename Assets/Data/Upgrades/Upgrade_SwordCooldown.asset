@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_SwordCooldown
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Faster Attacks
-  _description: Reduces the sword attack cooldown.
-  _effect: 2
-  _value: 0.1
-  _maxLevel: 5
+  displayName: Faster Attacks
+  description: Reduces the sword attack cooldown.
+  effect: 2
+  value: 0.1
+  maxLevel: 5

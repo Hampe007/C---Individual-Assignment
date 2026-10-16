@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_RestoreHealth
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Restore Health
-  _description: Restore 50% of your maximum HP, up to full health. Costs 1 skill
+  displayName: Restore Health
+  description: Restore 50% of your maximum HP, up to full health. Costs 1 skill
     point. Repeatable with no purchase limit.
-  _effect: 11
-  _value: 0.5
-  _maxLevel: 1
-  _repeatable: 1
+  effect: 11
+  value: 0.5
+  maxLevel: 1
+  repeatable: 1

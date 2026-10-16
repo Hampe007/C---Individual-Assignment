@@ -13,7 +13,7 @@ public sealed class SoundSet : ScriptableObject
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
     [SerializeField] private Vector2 pitchRange = new(0.95f, 1.05f);
 
-    private int _lastClipIndex = -1;
+    private int lastClipIndex = -1;
 
     public float Volume => volume;
     public AudioMixerGroup OutputMixerGroup => outputMixerGroup;
@@ -42,9 +42,9 @@ public sealed class SoundSet : ScriptableObject
         {
             index = Random.Range(0, clips.Length);
         }
-        while (index == _lastClipIndex);
+        while (index == lastClipIndex);
 
-        _lastClipIndex = index;
+        lastClipIndex = index;
         return clips[index];
     }
 }
