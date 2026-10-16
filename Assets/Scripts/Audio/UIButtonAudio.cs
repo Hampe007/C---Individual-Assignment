@@ -6,6 +6,8 @@ public sealed class UIButtonAudio : MonoBehaviour, IPointerEnterHandler, IPointe
     [SerializeField] private SoundSet hoverSfx;
     [SerializeField] private SoundSet clickSfx;
 
+    private int _lastHoverFrame = -1;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         PlayHover();
@@ -28,8 +30,9 @@ public sealed class UIButtonAudio : MonoBehaviour, IPointerEnterHandler, IPointe
 
     private void PlayHover()
     {
-        if (AudioManager.Instance != null)
+        if (AudioManager.Instance != null && _lastHoverFrame != Time.frameCount)
         {
+            _lastHoverFrame = Time.frameCount;
             AudioManager.Instance.PlaySfx(hoverSfx);
         }
     }

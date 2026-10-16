@@ -16,6 +16,11 @@ public sealed class CombatProjectileSystem : MonoBehaviour
     [SerializeField, Min(1)] private int _maxEnemyProjectiles = 128;
     [SerializeField, Min(0.1f)] private float _playerHitRadius = 0.65f;
     [SerializeField] private PoisonAreaSystem _poisonAreas;
+
+    [Header("Impact Audio")]
+    [SerializeField] private SoundSet soulImpactSound;
+    [SerializeField] private SoundSet spitImpactSound;
+
     [Header("Tracking Tiers 1 / 2 / 3")]
     [SerializeField] private Vector3 _trackingRadii = new(1.5f, 3f, 5f);
     [SerializeField] private Vector3 _trackingHalfAngles = new(20f, 40f, 60f);
@@ -219,6 +224,11 @@ public sealed class CombatProjectileSystem : MonoBehaviour
 
     private void PlayImpact(Vector3 position, bool fromPlayer)
     {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySfx(fromPlayer ? soulImpactSound : spitImpactSound, position);
+        }
+
         ParticleSystem effect = _impactPool.Get();
         var main = effect.main;
         main.startColor = fromPlayer ? new Color(0.25f, 0.8f, 1f) : new Color(0.65f, 1f, 0.15f);

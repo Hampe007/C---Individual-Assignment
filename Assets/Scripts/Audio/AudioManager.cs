@@ -56,7 +56,7 @@ public sealed class AudioManager : MonoBehaviour
         {
             AudioSource source = _activeSfx[i];
 
-            if (source.isPlaying)
+            if (source.isPlaying || (AudioListener.pause && !source.ignoreListenerPause))
             {
                 continue;
             }
@@ -95,6 +95,8 @@ public sealed class AudioManager : MonoBehaviour
 
         source.transform.position = position;
         source.spatialBlend = spatialBlend;
+        source.outputAudioMixerGroup = sound.OutputMixerGroup != null ? sound.OutputMixerGroup : sfxGroup;
+        source.ignoreListenerPause = sound.IgnoreListenerPause;
         source.clip = clip;
         _sfxBaseVolumes[source] = sound.Volume;
         source.volume = sound.Volume * AudioPreferences.GetVolume(AudioVolumeChannel.Effects);

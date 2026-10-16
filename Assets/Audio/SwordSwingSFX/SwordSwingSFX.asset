@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3142e58a8b19d3e4f8176bef159feed1, type: 3}
   m_Name: SwordSwingSFX
   m_EditorClassIdentifier: Assembly-CSharp::SoundSet
-  _clips:
+  clips:
   - {fileID: 8300000, guid: 07d2648b05e16e647b6ab455adb5acda, type: 3}
   - {fileID: 8300000, guid: da3e213b485c84a42940979f78be0dd6, type: 3}
-  _volume: 0.7
-  _pitchRange: {x: 0.95, y: 1.05}
+  volume: 0.7
+  pitchRange: {x: 0.95, y: 1.05}

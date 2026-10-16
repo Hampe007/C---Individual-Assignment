@@ -310,6 +310,7 @@ MonoBehaviour:
   gravityMultiplier: 1
   animator: {fileID: 6010610551871792657}
   animationDampTime: 0.1
+  footstepSound: {fileID: 11400000, guid: ac176578d5624be47bfa02a253a8bbee, type: 2}
 --- !u!114 &6708507533016024886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,6 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerProgression
   _hordeManager: {fileID: 0}
+  _scorePerSecond: 1
   _startingXPRequired: 10
   _xpGrowth: 1.25
   _damageXPLossPercent: 0.015
@@ -611,6 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   swordWeapon: {fileID: 3803896572903738776}
+  playerMovement: {fileID: -7444658863856387032}
 --- !u!1 &1297518798036073105
 GameObject:
   m_ObjectHideFlags: 0

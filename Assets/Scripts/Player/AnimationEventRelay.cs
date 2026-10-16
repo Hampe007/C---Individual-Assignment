@@ -3,6 +3,7 @@ using UnityEngine;
 public sealed class AnimationEventRelay : MonoBehaviour
 {
     [SerializeField] private SwordWeapon swordWeapon;
+    [SerializeField] private PlayerMovement playerMovement;
 
     public void ApplyHit()
     {
@@ -12,5 +13,13 @@ public sealed class AnimationEventRelay : MonoBehaviour
     public void PlaySwordSwing()
     {
         swordWeapon.PlaySwingSound();
+    }
+
+    public void PlayFootstep()
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.PlayFootstep();
+        }
     }
 }

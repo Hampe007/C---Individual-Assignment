@@ -21,14 +21,7 @@ public sealed class CombatVFXSystem : MonoBehaviour
             return;
         }
 
-        _bloodPool = new ObjectPool<ParticleSystem>(
-            CreateBlood,
-            GetBlood,
-            ReleaseBlood,
-            DestroyBlood,
-            true,
-            16,
-            _maxBloodParticles);
+        _bloodPool = new ObjectPool<ParticleSystem>(CreateBlood, GetBlood, ReleaseBlood, DestroyBlood, true, 16, _maxBloodParticles);
     }
 
     private void Update()
@@ -49,10 +42,7 @@ public sealed class CombatVFXSystem : MonoBehaviour
     {
         ParticleSystem blood = _bloodPool.Get();
 
-        blood.transform.position = new Vector3(
-            position.x,
-            position.y + _bloodHeightOffset,
-            position.z);
+        blood.transform.position = new Vector3(position.x, position.y + _bloodHeightOffset, position.z);
 
         blood.Clear(true);
         blood.Play(true);
@@ -79,7 +69,9 @@ public sealed class CombatVFXSystem : MonoBehaviour
     private static void DestroyBlood(ParticleSystem blood)
     {
         if (blood != null)
+        {
             Destroy(blood.gameObject);
+        }
     }
 
     private void OnDestroy()

@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 [CreateAssetMenu(fileName = "NewSoundSet", menuName = "Audio/Sound Set")]
 public sealed class SoundSet : ScriptableObject
 {
     [SerializeField] private AudioClip[] clips;
+
+    [SerializeField] private AudioMixerGroup outputMixerGroup;
+    [SerializeField] private bool ignoreListenerPause;
 
     [Header("Variation")]
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
@@ -12,6 +16,8 @@ public sealed class SoundSet : ScriptableObject
     private int _lastClipIndex = -1;
 
     public float Volume => volume;
+    public AudioMixerGroup OutputMixerGroup => outputMixerGroup;
+    public bool IgnoreListenerPause => ignoreListenerPause;
 
     public float GetPitch()
     {

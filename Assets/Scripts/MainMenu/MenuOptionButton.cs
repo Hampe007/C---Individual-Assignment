@@ -4,9 +4,11 @@ using TMPro;
 
 namespace GameMenus
 {
+    [RequireComponent(typeof(UnityEngine.UI.Button))]
     public sealed class MenuOptionButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler
     {
         private MainMenuDirector director;
+        private UnityEngine.UI.Button button;
         [SerializeField, TextArea] private string description;
         [SerializeField] private MenuOption option;
         [SerializeField] private GameObject marker;
@@ -18,6 +20,11 @@ namespace GameMenus
         public string Description => description;
         public void SetDirector(MainMenuDirector director) => this.director = director;
 
+        private void Awake()
+        {
+            button = GetComponent<UnityEngine.UI.Button>();
+        }
+
         public void Activate()
         {
             director.Activate(option);
@@ -25,6 +32,17 @@ namespace GameMenus
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (!button.IsInteractable())
+            {
+                return;
+            }
+
+            if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != gameObject)
+            {
+                EventSystem.current.SetSelectedGameObject(gameObject);
+                return;
+            }
+
             director.Highlight(option);
         }
 

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3142e58a8b19d3e4f8176bef159feed1, type: 3}
   m_Name: UIHoverSFX
   m_EditorClassIdentifier: Assembly-CSharp::SoundSet
-  _clips:
+  clips:
   - {fileID: 8300000, guid: 634f679e9557e2f42a6a1c4a106a04be, type: 3}
   - {fileID: 8300000, guid: 9c26ce6bc9fd1f24ca57cdbae89feeb7, type: 3}
-  _volume: 0.5
-  _pitchRange: {x: 0.98, y: 1.02}
+  outputMixerGroup: {fileID: 8747716861756626497, guid: f6853bddc27a31d459a73b1638411665, type: 2}
+  ignoreListenerPause: 1
+  volume: 1
+  pitchRange: {x: 0.98, y: 1.02}

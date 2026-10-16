@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3142e58a8b19d3e4f8176bef159feed1, type: 3}
   m_Name: EnemyHitSFX
   m_EditorClassIdentifier: Assembly-CSharp::SoundSet
-  _clips:
+  clips:
   - {fileID: 8300000, guid: d3420c864acbdcc4b9d524014ba8a5f0, type: 3}
   - {fileID: 8300000, guid: 0f53e9aa3589d0948b841a0f9a603aae, type: 3}
   - {fileID: 8300000, guid: 1dfa3d4496476b048a9a8103559d4ed9, type: 3}
-  _volume: 1
-  _pitchRange: {x: 0.95, y: 1.05}
+  volume: 1
+  pitchRange: {x: 0.95, y: 1.05}

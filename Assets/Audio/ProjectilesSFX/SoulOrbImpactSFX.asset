@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3142e58a8b19d3e4f8176bef159feed1, type: 3}
+  m_Name: SoulOrbImpactSFX
+  m_EditorClassIdentifier: Assembly-CSharp::SoundSet
+  clips:
+  - {fileID: 8300000, guid: 9241e57e064c1ab4d85c56995c406d28, type: 3}
+  outputMixerGroup: {fileID: 2182851020237372754, guid: f6853bddc27a31d459a73b1638411665, type: 2}
+  volume: 1
+  pitchRange: {x: 1, y: 1}

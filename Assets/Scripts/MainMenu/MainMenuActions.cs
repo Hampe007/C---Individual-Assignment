@@ -108,7 +108,7 @@ namespace GameMenus
             world.EmoteSpeech.SetActive(false);
             yield return new WaitForSecondsRealtime(0.05f);
             world.EmoteHeartbroken.SetActive(true);
-            yield return new WaitForSecondsRealtime(1.5f);
+            yield return new WaitForSecondsRealtime(1f);
             aim.Composition.ScreenPosition = Vector2.zero;
             world.EmoteHeartbroken.SetActive(false);
             yield return WalkTo(playToGate ? quitExit.position : gateExit.position, runSpeed: quitRunSpeed);

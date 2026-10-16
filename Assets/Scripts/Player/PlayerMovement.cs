@@ -22,6 +22,9 @@ public sealed class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField, Min(0f)] private float animationDampTime = 0.1f;
 
+    [Header("Footstep Audio")]
+    [SerializeField] private SoundSet footstepSound;
+
     private static readonly int SpeedHash = Animator.StringToHash("Speed");
 
     private CharacterController characterController;
@@ -176,5 +179,24 @@ public sealed class PlayerMovement : MonoBehaviour
     public void AddMoveSpeed(float amount)
     {
         moveSpeed += amount;
+    }
+
+    public void PlayFootstep()
+    {
+        if (!isActiveAndEnabled || Time.timeScale <= 0f || PauseMenu.BlocksGameplayInput ||
+            footstepSound == null || AudioManager.Instance == null || !characterController.isGrounded)
+        {
+            return;
+        }
+
+        Vector3 horizontalVelocity = characterController.velocity;
+        horizontalVelocity.y = 0f;
+
+        if (horizontalVelocity.sqrMagnitude <= 0.01f)
+        {
+            return;
+        }
+
+        AudioManager.Instance.PlaySfx(footstepSound, transform.position);
     }
 }

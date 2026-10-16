@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations;
@@ -33,6 +31,7 @@ namespace GameMenus
         [SerializeField] private GameObject emoteExclamation;
         [SerializeField] private GameObject emoteQuestion;
         [SerializeField] private GameObject emoteHeartbroken;
+        [SerializeField] private Transform playerHead;
 
         public GameObject EmoteSpeech => emoteSpeech;
         public GameObject EmoteExclamation => emoteExclamation;
@@ -48,6 +47,8 @@ namespace GameMenus
         private bool menuActive;
         private int shot = -1;
         private Vector3[] catchStarts;
+        private Vector3 exclamationHeadOffset;
+        private Vector3 heartbrokenHeadOffset;
         private bool[] enemyImpacts;
         private float catchElapsed;
         private float impactTime;
@@ -73,6 +74,15 @@ namespace GameMenus
 
         private void Start()
         {
+            if (playerHead != null && emoteExclamation != null)
+            {
+                exclamationHeadOffset = emoteExclamation.transform.position - playerHead.position;
+            }
+            if (playerHead != null && emoteHeartbroken != null)
+            {
+                heartbrokenHeadOffset = emoteHeartbroken.transform.position - playerHead.position;
+            }
+
             SetHoverEmote(MenuOption.None);
             targetLight = moonLight.color;
             targetIntensity = moonLight.intensity;
@@ -101,6 +111,23 @@ namespace GameMenus
             {
                 idleUntil = 0f;
                 AnimatePlayer(selectedAnimation);
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (playerHead == null)
+            {
+                return;
+            }
+
+            if (emoteExclamation != null && emoteExclamation.activeInHierarchy)
+            {
+                emoteExclamation.transform.position = playerHead.position + exclamationHeadOffset;
+            }
+            if (emoteHeartbroken != null && emoteHeartbroken.activeInHierarchy)
+            {
+                emoteHeartbroken.transform.position = playerHead.position + heartbrokenHeadOffset;
             }
         }
 
@@ -138,7 +165,10 @@ namespace GameMenus
             if (worldClock >= nextStep && progress > 0.1f && progress < 0.9f)
             {
                 nextStep = worldClock + 0.3f / runPlayback[pass];
-                effects.PlayOneShot(footstep, 0.35f);
+                if (footstep != null)
+                {
+                    effects.PlayOneShot(footstep, 0.35f);
+                }
             }
         }
 
@@ -323,7 +353,7 @@ namespace GameMenus
 
         private void ApplyVolumes()
         {
-            ambience.volume = 0.38f * AudioPreferences.GetVolume(AudioVolumeChannel.Music);
+            ambience.volume = AudioPreferences.GetVolume(AudioVolumeChannel.Music);
             effects.volume = AudioPreferences.GetVolume(AudioVolumeChannel.Effects);
         }
 

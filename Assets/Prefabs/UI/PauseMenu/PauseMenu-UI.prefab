@@ -1500,8 +1500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b333dc9f6c5abd44bd90694d7247bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
-  _hoverSFX: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
-  _clickSFX: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
+  hoverSfx: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
+  clickSfx: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
 --- !u!114 &5194664335318593207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2117,8 +2117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b333dc9f6c5abd44bd90694d7247bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
-  _hoverSFX: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
-  _clickSFX: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
+  hoverSfx: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
+  clickSfx: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
 --- !u!1 &2584219032411925721
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,8 +2492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b333dc9f6c5abd44bd90694d7247bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
-  _hoverSFX: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
-  _clickSFX: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
+  hoverSfx: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
+  clickSfx: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
 --- !u!1 &2803970343060731029
 GameObject:
   m_ObjectHideFlags: 0
@@ -3170,8 +3170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b333dc9f6c5abd44bd90694d7247bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
-  _hoverSFX: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
-  _clickSFX: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
+  hoverSfx: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
+  clickSfx: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
 --- !u!114 &8589707156618150145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5961,8 +5961,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b333dc9f6c5abd44bd90694d7247bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
-  _hoverSFX: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
-  _clickSFX: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
+  hoverSfx: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
+  clickSfx: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
 --- !u!114 &5354357743392745118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6147,8 +6147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b333dc9f6c5abd44bd90694d7247bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
-  _hoverSFX: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
-  _clickSFX: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
+  hoverSfx: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
+  clickSfx: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
 --- !u!1 &7533154544900841053
 GameObject:
   m_ObjectHideFlags: 0
@@ -6588,8 +6588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b333dc9f6c5abd44bd90694d7247bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonAudio
-  _hoverSFX: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
-  _clickSFX: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
+  hoverSfx: {fileID: 11400000, guid: 6a3bbfcf5c0aafd41a45f1ba376f064e, type: 2}
+  clickSfx: {fileID: 11400000, guid: be14f3f1ad7e0cb44a71e182063025a1, type: 2}
 --- !u!114 &806250753739867541
 MonoBehaviour:
   m_ObjectHideFlags: 0
