@@ -6,6 +6,9 @@ public sealed class PlayerProgression : MonoBehaviour
     private const string HighScoreKey = "HighScore";
     [SerializeField] private HordeManager _hordeManager;
 
+    [Header("Survival Score")]
+    [SerializeField, Min(0)] private int _scorePerSecond = 1;
+
     [Header("Leveling")]
     [SerializeField, Min(1)] private int _startingXPRequired = 10;
     [SerializeField, Min(1f)] private float _xpGrowth = 1.25f;
@@ -18,6 +21,8 @@ public sealed class PlayerProgression : MonoBehaviour
     private int _xpRequired;
     private int _score;
     private int _skillPoints;
+    private float _survivalSeconds;
+    private PlayerHealth _playerHealth;
 
     public int Level => _level;
     public int CurrentXP => _currentXP;
@@ -45,6 +50,8 @@ public sealed class PlayerProgression : MonoBehaviour
 
     private void Awake()
     {
+        _playerHealth = GetComponent<PlayerHealth>();
+
         if (_hordeManager == null)
         {
             Debug.LogError("PlayerProgression is missing HordeManager.");
@@ -64,6 +71,23 @@ public sealed class PlayerProgression : MonoBehaviour
     {
         if (_hordeManager != null)
             _hordeManager.EnemyDied -= HandleEnemyDied;
+    }
+
+    private void Update()
+    {
+        if (Time.timeScale <= 0f || !_hordeManager.IsReady || _scorePerSecond <= 0 ||
+            (_playerHealth != null && _playerHealth.CurrentHealth <= 0))
+            return;
+
+        _survivalSeconds += Time.deltaTime;
+        int wholeSeconds = Mathf.FloorToInt(_survivalSeconds);
+
+        if (wholeSeconds <= 0)
+            return;
+
+        // Keep fractional seconds so scoring stays consistent across frame rates.
+        _survivalSeconds -= wholeSeconds;
+        AddScore(wholeSeconds * _scorePerSecond);
     }
 
     public void SpendSkillPoint()
