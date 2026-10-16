@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46108a87b2f4caf9a63a2e6d92dadc7, type: 3}
   m_Name: Enemy_Tidebreaker_T1
   m_EditorClassIdentifier: Assembly-CSharp::BruteEnemyDefinition
-  _displayName: Tidebreaker
-  _tier: 0
-  _prefab: {fileID: 3662398374813342227, guid: acdae1b53ceca174fb701425255c51ec, type: 3}
-  _health: 90
-  _moveSpeed: 1.7
-  _damage: 16
-  _xpReward: 6
-  _scoreReward: 60
-  _slamRange: 2.4
-  _windupDuration: 1.4
-  _attackDuration: 0.25
-  _recoveryDuration: 1.7
-  _attackCooldown: 3.5
+  displayName: Tidebreaker
+  tier: 0
+  prefab: {fileID: 3662398374813342227, guid: acdae1b53ceca174fb701425255c51ec, type: 3}
+  health: 90
+  moveSpeed: 1.7
+  damage: 16
+  xpReward: 6
+  scoreReward: 60
+  slamRange: 2.4
+  windupDuration: 1.4
+  attackDuration: 0.25
+  recoveryDuration: 1.7
+  attackCooldown: 3.5

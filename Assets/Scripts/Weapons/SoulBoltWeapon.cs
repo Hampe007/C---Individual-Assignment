@@ -4,48 +4,70 @@ using UnityEngine;
 /// <summary>Automatically fires spectral bolts once purchased in the skill tree.</summary>
 public sealed class SoulBoltWeapon : MonoBehaviour
 {
-    [SerializeField] private HordeManager _hordeManager;
-    [SerializeField] private CombatProjectileSystem _projectiles;
-    [SerializeField, Min(0.1f)] private float _range = 14f;
-    [SerializeField, Min(0.1f)] private float _cooldown = 1.7f;
-    [SerializeField, Min(0.1f)] private float _speed = 15f;
-    [SerializeField, Min(0.1f)] private float _lifetime = 1.4f;
-    [SerializeField, Min(1)] private int _damage = 15;
-    [SerializeField, Range(0f, 45f)] private float _spreadDegrees = 14f;
+    [SerializeField] private HordeManager hordeManager;
+    [SerializeField] private CombatProjectileSystem projectiles;
+    [SerializeField, Min(0.1f)] private float range = 14f;
+    [SerializeField, Min(0.1f)] private float cooldown = 1.7f;
+    [SerializeField, Min(0.1f)] private float speed = 15f;
+    [SerializeField, Min(0.1f)] private float lifetime = 1.4f;
+    [SerializeField, Min(1)] private int damage = 15;
+    [SerializeField, Range(0f, 45f)] private float spreadDegrees = 14f;
+    private bool unlocked;
+    private int boltCount = 1;
+    private int trackingTier;
+    private float timer;
+    public bool IsUnlocked => unlocked;
+    public int BoltCount => boltCount;
+    public int TrackingTier => trackingTier;
 
-    private bool _unlocked;
-    private int _boltCount = 1;
-    private int _trackingTier;
-    private float _timer;
+    public void Unlock()
+    {
+        unlocked = true;
+        timer = 0f;
+    }
 
-    public bool IsUnlocked => _unlocked;
-    public int BoltCount => _boltCount;
-    public int TrackingTier => _trackingTier;
-    public void Unlock() { _unlocked = true; _timer = 0f; }
-    public void AddDamage(int amount) { _damage += Mathf.Max(0, amount); }
-    public void AddBolt() { _boltCount = Mathf.Min(5, _boltCount + 2); }
-    public void AddTrackingTier() { _trackingTier = Mathf.Min(3, _trackingTier + 1); }
+    public void AddDamage(int amount)
+    {
+        damage += Mathf.Max(0, amount);
+    }
+
+    public void AddBolt()
+    {
+        boltCount = Mathf.Min(5, boltCount + 2);
+    }
+
+    public void AddTrackingTier()
+    {
+        trackingTier = Mathf.Min(3, trackingTier + 1);
+    }
 
     private void Update()
     {
-        if (!_unlocked || _hordeManager == null || _projectiles == null || Time.timeScale <= 0f)
+        if (!unlocked || hordeManager == null || projectiles == null || Time.timeScale <= 0f)
+        {
             return;
+        }
 
-        _timer -= Time.deltaTime;
-        if (_timer > 0f) return;
+        timer -= Time.deltaTime;
+        if (timer > 0f)
+        {
+            return;
+        }
 
         Vector3 origin = transform.position + Vector3.up * 1.1f;
-        if (!_hordeManager.TryGetClosestEnemy((float3)transform.position, _range, out _, out float3 target))
+        if (!hordeManager.TryGetClosestEnemy((float3)transform.position, range, out _, out float3 target))
+        {
             return;
+        }
 
         Vector3 direction = new Vector3(target.x - origin.x, 0f, target.z - origin.z).normalized;
-        for (int i = 0; i < _boltCount; i++)
+        for (int i = 0; i < boltCount; i++)
         {
             // Keep the first bolt aimed at the target as extra side bolts are added.
-            float angle = i == 0 ? 0f : ((i + 1) / 2) * (i % 2 == 1 ? -_spreadDegrees : _spreadDegrees);
-            _projectiles.SpawnSoulBolt(origin, Quaternion.Euler(0f, angle, 0f) * direction,
-                _damage, _speed, _lifetime, _trackingTier);
+            float angle = i == 0 ? 0f : ((i + 1) / 2) * (i % 2 == 1 ? -spreadDegrees : spreadDegrees);
+            projectiles.SpawnSoulBolt(origin, Quaternion.Euler(0f, angle, 0f) * direction, damage, speed, lifetime, trackingTier);
         }
-        _timer = _cooldown;
+
+        timer = cooldown;
     }
 }

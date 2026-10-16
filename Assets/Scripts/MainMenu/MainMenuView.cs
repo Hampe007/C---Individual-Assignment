@@ -35,7 +35,6 @@ namespace GameMenus
         [SerializeField] private TMP_Text highScore;
         [SerializeField] private RectTransform modalPanel;
         [SerializeField] private Vector2 quitModalPosition = new(-450f, 0f);
-
         private GameObject previousSelection;
         private Vector2 modalPosition;
         private Vector2 skipPosition;
@@ -46,8 +45,6 @@ namespace GameMenus
         private bool menuVisible;
         private bool modalVisible;
         private bool skipVisible;
-
-
         public void Initialize(MainMenuDirector director)
         {
             buttons = GetComponentsInChildren<MenuOptionButton>(true);
@@ -57,6 +54,7 @@ namespace GameMenus
             {
                 button.SetDirector(director);
             }
+
             highScore.text = "HIGH SCORE  /  " + PlayerProgression.HighScore;
             primaryButton.onClick.AddListener(director.ConfirmModal);
             backButton.onClick.AddListener(director.CloseModal);
@@ -81,6 +79,7 @@ namespace GameMenus
             {
                 return;
             }
+
             menuVisible = visible;
             menu.interactable = false;
             menu.blocksRaycasts = false;
@@ -92,6 +91,7 @@ namespace GameMenus
             {
                 SetOpacity(menu, visible ? 1f : 0f);
             }
+
             if (!visible && EventSystem.current != null)
             {
                 EventSystem.current.SetSelectedGameObject(null);
@@ -105,6 +105,7 @@ namespace GameMenus
             {
                 return;
             }
+
             skipVisible = visible;
             StartFade(ref skipFade, skipGroup, visible, true);
         }
@@ -115,6 +116,7 @@ namespace GameMenus
             {
                 StopCoroutine(routine);
             }
+
             group.gameObject.SetActive(true);
             routine = StartCoroutine(Fade(group, visible, animateSkip));
         }
@@ -134,15 +136,18 @@ namespace GameMenus
                     rect.anchoredPosition = skipPosition + Vector2.down * (1f - eased) * 14f;
                     rect.localScale = Vector3.one * (Mathf.Lerp(0.92f, 1f, eased) + Mathf.Sin(progress * Mathf.PI) * 0.04f);
                 }
+
                 elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
+
             SetOpacity(group, visible ? 1f : 0f);
             if (animateSkip)
             {
                 rect.anchoredPosition = skipPosition;
                 rect.localScale = Vector3.one;
             }
+
             if (group == menu)
             {
                 menu.interactable = visible && !modalVisible;
@@ -183,6 +188,7 @@ namespace GameMenus
             {
                 previousSelection = EventSystem.current.currentSelectedGameObject;
             }
+
             modalTitle.text = title;
             modalBody.text = body;
             creditsContent.SetActive(false);
@@ -205,12 +211,12 @@ namespace GameMenus
                 {
                     selection = primaryButton.gameObject;
                 }
-            
+
                 if (options)
                 {
                     selection = optionsBackButton.gameObject;
                 }
-            
+
                 EventSystem.current.SetSelectedGameObject(selection);
             }
         }
@@ -228,25 +234,40 @@ namespace GameMenus
             TMPLinkOpener links = creditsBody.GetComponent<TMPLinkOpener>();
             links.Configure(creditsScroll, creditsBackButton);
             if (EventSystem.current != null)
+            {
                 EventSystem.current.SetSelectedGameObject(links.gameObject);
+            }
         }
 
         private void Update()
         {
-            if (!modalVisible || !creditsContent.activeInHierarchy ||
-                !creditsScroll.isActiveAndEnabled || !Application.isFocused)
+            if (!modalVisible || !creditsContent.activeInHierarchy || !creditsScroll.isActiveAndEnabled || !Application.isFocused)
+            {
                 return;
+            }
+
             UnityEngine.UI.ScrollRect scroll = creditsScroll;
             float overflow = scroll.content.rect.height - scroll.viewport.rect.height;
             if (overflow <= 0f)
+            {
                 return;
+            }
+
             float direction = Gamepad.current != null ? Gamepad.current.rightStick.ReadValue().y : 0f;
             var keyboard = Keyboard.current;
             if (keyboard != null)
             {
-                if (keyboard.pageUpKey.isPressed) direction = 1f;
-                if (keyboard.pageDownKey.isPressed) direction = -1f;
+                if (keyboard.pageUpKey.isPressed)
+                {
+                    direction = 1f;
+                }
+
+                if (keyboard.pageDownKey.isPressed)
+                {
+                    direction = -1f;
+                }
             }
+
             if (Mathf.Abs(direction) > 0.1f)
             {
                 scroll.StopMovement();

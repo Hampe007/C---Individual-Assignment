@@ -5,10 +5,8 @@ using UnityEngine.UI;
 public sealed class PlayerProgressionUI : MonoBehaviour
 {
     [SerializeField] private PlayerProgression progression;
-
     [Header("XP")]
     [SerializeField] private Slider xpSlider;
-
     [Header("Feedback")]
     [SerializeField, Min(0.01f)] private float animationDuration = 0.22f;
     [SerializeField, Min(0f)] private float gainScale = 0.08f;
@@ -19,15 +17,13 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     [SerializeField] private Color gainTint = new(1f, 0.9f, 0.45f, 1f);
     [SerializeField] private Color lossTint = new(1f, 0.5f, 0.42f, 1f);
     [SerializeField] private Color emptyTint = new(0.55f, 0.2f, 0.2f, 1f);
-
     [Header("Other")]
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text scoreText;
-
     private RectTransform target;
     private Vector2 basePosition;
     private Vector3 baseScale;
-    private Graphic _graphic;
+    private Graphic graphic;
     private Color baseColor;
     private float feedbackTimer;
     private float feedbackDuration;
@@ -35,25 +31,27 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     private float feedbackScale;
     private Color feedbackTint;
     private bool hasFeedback;
-
     private void Awake()
     {
-        if (progression != null &&
-            xpSlider != null &&
-            levelText != null &&
-            scoreText != null)
+        if (progression != null && xpSlider != null && levelText != null && scoreText != null)
         {
             target = xpSlider.transform as RectTransform;
             if (target != null)
             {
                 basePosition = target.anchoredPosition;
                 baseScale = target.localScale;
-                _graphic = target.GetComponent<Graphic>();
-                if (_graphic == null)
-                    _graphic = target.GetComponentInChildren<Graphic>();
-                if (_graphic != null)
-                    baseColor = _graphic.color;
+                graphic = target.GetComponent<Graphic>();
+                if (graphic == null)
+                {
+                    graphic = target.GetComponentInChildren<Graphic>();
+                }
+
+                if (graphic != null)
+                {
+                    baseColor = graphic.color;
+                }
             }
+
             return;
         }
 
@@ -81,7 +79,9 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     private void OnDisable()
     {
         if (progression == null)
+        {
             return;
+        }
 
         progression.XPChanged -= UpdateXP;
         progression.XPGained -= HandleXPGained;
@@ -100,7 +100,9 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     private void Update()
     {
         if (!hasFeedback || target == null)
+        {
             return;
+        }
 
         feedbackTimer += Time.unscaledDeltaTime;
         float t = Mathf.Clamp01(feedbackTimer / feedbackDuration);
@@ -109,11 +111,15 @@ public sealed class PlayerProgressionUI : MonoBehaviour
         target.anchoredPosition = basePosition + Vector2.right * (oscillation * feedbackShake);
         float pulse = Mathf.Sin(t * Mathf.PI) * feedbackScale * envelope;
         target.localScale = Vector3.Scale(baseScale, Vector3.one * (1f + pulse));
-        if (_graphic != null)
-            _graphic.color = Color.Lerp(baseColor, feedbackTint, envelope * 0.75f);
+        if (graphic != null)
+        {
+            graphic.color = Color.Lerp(baseColor, feedbackTint, envelope * 0.75f);
+        }
 
         if (t < 1f)
+        {
             return;
+        }
 
         ResetFeedback();
     }
@@ -121,11 +127,12 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     private void HandleXPGained(int amount, int requiredXP) => PlayFeedback(0f, gainScale, gainTint, animationDuration);
     private void HandleXPLost(int amount, int requiredXP) => PlayFeedback(lossShake, lossScale, lossTint, animationDuration);
     private void HandleXPDepleted(int previousXP, int requiredXP) => PlayFeedback(emptyShake, emptyScale, emptyTint, animationDuration * 1.35f);
-
     private void PlayFeedback(float shake, float scale, Color tint, float duration)
     {
         if (target == null)
+        {
             return;
+        }
 
         feedbackTimer = 0f;
         feedbackDuration = duration;
@@ -139,8 +146,11 @@ public sealed class PlayerProgressionUI : MonoBehaviour
     {
         target.anchoredPosition = basePosition;
         target.localScale = baseScale;
-        if (_graphic != null)
-            _graphic.color = baseColor;
+        if (graphic != null)
+        {
+            graphic.color = baseColor;
+        }
+
         hasFeedback = false;
     }
 

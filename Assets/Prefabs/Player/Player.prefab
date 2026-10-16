@@ -522,11 +522,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3de6bb60348f441bda9caeb59d756e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  _maxHealth: 100
-  _progression: {fileID: 7723262217838937948}
-  _damageProtectionDuration: 0.75
-  _hitSFX: {fileID: 11400000, guid: 4e53375f8676ed743a20576589a251c9, type: 2}
-  _soundCooldown: 0.5
+  maxHealth: 100
+  progression: {fileID: 7723262217838937948}
+  damageProtectionDuration: 0.75
+  hitSFX: {fileID: 11400000, guid: 4e53375f8676ed743a20576589a251c9, type: 2}
+  soundCooldown: 0.5
 --- !u!114 &3803896572903738776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,13 +539,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126ffd6f83c3a2547ac20b07669ecb03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordWeapon
-  _hordeManager: {fileID: 0}
-  _animator: {fileID: 6010610551871792657}
-  _swingSFX: {fileID: 11400000, guid: e76f5f37c5efb6a40b8eaa26227518e0, type: 2}
-  _cooldown: 1
-  _damage: 20
-  _range: 4
-  _targetsPerSwing: 1
+  hordeManager: {fileID: 0}
+  animator: {fileID: 6010610551871792657}
+  swingSFX: {fileID: 11400000, guid: e76f5f37c5efb6a40b8eaa26227518e0, type: 2}
+  cooldown: 1
+  damage: 20
+  range: 4
+  targetsPerSwing: 1
 --- !u!114 &7723262217838937948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,11 +558,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea494771856d4841875e1a9e1fe8128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerProgression
-  _hordeManager: {fileID: 0}
-  _scorePerSecond: 1
-  _startingXPRequired: 10
-  _xpGrowth: 1.25
-  _damageXPLossPercent: 0.015
+  hordeManager: {fileID: 0}
+  scorePerSecond: 1
+  startingXPRequired: 10
+  xpGrowth: 1.25
+  damageXPLossPercent: 0.015
 --- !u!114 &3201397067682517427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,13 +575,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f11ee75cc9c41a9822a53d65eaf0942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeProgression
-  _skillTree: {fileID: 11400000, guid: 6d40339a57d756844a2ec4e5d3ab5c90, type: 2}
-  _playerProgression: {fileID: 7723262217838937948}
-  _playerHealth: {fileID: 6708507533016024886}
-  _playerMovement: {fileID: -7444658863856387032}
-  _swordWeapon: {fileID: 3803896572903738776}
-  _playerLantern: {fileID: 0}
-  _soulBoltWeapon: {fileID: 0}
+  skillTree: {fileID: 11400000, guid: 6d40339a57d756844a2ec4e5d3ab5c90, type: 2}
+  playerProgression: {fileID: 7723262217838937948}
+  playerHealth: {fileID: 6708507533016024886}
+  playerMovement: {fileID: -7444658863856387032}
+  swordWeapon: {fileID: 3803896572903738776}
+  playerLantern: {fileID: 0}
+  soulBoltWeapon: {fileID: 0}
 --- !u!114 &7125268837296402175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10140,11 +10140,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9122831729689281479, guid: f4f7c45fa8ed88044b4fa6222e4c228a, type: 3}
-      propertyPath: _healthText
+      propertyPath: healthText
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9122831729689281479, guid: f4f7c45fa8ed88044b4fa6222e4c228a, type: 3}
-      propertyPath: _playerHealth
+      propertyPath: playerHealth
       value: 
       objectReference: {fileID: 6708507533016024886}
     m_RemovedComponents: []

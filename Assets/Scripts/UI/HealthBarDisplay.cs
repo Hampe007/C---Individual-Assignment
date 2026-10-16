@@ -3,8 +3,8 @@ using UnityEngine;
 
 public sealed class HealthBarDisplay : MonoBehaviour
 {
-    [SerializeField] private GameObject _worldHealthBar;
-    [SerializeField] private GameObject _screenHealthBar;
+    [SerializeField] private GameObject worldHealthBar;
+    [SerializeField] private GameObject screenHealthBar;
 
     private void OnEnable()
     {
@@ -16,14 +16,14 @@ public sealed class HealthBarDisplay : MonoBehaviour
 
     private void Apply()
     {
-        if (_worldHealthBar == null || _screenHealthBar == null)
+        if (worldHealthBar == null || screenHealthBar == null)
         {
             Debug.LogError("HealthBarDisplay is missing a health bar reference.", this);
             return;
         }
 
         bool onScreen = HealthBarLocationPreferences.OnScreen;
-        _worldHealthBar.SetActive(!onScreen);
-        _screenHealthBar.SetActive(onScreen);
+        worldHealthBar.SetActive(!onScreen);
+        screenHealthBar.SetActive(onScreen);
     }
 }

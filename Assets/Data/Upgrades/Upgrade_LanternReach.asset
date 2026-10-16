@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_LanternReach
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Lantern Reach
-  _description: Increase lantern range by 1.5 m per level.
-  _effect: 5
-  _value: 1.5
-  _maxLevel: 3
+  displayName: Lantern Reach
+  description: Increase lantern range by 1.5 m per level.
+  effect: 5
+  value: 1.5
+  maxLevel: 3

@@ -7,205 +7,229 @@ using UnityEngine.SceneManagement;
 [DefaultExecutionOrder(-1000)]
 public sealed class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject _panel;
-    [SerializeField] private GameObject _menuPage;
-    [SerializeField] private GameObject _optionsPage;
-    [SerializeField] private GameObject _confirmationPage;
-    [SerializeField] private TMP_Text _confirmationTitle;
-    [SerializeField] private TMP_Text _confirmationBody;
-    [SerializeField] private UnityEngine.UI.Button _resumeButton;
-    [SerializeField] private UnityEngine.UI.Button _optionsBackButton;
-    [SerializeField] private UnityEngine.UI.Button _cancelButton;
-    [SerializeField] private PlayerHealth _playerHealth;
-    [SerializeField] private GameObject _skillTreePanel;
-    [SerializeField] private GameObject _gameOverPanel;
-    [SerializeField] private string _mainMenuSceneName = "MainMenu";
-
-    private static PauseMenu _instance;
-    private bool _ownsPause;
-    private bool _waitForPointerRelease;
-    private int _resumeFrame = -1;
-    private float _previousTimeScale;
-    private string _destination;
-    private GameObject _returnSelection;
-
-    public bool IsOpen => _ownsPause;
-    public static bool BlocksGameplayInput => SceneTransition.IsTransitioning ||
-        (_instance != null && (_instance._ownsPause ||
-        _instance._waitForPointerRelease || Time.frameCount <= _instance._resumeFrame));
+    [SerializeField] private GameObject panel;
+    [SerializeField] private GameObject menuPage;
+    [SerializeField] private GameObject optionsPage;
+    [SerializeField] private GameObject confirmationPage;
+    [SerializeField] private TMP_Text confirmationTitle;
+    [SerializeField] private TMP_Text confirmationBody;
+    [SerializeField] private UnityEngine.UI.Button resumeButton;
+    [SerializeField] private UnityEngine.UI.Button optionsBackButton;
+    [SerializeField] private UnityEngine.UI.Button cancelButton;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private GameObject skillTreePanel;
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
+    private static PauseMenu instance;
+    private bool ownsPause;
+    private bool waitForPointerRelease;
+    private int resumeFrame = -1;
+    private float previousTimeScale;
+    private string destination;
+    private GameObject returnSelection;
+    public bool IsOpen => ownsPause;
+    public static bool BlocksGameplayInput => SceneTransition.IsTransitioning || (instance != null && (instance.ownsPause || instance.waitForPointerRelease || Time.frameCount <= instance.resumeFrame));
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    private static void ResetStatics() => _instance = null;
-
+    private static void ResetStatics() => instance = null;
     private void Awake()
     {
-        if (_panel == null || _menuPage == null || _optionsPage == null || _confirmationPage == null ||
-            _confirmationTitle == null || _confirmationBody == null || _resumeButton == null ||
-            _optionsBackButton == null || _cancelButton == null ||
-            _playerHealth == null || _skillTreePanel == null || _gameOverPanel == null)
+        if (panel == null || menuPage == null || optionsPage == null || confirmationPage == null || confirmationTitle == null || confirmationBody == null || resumeButton == null || optionsBackButton == null || cancelButton == null || playerHealth == null || skillTreePanel == null || gameOverPanel == null)
         {
             Debug.LogError("PauseMenu is missing required references.", this);
             enabled = false;
             return;
         }
 
-        _instance = this;
-        _panel.SetActive(false);
+        instance = this;
+        panel.SetActive(false);
     }
 
     private void OnDisable()
     {
         ReleasePause();
-        if (_instance == this)
-            _instance = null;
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     private void Update()
     {
-        if (_waitForPointerRelease && (Mouse.current == null ||
-            (!Mouse.current.leftButton.isPressed && !Mouse.current.rightButton.isPressed)))
-            _waitForPointerRelease = false;
+        if (waitForPointerRelease && (Mouse.current == null || (!Mouse.current.leftButton.isPressed && !Mouse.current.rightButton.isPressed)))
+        {
+            waitForPointerRelease = false;
+        }
 
         if (SceneTransition.IsTransitioning)
+        {
             return;
+        }
 
-        bool pausePressed = (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) ||
-            (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame);
-        bool backPressed = _ownsPause && Gamepad.current != null &&
-            Gamepad.current.buttonEast.wasPressedThisFrame;
+        bool pausePressed = (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) || (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame);
+        bool backPressed = ownsPause && Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame;
         if (!pausePressed && !backPressed)
+        {
             return;
+        }
 
-        if (!_ownsPause)
+        if (!ownsPause)
+        {
             Show();
-        else if (_optionsPage.activeSelf || _confirmationPage.activeSelf)
+        }
+        else if (optionsPage.activeSelf || confirmationPage.activeSelf)
+        {
             Back();
+        }
         else
+        {
             Resume();
+        }
     }
 
     private void LateUpdate()
     {
         // Another menu may claim the pause later in the frame (for example, a level-up).
-        if (_ownsPause && (OtherMenuOpen || _playerHealth.CurrentHealth <= 0))
+        if (ownsPause && (OtherMenuOpen || playerHealth.CurrentHealth <= 0))
+        {
             HideWithoutResuming();
+        }
     }
 
-    private bool OtherMenuOpen => (_skillTreePanel != null && _skillTreePanel.activeInHierarchy) ||
-        (_gameOverPanel != null && _gameOverPanel.activeInHierarchy);
+    private bool OtherMenuOpen => (skillTreePanel != null && skillTreePanel.activeInHierarchy) || (gameOverPanel != null && gameOverPanel.activeInHierarchy);
 
     public void Show()
     {
-        if (!isActiveAndEnabled || _ownsPause || SceneTransition.IsTransitioning ||
-            Time.timeScale <= 0f || OtherMenuOpen || _playerHealth.CurrentHealth <= 0)
+        if (!isActiveAndEnabled || ownsPause || SceneTransition.IsTransitioning || Time.timeScale <= 0f || OtherMenuOpen || playerHealth.CurrentHealth <= 0)
+        {
             return;
+        }
 
-        _previousTimeScale = Time.timeScale;
-        _ownsPause = true;
+        previousTimeScale = Time.timeScale;
+        ownsPause = true;
         Time.timeScale = 0f;
-        _panel.SetActive(true);
-        SetPage(_menuPage, _resumeButton.gameObject);
+        panel.SetActive(true);
+        SetPage(menuPage, resumeButton.gameObject);
     }
 
     public void Resume()
     {
         if (!CanInteract)
+        {
             return;
+        }
+
         ReleasePause();
         // A held UI click must be released before it can set a movement destination.
-        _resumeFrame = Time.frameCount;
-        _waitForPointerRelease = Mouse.current != null &&
-            (Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed);
+        resumeFrame = Time.frameCount;
+        waitForPointerRelease = Mouse.current != null && (Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed);
     }
 
     public void Options()
     {
         if (!CanInteract)
+        {
             return;
+        }
+
         RememberSelection();
-        SetPage(_optionsPage, _optionsBackButton.gameObject);
+        SetPage(optionsPage, optionsBackButton.gameObject);
     }
 
     public void Back()
     {
         if (CanInteract)
         {
-            _destination = null;
-            SetPage(_menuPage, _returnSelection != null ? _returnSelection : _resumeButton.gameObject);
+            destination = null;
+            SetPage(menuPage, returnSelection != null ? returnSelection : resumeButton.gameObject);
         }
     }
 
     public void Restart() => AskToLeave(SceneManager.GetActiveScene().name, "RESTART RUN?", "Your current run will be lost. Start again?");
-
-    public void MainMenu() => AskToLeave(_mainMenuSceneName, "LEAVE THIS RUN?", "Your current run will be lost. Return to the main menu?");
-
+    public void MainMenu() => AskToLeave(mainMenuSceneName, "LEAVE THIS RUN?", "Your current run will be lost. Return to the main menu?");
     public void Cancel() => Back();
-
     public void Confirm()
     {
-        if (!CanInteract || !_confirmationPage.activeSelf || string.IsNullOrEmpty(_destination))
+        if (!CanInteract || !confirmationPage.activeSelf || string.IsNullOrEmpty(destination))
+        {
             return;
+        }
 
-        string scene = _destination;
+        string scene = destination;
         ReleasePause();
         // Scene loads must not inherit a paused time scale.
         Time.timeScale = 1f;
         SceneTransition.LoadScene(scene);
     }
 
-    private bool CanInteract => _ownsPause && !SceneTransition.IsTransitioning &&
-        !OtherMenuOpen && _playerHealth.CurrentHealth > 0;
+    private bool CanInteract => ownsPause && !SceneTransition.IsTransitioning && !OtherMenuOpen && playerHealth.CurrentHealth > 0;
 
     private void AskToLeave(string scene, string title, string body)
     {
         if (!CanInteract)
+        {
             return;
-        _destination = scene;
+        }
+
+        destination = scene;
         RememberSelection();
-        _confirmationTitle.text = title;
-        _confirmationBody.text = body;
-        SetPage(_confirmationPage, _cancelButton.gameObject);
+        confirmationTitle.text = title;
+        confirmationBody.text = body;
+        SetPage(confirmationPage, cancelButton.gameObject);
     }
 
-    private void RememberSelection() => _returnSelection = EventSystem.current != null
-        ? EventSystem.current.currentSelectedGameObject : null;
-
+    private void RememberSelection() => returnSelection = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
     private void SetPage(GameObject page, GameObject selection)
     {
         Select(null);
-        _menuPage.SetActive(page == _menuPage);
-        _optionsPage.SetActive(page == _optionsPage);
-        _confirmationPage.SetActive(page == _confirmationPage);
+        menuPage.SetActive(page == menuPage);
+        optionsPage.SetActive(page == optionsPage);
+        confirmationPage.SetActive(page == confirmationPage);
         Select(selection);
     }
 
     private void ReleasePause()
     {
-        if (!_ownsPause)
+        if (!ownsPause)
+        {
             return;
-        if (!OtherMenuOpen && _playerHealth != null && _playerHealth.CurrentHealth > 0 && Time.timeScale == 0f)
-            Time.timeScale = _previousTimeScale;
+        }
+
+        if (!OtherMenuOpen && playerHealth != null && playerHealth.CurrentHealth > 0 && Time.timeScale == 0f)
+        {
+            Time.timeScale = previousTimeScale;
+        }
+
         HideWithoutResuming();
     }
 
     private void HideWithoutResuming()
     {
-        _ownsPause = false;
-        _destination = null;
+        ownsPause = false;
+        destination = null;
         // Preserve focus if the skill-tree menu has already selected its first node.
-        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null &&
-            EventSystem.current.currentSelectedGameObject.transform.IsChildOf(_panel.transform))
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.transform.IsChildOf(panel.transform))
+        {
             Select(null);
-        if (_panel != null)
-            _panel.SetActive(false);
+        }
+
+        if (panel != null)
+        {
+            panel.SetActive(false);
+        }
     }
 
     private static void Select(GameObject target)
     {
         if (EventSystem.current == null)
+        {
             return;
+        }
+
         EventSystem.current.SetSelectedGameObject(null);
         if (target != null)
+        {
             EventSystem.current.SetSelectedGameObject(target);
+        }
     }
 }

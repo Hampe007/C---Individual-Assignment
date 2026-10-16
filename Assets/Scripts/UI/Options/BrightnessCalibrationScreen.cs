@@ -16,7 +16,6 @@ namespace BrightnessCalibration
         [Header("Reference rig")]
         [SerializeField] private UnityEngine.UI.Image leftHalf;
         [SerializeField] private UnityEngine.UI.Image rightHalf;
-
         [Header("Screen references")]
         [SerializeField] private CanvasGroup presentation;
         [SerializeField] private Camera previewCamera;
@@ -38,7 +37,6 @@ namespace BrightnessCalibration
         private int appliedPercentage;
         private Material leftMaterial;
         private Material rightMaterial;
-
         public UnityEngine.UI.Image LeftHalf => leftHalf;
         public UnityEngine.UI.Image RightHalf => rightHalf;
         public Camera PreviewCamera => previewCamera;
@@ -57,9 +55,11 @@ namespace BrightnessCalibration
             return Mathf.Lerp(leftLevel, leftAtMaximum, Mathf.SmoothStep(0f, 1f, progress));
         }
 
-        public static Material CreateSilhouetteMaterial(UnityEngine.UI.Image image) =>
-            new Material(image.material) { name = "Brightness calibration tint", hideFlags = HideFlags.HideAndDontSave };
-
+        public static Material CreateSilhouetteMaterial(UnityEngine.UI.Image image) => new Material(image.material)
+        {
+            name = "Brightness calibration tint",
+            hideFlags = HideFlags.HideAndDontSave
+        };
         public static void SetMaterialLevel(Material material, float level)
         {
             // A material color preserves near-black precision lost by UI vertex colors.
@@ -77,6 +77,7 @@ namespace BrightnessCalibration
                 rightHalf.material = rightMaterial;
                 leftHalf.color = rightHalf.color = Color.white;
             }
+
             SetMaterialLevel(leftMaterial, GetLeftLevel(brightness));
             SetMaterialLevel(rightMaterial, rightLevel);
         }
@@ -85,7 +86,6 @@ namespace BrightnessCalibration
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetSession() => instance = null;
-
         public static IEnumerator ShowAtStartup()
         {
             BrightnessCalibrationScreen screen = Open(false, null);
@@ -96,23 +96,25 @@ namespace BrightnessCalibration
         }
 
         public static void ShowFromOptions(GameObject returnSelection) => Open(true, returnSelection);
-
         private static BrightnessCalibrationScreen Open(bool fromOptions, GameObject returnSelection)
         {
             if (instance != null)
             {
                 return instance;
             }
+
             GameObject prefab = Resources.Load<GameObject>("BrightnessCalibration");
             if (prefab == null)
             {
                 Debug.LogError("The brightness calibration prefab is missing.");
                 return null;
             }
+
             if (!BrightnessPreferences.HasCalibrated)
             {
                 BrightnessPreferences.SetBrightness(Mathf.Max(1f, BrightnessPreferences.GetBrightness()));
             }
+
             instance = Instantiate(prefab).GetComponent<BrightnessCalibrationScreen>();
             DontDestroyOnLoad(instance.gameObject);
             instance.fromOptions = fromOptions;
@@ -134,6 +136,7 @@ namespace BrightnessCalibration
             {
                 EventSystem.current.SetSelectedGameObject(null);
             }
+
             previewTexture = new RenderTexture(1024, 1024, 24, RenderTextureFormat.ARGB32)
             {
                 name = "Brightness Calibration Preview",
@@ -159,6 +162,7 @@ namespace BrightnessCalibration
             {
                 yield return null;
             }
+
             ready = true;
             presentation.interactable = true;
             confirmButton.interactable = true;
@@ -174,40 +178,35 @@ namespace BrightnessCalibration
             {
                 return;
             }
-            if (fromOptions && (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame
-                || Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
+
+            if (fromOptions && (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame || Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
             {
                 Confirm();
             }
+
             // A mouse click on the background can clear focus; restore it on navigation.
-            if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null
-                && (Keyboard.current != null && (Keyboard.current.tabKey.wasPressedThisFrame
-                    || Keyboard.current.upArrowKey.wasPressedThisFrame || Keyboard.current.downArrowKey.wasPressedThisFrame)
-                    || Gamepad.current != null && (Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.1f
-                        || Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.1f)))
+            if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null && (Keyboard.current != null && (Keyboard.current.tabKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame || Keyboard.current.downArrowKey.wasPressedThisFrame) || Gamepad.current != null && (Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.1f || Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.1f)))
             {
                 EventSystem.current.SetSelectedGameObject(slider.gameObject);
             }
         }
 
         private void LateUpdate() => PausePresentation();
-
         private static void PausePresentation()
         {
             Time.timeScale = 0f;
             AudioListener.pause = true;
         }
 
-        private static bool SubmitHeld() => Keyboard.current != null
-            && (Keyboard.current.enterKey.isPressed || Keyboard.current.numpadEnterKey.isPressed || Keyboard.current.spaceKey.isPressed)
-            || Gamepad.current != null && Gamepad.current.buttonSouth.isPressed
-            || Mouse.current != null && Mouse.current.leftButton.isPressed;
-
+        private static bool SubmitHeld() => Keyboard.current != null && (Keyboard.current.enterKey.isPressed || Keyboard.current.numpadEnterKey.isPressed || Keyboard.current.spaceKey.isPressed) || Gamepad.current != null && Gamepad.current.buttonSouth.isPressed || Mouse.current != null && Mouse.current.leftButton.isPressed;
         private void UpdateValue(float percentage)
         {
             int rounded = Mathf.RoundToInt(percentage);
             if (rounded == appliedPercentage)
+            {
                 return;
+            }
+
             appliedPercentage = rounded;
             BrightnessPreferences.SetBrightness(rounded / 100f);
             ApplyReference(rounded / 100f);
@@ -215,13 +214,13 @@ namespace BrightnessCalibration
         }
 
         private void ResetToRecommended() => slider.value = 100f;
-
         public void Confirm()
         {
             if (!ready || closing)
             {
                 return;
             }
+
             ready = false;
             closing = true;
             presentation.interactable = false;
@@ -231,6 +230,7 @@ namespace BrightnessCalibration
             {
                 EventSystem.current.SetSelectedGameObject(null);
             }
+
             StartCoroutine(Close());
         }
 
@@ -250,6 +250,7 @@ namespace BrightnessCalibration
                 presentation.alpha = Mathf.SmoothStep(start, target, elapsed / 0.25f);
                 yield return null;
             }
+
             presentation.alpha = target;
         }
 
@@ -259,11 +260,20 @@ namespace BrightnessCalibration
             {
                 instance = null;
             }
+
             slider.onValueChanged.RemoveListener(UpdateValue);
             confirmButton.onClick.RemoveListener(Confirm);
             resetButton.onClick.RemoveListener(ResetToRecommended);
-            if (leftMaterial != null) Destroy(leftMaterial);
-            if (rightMaterial != null) Destroy(rightMaterial);
+            if (leftMaterial != null)
+            {
+                Destroy(leftMaterial);
+            }
+
+            if (rightMaterial != null)
+            {
+                Destroy(rightMaterial);
+            }
+
             Time.timeScale = previousTimeScale;
             AudioListener.pause = previousAudioPause;
             previewCamera.enabled = false;
@@ -274,6 +284,7 @@ namespace BrightnessCalibration
                 previewTexture.Release();
                 Destroy(previewTexture);
             }
+
             if (previewVolume.HasInstantiatedProfile())
             {
                 VolumeProfile runtimeProfile = previewVolume.profile;
@@ -281,8 +292,10 @@ namespace BrightnessCalibration
                 {
                     Destroy(component);
                 }
+
                 Destroy(runtimeProfile);
             }
+
             if (fromOptions)
             {
                 if (returnSelection != null && returnSelection.activeInHierarchy && EventSystem.current != null)

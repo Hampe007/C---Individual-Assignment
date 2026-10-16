@@ -7,9 +7,9 @@ public static class GameProgress
     private static ProgressSaveData data;
 
     public static string SavePath => Path.Combine(Application.persistentDataPath, "progress.json");
-    public static int HighScore => Data.highScore;
-    public static bool TutorialCompleted => Data.tutorialCompleted;
-    public static bool TutorialPromptDismissed => Data.tutorialPromptDismissed;
+    public static int HighScore => Data.HighScore;
+    public static bool TutorialCompleted => Data.TutorialCompleted;
+    public static bool TutorialPromptDismissed => Data.TutorialPromptDismissed;
 
     private static ProgressSaveData Data
     {
@@ -23,10 +23,10 @@ public static class GameProgress
             data = ProgressSaveFile.Load(SavePath);
             if (!File.Exists(SavePath))
             {
-                data.highScore = Mathf.Max(0, PlayerPrefs.GetInt("HighScore", 0));
-                data.tutorialCompleted = PlayerPrefs.GetInt("Tutorial.Completed", 0) != 0;
+                data.HighScore = Mathf.Max(0, PlayerPrefs.GetInt("HighScore", 0));
+                data.TutorialCompleted = PlayerPrefs.GetInt("Tutorial.Completed", 0) != 0;
                 // The old menu checked whether the key existed, including a stored value of zero.
-                data.tutorialPromptDismissed = PlayerPrefs.HasKey("LivingMenu.TutorialPromptDismissed");
+                data.TutorialPromptDismissed = PlayerPrefs.HasKey("LivingMenu.TutorialPromptDismissed");
                 if (ProgressSaveFile.Save(SavePath, data))
                 {
                     PlayerPrefs.DeleteKey("HighScore");
@@ -48,24 +48,24 @@ public static class GameProgress
 
     public static void SaveHighScore(int score)
     {
-        if (score <= Data.highScore)
+        if (score <= Data.HighScore)
         {
             return;
         }
 
-        Data.highScore = score;
+        Data.HighScore = score;
         ProgressSaveFile.Save(SavePath, Data);
     }
 
     public static void CompleteTutorial()
     {
-        Data.tutorialCompleted = true;
+        Data.TutorialCompleted = true;
         ProgressSaveFile.Save(SavePath, Data);
     }
 
     public static void DismissTutorialPrompt()
     {
-        Data.tutorialPromptDismissed = true;
+        Data.TutorialPromptDismissed = true;
         ProgressSaveFile.Save(SavePath, Data);
     }
 }
@@ -73,10 +73,15 @@ public static class GameProgress
 [Serializable]
 internal sealed class ProgressSaveData
 {
-    public int formatVersion = 1;
-    public int highScore;
-    public bool tutorialCompleted;
-    public bool tutorialPromptDismissed;
+    [SerializeField] private int formatVersion = 1;
+    [SerializeField] private int highScore;
+    [SerializeField] private bool tutorialCompleted;
+    [SerializeField] private bool tutorialPromptDismissed;
+
+    public int FormatVersion { get => formatVersion; set => formatVersion = value; }
+    public int HighScore { get => highScore; set => highScore = value; }
+    public bool TutorialCompleted { get => tutorialCompleted; set => tutorialCompleted = value; }
+    public bool TutorialPromptDismissed { get => tutorialPromptDismissed; set => tutorialPromptDismissed = value; }
 }
 
 internal static class ProgressSaveFile
@@ -113,7 +118,7 @@ internal static class ProgressSaveFile
         try
         {
             saved = JsonUtility.FromJson<ProgressSaveData>(File.ReadAllText(path));
-            if (saved != null && saved.formatVersion == 1 && saved.highScore >= 0)
+            if (saved != null && saved.FormatVersion == 1 && saved.HighScore >= 0)
             {
                 return true;
             }

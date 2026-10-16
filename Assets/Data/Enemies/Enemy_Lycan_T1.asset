@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0fb2b662f0a4675a2076968c1d5aad3, type: 3}
   m_Name: Enemy_Lycan_T1
   m_EditorClassIdentifier: Assembly-CSharp::ChargerEnemyDefinition
-  _displayName: Lycan
-  _tier: 0
-  _prefab: {fileID: 3662398374813342227, guid: e31e3b9f07eaf264094e8db3c8d7ad75, type: 3}
-  _health: 60
-  _moveSpeed: 3.2
-  _damage: 8
-  _xpReward: 3
-  _scoreReward: 30
-  _chargeRange: 8
-  _chargeSpeed: 10
-  _chargeDuration: 0.8
-  _telegraphDuration: 0.9
-  _recoveryDuration: 1.2
-  _chargeCooldown: 6
-  _hitRange: 1.1
+  displayName: Lycan
+  tier: 0
+  prefab: {fileID: 3662398374813342227, guid: e31e3b9f07eaf264094e8db3c8d7ad75, type: 3}
+  health: 60
+  moveSpeed: 3.2
+  damage: 8
+  xpReward: 3
+  scoreReward: 30
+  chargeRange: 8
+  chargeSpeed: 10
+  chargeDuration: 0.8
+  telegraphDuration: 0.9
+  recoveryDuration: 1.2
+  chargeCooldown: 6
+  hitRange: 1.1

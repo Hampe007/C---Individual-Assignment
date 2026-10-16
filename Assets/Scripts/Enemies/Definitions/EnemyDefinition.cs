@@ -7,25 +7,25 @@ using UnityEngine;
 public abstract class EnemyDefinition : ScriptableObject
 {
     [Header("Identity")]
-    [SerializeField] private string _displayName;
-    [SerializeField] private EnemyTier _tier = EnemyTier.Tier1;
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private string displayName;
+    [SerializeField] private EnemyTier tier = EnemyTier.Tier1;
+    [SerializeField] private GameObject prefab;
 
     [Header("Base Stats")]
-    [SerializeField, Min(1)] private int _health = 30;
-    [SerializeField, Min(0f)] private float _moveSpeed = 3f;
-    [SerializeField, Min(1)] private int _damage = 10;
+    [SerializeField, Min(1)] private int health = 30;
+    [SerializeField, Min(0f)] private float moveSpeed = 3f;
+    [SerializeField, Min(1)] private int damage = 10;
 
     [Header("Rewards")]
-    [SerializeField, Min(0)] private int _xpReward = 1;
-    [SerializeField, Min(0)] private int _scoreReward = 10;
+    [SerializeField, Min(0)] private int xpReward = 1;
+    [SerializeField, Min(0)] private int scoreReward = 10;
 
-    public string DisplayName => _displayName;
-    public EnemyTier Tier => _tier;
-    public GameObject Prefab => _prefab;
+    public string DisplayName => displayName;
+    public EnemyTier Tier => tier;
+    public GameObject Prefab => prefab;
 
-    public int XPReward => _xpReward;
-    public int ScoreReward => _scoreReward;
+    public int XPReward => xpReward;
+    public int ScoreReward => scoreReward;
 
     public abstract EnemyBehaviourType Behaviour { get; }
     public abstract EnemyConfig CreateConfig();
@@ -35,11 +35,11 @@ public abstract class EnemyDefinition : ScriptableObject
         return new EnemyConfig
         {
             Behaviour = Behaviour,
-            Health = _health,
-            MoveSpeed = _moveSpeed,
-            Damage = _damage,
-            XPReward = _xpReward,
-            ScoreReward = _scoreReward
+            Health = health,
+            MoveSpeed = moveSpeed,
+            Damage = damage,
+            XPReward = xpReward,
+            ScoreReward = scoreReward
         };
     }
 }

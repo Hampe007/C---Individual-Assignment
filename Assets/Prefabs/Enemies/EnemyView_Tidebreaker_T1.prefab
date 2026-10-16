@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b5eaa07cee9ac4d990b64f7c7fe1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitFlash
-  _duration: 0.1
-  _strength: 0.7
+  duration: 0.1
+  strength: 0.7
 --- !u!1001 &1723517726076521183
 PrefabInstance:
   m_ObjectHideFlags: 0

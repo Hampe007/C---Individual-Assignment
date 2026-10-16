@@ -12,46 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26b417d3c284704fa2ac7bd17d245f6, type: 3}
   m_Name: SkillTree_Main
   m_EditorClassIdentifier: Assembly-CSharp::SkillTreeDefinition
-  _nodes:
-  - _id: sword_damage
-    _upgrade: {fileID: 11400000, guid: cf8540ef9bbd112458de2d30277ce830, type: 2}
-    _prerequisiteIds: []
-  - _id: sword_cooldown
-    _upgrade: {fileID: 11400000, guid: e8190c89aa707f443ae13e041ece0eb4, type: 2}
-    _prerequisiteIds:
+  nodes:
+  - id: sword_damage
+    upgrade: {fileID: 11400000, guid: cf8540ef9bbd112458de2d30277ce830, type: 2}
+    prerequisiteIds: []
+  - id: sword_cooldown
+    upgrade: {fileID: 11400000, guid: e8190c89aa707f443ae13e041ece0eb4, type: 2}
+    prerequisiteIds:
     - sword_damage
-  - _id: cleave
-    _upgrade: {fileID: 11400000, guid: 1241866324f671847950b3382747f38d, type: 2}
-    _prerequisiteIds:
+  - id: cleave
+    upgrade: {fileID: 11400000, guid: 1241866324f671847950b3382747f38d, type: 2}
+    prerequisiteIds:
     - sword_damage
-  - _id: move_speed
-    _upgrade: {fileID: 11400000, guid: 3512e281a65a4094eb38d65f34cc7de7, type: 2}
-    _prerequisiteIds: []
-  - _id: max_health
-    _upgrade: {fileID: 11400000, guid: 5cc9efa011fc0b84a87cf66917cd560b, type: 2}
-    _prerequisiteIds: []
-  - _id: lantern_unlock
-    _upgrade: {fileID: 11400000, guid: 3c1449d9e4b4db64c95c5092446a2e33, type: 2}
-    _prerequisiteIds: []
-  - _id: lantern_range
-    _upgrade: {fileID: 11400000, guid: b9414878c08aa624d9d8e22dc589d5b9, type: 2}
-    _prerequisiteIds:
+  - id: move_speed
+    upgrade: {fileID: 11400000, guid: 3512e281a65a4094eb38d65f34cc7de7, type: 2}
+    prerequisiteIds: []
+  - id: max_health
+    upgrade: {fileID: 11400000, guid: 5cc9efa011fc0b84a87cf66917cd560b, type: 2}
+    prerequisiteIds: []
+  - id: lantern_unlock
+    upgrade: {fileID: 11400000, guid: 3c1449d9e4b4db64c95c5092446a2e33, type: 2}
+    prerequisiteIds: []
+  - id: lantern_range
+    upgrade: {fileID: 11400000, guid: b9414878c08aa624d9d8e22dc589d5b9, type: 2}
+    prerequisiteIds:
     - lantern_unlock
-  - _id: soul_bolt_unlock
-    _upgrade: {fileID: 11400000, guid: 065aeceed1ed7fa4a926785163f4d2a5, type: 2}
-    _prerequisiteIds: []
-  - _id: soul_bolt_damage
-    _upgrade: {fileID: 11400000, guid: 5c82aae655e91db41a7fa1ee286d1de3, type: 2}
-    _prerequisiteIds:
+  - id: soul_bolt_unlock
+    upgrade: {fileID: 11400000, guid: 065aeceed1ed7fa4a926785163f4d2a5, type: 2}
+    prerequisiteIds: []
+  - id: soul_bolt_damage
+    upgrade: {fileID: 11400000, guid: 5c82aae655e91db41a7fa1ee286d1de3, type: 2}
+    prerequisiteIds:
     - soul_bolt_unlock
-  - _id: soul_bolt_count
-    _upgrade: {fileID: 11400000, guid: ca3193695d2320c4896492fe0659d7ad, type: 2}
-    _prerequisiteIds:
+  - id: soul_bolt_count
+    upgrade: {fileID: 11400000, guid: ca3193695d2320c4896492fe0659d7ad, type: 2}
+    prerequisiteIds:
     - soul_bolt_unlock
-  - _id: soul_bolt_tracking
-    _upgrade: {fileID: 11400000, guid: e54d411d6fb745e4ea5a5da1be663c14, type: 2}
-    _prerequisiteIds:
+  - id: soul_bolt_tracking
+    upgrade: {fileID: 11400000, guid: e54d411d6fb745e4ea5a5da1be663c14, type: 2}
+    prerequisiteIds:
     - soul_bolt_unlock
-  - _id: restore_health
-    _upgrade: {fileID: 11400000, guid: 9be0c244be860274fb5c446ec2251870, type: 2}
-    _prerequisiteIds: []
+  - id: restore_health
+    upgrade: {fileID: 11400000, guid: 9be0c244be860274fb5c446ec2251870, type: 2}
+    prerequisiteIds: []

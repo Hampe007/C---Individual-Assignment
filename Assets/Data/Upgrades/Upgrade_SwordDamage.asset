@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_SwordDamage
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Sword Damage
-  _description: Increase sword damage.
-  _effect: 1
-  _value: 5
-  _maxLevel: 5
+  displayName: Sword Damage
+  description: Increase sword damage.
+  effect: 1
+  value: 5
+  maxLevel: 5

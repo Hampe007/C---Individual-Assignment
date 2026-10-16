@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_SoulBoltCount
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Soul Volley
-  _description: Add two soul bolts per level, up to five bolts in a symmetric fan.
-  _effect: 9
-  _value: 2
-  _maxLevel: 2
+  displayName: Soul Volley
+  description: Add two soul bolts per level, up to five bolts in a symmetric fan.
+  effect: 9
+  value: 2
+  maxLevel: 2

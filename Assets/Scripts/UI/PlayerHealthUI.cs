@@ -4,22 +4,20 @@ using UnityEngine.UI;
 
 public sealed class PlayerHealthUI : MonoBehaviour
 {
-    [SerializeField] private PlayerHealth _playerHealth;
-    
+    [SerializeField] private PlayerHealth playerHealth;
     [Header("Health Bar")]
-    [SerializeField] private Slider _healthSlider;
-    [SerializeField] private Slider _dmgHealthSlider;
-    [SerializeField] private TMP_Text _healthText;
-
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider dmgHealthSlider;
+    [SerializeField] private TMP_Text healthText;
     [Header("Animation")]
-    [SerializeField, Min(1f)] private float _dmgBarSpeed = 120f;
-
-    private float _targetHealth;
-    
+    [SerializeField, Min(1f)] private float dmgBarSpeed = 120f;
+    private float targetHealth;
     private void Awake()
     {
-        if (_playerHealth != null && _healthSlider != null && _dmgHealthSlider != null)
+        if (playerHealth != null && healthSlider != null && dmgHealthSlider != null)
+        {
             return;
+        }
 
         Debug.LogError("PlayerHealthUI is missing required references.");
         enabled = false;
@@ -27,49 +25,56 @@ public sealed class PlayerHealthUI : MonoBehaviour
 
     private void Start()
     {
-        if (_playerHealth == null || _healthSlider == null || _dmgHealthSlider == null)
+        if (playerHealth == null || healthSlider == null || dmgHealthSlider == null)
+        {
             return;
+        }
 
-        UpdateHealth(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
-        _dmgHealthSlider.value = _playerHealth.CurrentHealth;
+        UpdateHealth(playerHealth.CurrentHealth, playerHealth.MaxHealth);
+        dmgHealthSlider.value = playerHealth.CurrentHealth;
     }
 
     private void Update()
     {
-        if (Mathf.Approximately(_dmgHealthSlider.value, _targetHealth))
+        if (Mathf.Approximately(dmgHealthSlider.value, targetHealth))
+        {
             return;
+        }
 
-        _dmgHealthSlider.value = Mathf.MoveTowards(_dmgHealthSlider.value, _targetHealth, _dmgBarSpeed * Time.deltaTime);
+        dmgHealthSlider.value = Mathf.MoveTowards(dmgHealthSlider.value, targetHealth, dmgBarSpeed * Time.deltaTime);
     }
-    
+
     private void OnEnable()
     {
-        if (_playerHealth == null || _healthSlider == null || _dmgHealthSlider == null)
+        if (playerHealth == null || healthSlider == null || dmgHealthSlider == null)
+        {
             return;
+        }
 
-        _playerHealth.HealthChanged += UpdateHealth;
-        UpdateHealth(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
-        _dmgHealthSlider.value = _playerHealth.CurrentHealth;
+        playerHealth.HealthChanged += UpdateHealth;
+        UpdateHealth(playerHealth.CurrentHealth, playerHealth.MaxHealth);
+        dmgHealthSlider.value = playerHealth.CurrentHealth;
     }
 
     private void OnDisable()
     {
-        if (_playerHealth != null)
-            _playerHealth.HealthChanged -= UpdateHealth;
+        if (playerHealth != null)
+        {
+            playerHealth.HealthChanged -= UpdateHealth;
+        }
     }
 
     private void UpdateHealth(int currentHealth, int maxHealth)
     {
-        _healthSlider.maxValue = maxHealth;
-        _dmgHealthSlider.maxValue = maxHealth;
-        
+        healthSlider.maxValue = maxHealth;
+        dmgHealthSlider.maxValue = maxHealth;
         // Main health bar changes instantly.
-        _healthSlider.value = currentHealth;
-        
+        healthSlider.value = currentHealth;
         // Ease bar catches up afterwards.
-        _targetHealth = currentHealth;
-
-        if (_healthText != null)
-            _healthText.text = $"{currentHealth} / {maxHealth}";
+        targetHealth = currentHealth;
+        if (healthText != null)
+        {
+            healthText.text = $"{currentHealth} / {maxHealth}";
+        }
     }
 }

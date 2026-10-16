@@ -4,50 +4,55 @@ using System.Collections.Generic;
 
 public sealed class SwordWeapon : MonoBehaviour
 {
-    [SerializeField] private HordeManager _hordeManager;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private SoundSet _swingSFX;
-
+    [SerializeField] private HordeManager hordeManager;
+    [SerializeField] private Animator animator;
+    [SerializeField] private SoundSet swingSFX;
     [Header("Attack")]
-    [SerializeField, Min(0.05f)] private float _cooldown = 1f;
-    [SerializeField, Min(1)] private int _damage = 20;
-    [SerializeField, Min(0.1f)] private float _range = 4f;
-    [SerializeField, Min(1)] private int _targetsPerSwing = 1;
-
-    private readonly List<int> _targets = new();
-
-    private float _cooldownTimer;
-
+    [SerializeField, Min(0.05f)] private float cooldown = 1f;
+    [SerializeField, Min(1)] private int damage = 20;
+    [SerializeField, Min(0.1f)] private float range = 4f;
+    [SerializeField, Min(1)] private int targetsPerSwing = 1;
+    private readonly List<int> targets = new();
+    private float cooldownTimer;
     private void Update()
     {
         if (Time.timeScale == 0f)
-            return;
-
-        if (_cooldownTimer > 0f)
         {
-            _cooldownTimer -= Time.deltaTime;
+            return;
+        }
+
+        if (cooldownTimer > 0f)
+        {
+            cooldownTimer -= Time.deltaTime;
             return;
         }
 
         if (TryAttack())
-            _cooldownTimer = _cooldown;
+        {
+            cooldownTimer = cooldown;
+        }
     }
 
     public void ReduceCooldown(float amount)
     {
         if (amount > 0f)
-            _cooldown = Mathf.Max(0.05f, _cooldown - amount);
+        {
+            cooldown = Mathf.Max(0.05f, cooldown - amount);
+        }
     }
 
     private bool TryAttack()
     {
         float3 position = transform.position;
-
-        if (!_hordeManager.TryGetClosestEnemy(position, _range, out _, out _))
+        if (!hordeManager.TryGetClosestEnemy(position, range, out _, out _))
+        {
             return false;
+        }
 
-        if (_animator != null)
-            _animator.SetTrigger("SwordAttack");
+        if (animator != null)
+        {
+            animator.SetTrigger("SwordAttack");
+        }
 
         return true;
     }
@@ -55,29 +60,29 @@ public sealed class SwordWeapon : MonoBehaviour
     public void ApplyHit()
     {
         float3 position = transform.position;
-
-        _hordeManager.GetClosestEnemies(position, _range, _targetsPerSwing, _targets);
-
-        _targets.Sort();
-
-        for (int targetIndex = _targets.Count - 1; targetIndex >= 0; targetIndex--)
-            _hordeManager.DamageEnemy(_targets[targetIndex], _damage);
+        hordeManager.GetClosestEnemies(position, range, targetsPerSwing, targets);
+        targets.Sort();
+        for (int targetIndex = targets.Count - 1; targetIndex >= 0; targetIndex--)
+        {
+            hordeManager.DamageEnemy(targets[targetIndex], damage);
+        }
     }
 
     public void AddDamage(int amount)
     {
-        _damage += amount;
+        damage += amount;
     }
 
     public void IncreaseTargetsPerSwing()
     {
-        _targetsPerSwing++;
+        targetsPerSwing++;
     }
 
     public void PlaySwingSound()
     {
         if (AudioManager.Instance != null)
-            AudioManager.Instance.PlaySfx(_swingSFX, transform.position);
+        {
+            AudioManager.Instance.PlaySfx(swingSFX, transform.position);
+        }
     }
-
 }

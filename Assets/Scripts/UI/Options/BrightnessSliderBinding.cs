@@ -8,7 +8,6 @@ namespace BrightnessCalibration
         [SerializeField] private UnityEngine.UI.Slider slider;
         [SerializeField] private TMP_Text valueLabel;
         private int appliedPercentage;
-
         private void OnEnable()
         {
             slider.minValue = BrightnessPreferences.Minimum * 100f;
@@ -36,7 +35,10 @@ namespace BrightnessCalibration
         {
             int rounded = Mathf.RoundToInt(percentage);
             if (rounded == appliedPercentage)
+            {
                 return;
+            }
+
             appliedPercentage = rounded;
             BrightnessPreferences.SetBrightness(rounded / 100f);
             ShowValue(rounded);

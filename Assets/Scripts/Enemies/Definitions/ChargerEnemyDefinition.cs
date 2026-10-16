@@ -4,26 +4,26 @@ using UnityEngine;
 public sealed class ChargerEnemyDefinition : EnemyDefinition
 {
     [Header("Charger")]
-    [SerializeField, Min(0f)] private float _chargeRange = 10f;
-    [SerializeField, Min(0f)] private float _chargeSpeed = 12f;
-    [SerializeField, Min(0f)] private float _chargeDuration = 0.55f;
-    [SerializeField, Min(0f)] private float _telegraphDuration = 0.65f;
-    [SerializeField, Min(0f)] private float _recoveryDuration = 0.8f;
-    [SerializeField, Min(0f)] private float _chargeCooldown = 5f;
-    [SerializeField, Min(0f)] private float _hitRange = 1.5f;
+    [SerializeField, Min(0f)] private float chargeRange = 10f;
+    [SerializeField, Min(0f)] private float chargeSpeed = 12f;
+    [SerializeField, Min(0f)] private float chargeDuration = 0.55f;
+    [SerializeField, Min(0f)] private float telegraphDuration = 0.65f;
+    [SerializeField, Min(0f)] private float recoveryDuration = 0.8f;
+    [SerializeField, Min(0f)] private float chargeCooldown = 5f;
+    [SerializeField, Min(0f)] private float hitRange = 1.5f;
 
     public override EnemyBehaviourType Behaviour => EnemyBehaviourType.Charger;
 
     public override EnemyConfig CreateConfig()
     {
         EnemyConfig config = CreateBaseConfig();
-        config.AttackRange = _chargeRange;
-        config.AttackCooldown = _chargeCooldown;
-        config.SpecialSpeed = _chargeSpeed;
-        config.TelegraphDuration = _telegraphDuration;
-        config.AttackDuration = _chargeDuration;
-        config.RecoveryDuration = _recoveryDuration;
-        config.HitRange = _hitRange;
+        config.AttackRange = chargeRange;
+        config.AttackCooldown = chargeCooldown;
+        config.SpecialSpeed = chargeSpeed;
+        config.TelegraphDuration = telegraphDuration;
+        config.AttackDuration = chargeDuration;
+        config.RecoveryDuration = recoveryDuration;
+        config.HitRange = hitRange;
         return config;
     }
 }

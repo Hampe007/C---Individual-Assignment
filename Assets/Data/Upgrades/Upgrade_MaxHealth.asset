@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf588a209dbce843b9a56a9b8e63bb5, type: 3}
   m_Name: Upgrade_MaxHealth
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _displayName: Vitality
-  _description: Increase maximum health by 20.
-  _effect: 4
-  _value: 20
-  _maxLevel: 5
+  displayName: Vitality
+  description: Increase maximum health by 20.
+  effect: 4
+  value: 20
+  maxLevel: 5

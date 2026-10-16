@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653de7132e07bfd4f8d5d99cd523d55c, type: 3}
   m_Name: Enemy_Puglin_T2
   m_EditorClassIdentifier: Assembly-CSharp::SpitterEnemyDefinition
-  _displayName: Puglin
-  _tier: 1
-  _prefab: {fileID: 3559093721100980254, guid: 8c54f87d909f29648adc153e1cbd3f52, type: 3}
-  _health: 25
-  _moveSpeed: 2.55
-  _damage: 5
-  _xpReward: 4
-  _scoreReward: 40
-  _attackRange: 12
-  _preferredRange: 8
-  _windupDuration: 0.77000004
-  _recoveryDuration: 0.8
-  _attackCooldown: 5.5
-  _projectileSpeed: 9
-  _projectileLifetime: 2.1
-  _projectileSpread: 14
-  _projectileCount: 3
-  _smallOrbScale: 0.65
-  _mediumOrbScale: 1
-  _largeOrbScale: 1.4
+  displayName: Puglin
+  tier: 1
+  prefab: {fileID: 3559093721100980254, guid: 8c54f87d909f29648adc153e1cbd3f52, type: 3}
+  health: 25
+  moveSpeed: 2.55
+  damage: 5
+  xpReward: 4
+  scoreReward: 40
+  attackRange: 12
+  preferredRange: 8
+  windupDuration: 0.77000004
+  recoveryDuration: 0.8
+  attackCooldown: 5.5
+  projectileSpeed: 9
+  projectileLifetime: 2.1
+  projectileSpread: 14
+  projectileCount: 3
+  smallOrbScale: 0.65
+  mediumOrbScale: 1
+  largeOrbScale: 1.4

@@ -6,33 +6,29 @@ using UnityEngine.Pool;
 /// <summary>Moves pooled combat projectiles with swept hits and optional forward tracking.</summary>
 public sealed class CombatProjectileSystem : MonoBehaviour
 {
-    [SerializeField] private HordeManager _hordeManager;
-    [SerializeField] private PlayerHealth _playerHealth;
-    [SerializeField] private Transform _player;
-    [SerializeField] private GameObject _soulBoltPrefab;
-    [SerializeField] private GameObject _spitPrefab;
-    [SerializeField] private ParticleSystem _impactPrefab;
-    [SerializeField, Min(1)] private int _maxPlayerProjectiles = 48;
-    [SerializeField, Min(1)] private int _maxEnemyProjectiles = 128;
-    [SerializeField, Min(0.1f)] private float _playerHitRadius = 0.65f;
-    [SerializeField] private PoisonAreaSystem _poisonAreas;
-
+    [SerializeField] private HordeManager hordeManager;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private Transform player;
+    [SerializeField] private GameObject soulBoltPrefab;
+    [SerializeField] private GameObject spitPrefab;
+    [SerializeField] private ParticleSystem impactPrefab;
+    [SerializeField, Min(1)] private int maxPlayerProjectiles = 48;
+    [SerializeField, Min(1)] private int maxEnemyProjectiles = 128;
+    [SerializeField, Min(0.1f)] private float playerHitRadius = 0.65f;
+    [SerializeField] private PoisonAreaSystem poisonAreas;
     [Header("Impact Audio")]
     [SerializeField] private SoundSet soulImpactSound;
     [SerializeField] private SoundSet spitImpactSound;
-
     [Header("Tracking Tiers 1 / 2 / 3")]
-    [SerializeField] private Vector3 _trackingRadii = new(1.5f, 3f, 5f);
-    [SerializeField] private Vector3 _trackingHalfAngles = new(20f, 40f, 60f);
-    [SerializeField] private Vector3 _trackingTurnSpeeds = new(30f, 70f, 120f);
-
-    private readonly List<Projectile> _active = new();
-    private ObjectPool<GameObject> _soulPool;
-    private ObjectPool<GameObject> _spitPool;
-    private ObjectPool<ParticleSystem> _impactPool;
-    private int _playerCount;
-    private int _enemyCount;
-
+    [SerializeField] private Vector3 trackingRadii = new(1.5f, 3f, 5f);
+    [SerializeField] private Vector3 trackingHalfAngles = new(20f, 40f, 60f);
+    [SerializeField] private Vector3 trackingTurnSpeeds = new(30f, 70f, 120f);
+    private readonly List<Projectile> active = new();
+    private ObjectPool<GameObject> soulPool;
+    private ObjectPool<GameObject> spitPool;
+    private ObjectPool<ParticleSystem> impactPool;
+    private int playerCount;
+    private int enemyCount;
     private struct Projectile
     {
         public GameObject View;
@@ -49,32 +45,33 @@ public sealed class CombatProjectileSystem : MonoBehaviour
 
     private void Awake()
     {
-        if (_hordeManager == null || _playerHealth == null || _player == null ||
-            _soulBoltPrefab == null || _spitPrefab == null || _impactPrefab == null)
+        if (hordeManager == null || playerHealth == null || player == null || soulBoltPrefab == null || spitPrefab == null || impactPrefab == null)
         {
             Debug.LogError("CombatProjectileSystem is missing a required reference.", this);
             enabled = false;
             return;
         }
 
-        _soulPool = CreatePool(_soulBoltPrefab, _maxPlayerProjectiles);
-        _spitPool = CreatePool(_spitPrefab, _maxEnemyProjectiles);
-        _impactPool = new ObjectPool<ParticleSystem>(
-            () => Instantiate(_impactPrefab, transform),
-            effect => effect.gameObject.SetActive(true),
-            effect => effect.gameObject.SetActive(false),
-            effect => { if (effect != null) Destroy(effect.gameObject); },
-            true, 8, 64);
+        soulPool = CreatePool(soulBoltPrefab, maxPlayerProjectiles);
+        spitPool = CreatePool(spitPrefab, maxEnemyProjectiles);
+        impactPool = new ObjectPool<ParticleSystem>(() => Instantiate(impactPrefab, transform), effect => effect.gameObject.SetActive(true), effect => effect.gameObject.SetActive(false), effect =>
+        {
+            if (effect != null)
+            {
+                Destroy(effect.gameObject);
+            }
+        }, true, 8, 64);
     }
 
     private ObjectPool<GameObject> CreatePool(GameObject prefab, int max)
     {
-        return new ObjectPool<GameObject>(
-            () => Instantiate(prefab, transform),
-            view => view.SetActive(true),
-            view => view.SetActive(false),
-            view => { if (view != null) Destroy(view); },
-            true, Mathf.Min(16, max), max);
+        return new ObjectPool<GameObject>(() => Instantiate(prefab, transform), view => view.SetActive(true), view => view.SetActive(false), view =>
+        {
+            if (view != null)
+            {
+                Destroy(view);
+            }
+        }, true, Mathf.Min(16, max), max);
     }
 
     public void SpawnSoulBolt(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime)
@@ -97,97 +94,111 @@ public sealed class CombatProjectileSystem : MonoBehaviour
         Spawn(origin, direction, damage, speed, lifetime, 0.45f * scale, false, scale, leavesPoison, 0);
     }
 
-    private void Spawn(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime, float radius, bool fromPlayer,
-        float scale, bool leavesPoison, int trackingTier)
+    private void Spawn(Vector3 origin, Vector3 direction, int damage, float speed, float lifetime, float radius, bool fromPlayer, float scale, bool leavesPoison, int trackingTier)
     {
         direction.y = 0f;
-        if (!isActiveAndEnabled || damage <= 0 || direction.sqrMagnitude < 0.001f ||
-            (fromPlayer ? _playerCount >= _maxPlayerProjectiles : _enemyCount >= _maxEnemyProjectiles))
-            return;
-
-        GameObject view = (fromPlayer ? _soulPool : _spitPool).Get();
-        view.transform.position = origin;
-        view.transform.localScale = (fromPlayer ? _soulBoltPrefab : _spitPrefab).transform.localScale * scale;
-        if (view.TryGetComponent(out TrailRenderer trail))
-            trail.Clear();
-
-        _active.Add(new Projectile
+        if (!isActiveAndEnabled || damage <= 0 || direction.sqrMagnitude < 0.001f || (fromPlayer ? playerCount >= maxPlayerProjectiles : enemyCount >= maxEnemyProjectiles))
         {
-            View = view,
-            Direction = direction.normalized,
-            OriginalDirection = direction.normalized,
-            Speed = speed,
-            Lifetime = lifetime,
-            Radius = radius,
-            Damage = damage,
-            FromPlayer = fromPlayer,
-            LeavesPoison = leavesPoison,
-            TrackingTier = Mathf.Clamp(trackingTier, 0, 3)
-        });
+            return;
+        }
 
-        if (fromPlayer) _playerCount++;
-        else _enemyCount++;
+        GameObject view = (fromPlayer ? soulPool : spitPool).Get();
+        view.transform.position = origin;
+        view.transform.localScale = (fromPlayer ? soulBoltPrefab : spitPrefab).transform.localScale * scale;
+        if (view.TryGetComponent(out TrailRenderer trail))
+        {
+            trail.Clear();
+        }
+
+        active.Add(new Projectile { View = view, Direction = direction.normalized, OriginalDirection = direction.normalized, Speed = speed, Lifetime = lifetime, Radius = radius, Damage = damage, FromPlayer = fromPlayer, LeavesPoison = leavesPoison, TrackingTier = Mathf.Clamp(trackingTier, 0, 3) });
+        if (fromPlayer)
+        {
+            playerCount++;
+        }
+        else
+        {
+            enemyCount++;
+        }
     }
 
     private void Update()
     {
-        if (Time.timeScale <= 0f || _playerHealth.CurrentHealth <= 0)
+        if (Time.timeScale <= 0f || playerHealth.CurrentHealth <= 0)
+        {
             return;
+        }
+
         Tick(Time.deltaTime);
     }
 
     private void Tick(float deltaTime)
     {
-        for (int i = _active.Count - 1; i >= 0; i--)
+        for (int i = active.Count - 1; i >= 0; i--)
         {
-            Projectile projectile = _active[i];
+            Projectile projectile = active[i];
             Vector3 start = projectile.View.transform.position;
             Track(ref projectile, start, deltaTime);
             Vector3 end = start + projectile.Direction * (projectile.Speed * Mathf.Min(deltaTime, projectile.Lifetime));
             projectile.Lifetime -= deltaTime;
-            bool wallHit = !_hordeManager.IsProjectileSegmentClear(start, end);
-            if (wallHit) end = _hordeManager.GetProjectileWallImpact(start, end);
+            bool wallHit = !hordeManager.IsProjectileSegmentClear(start, end);
+            if (wallHit)
+            {
+                end = hordeManager.GetProjectileWallImpact(start, end);
+            }
 
             Vector3 impact;
-            bool hit = projectile.FromPlayer
-                ? HitEnemy(projectile, start, end, out impact)
-                : HitPlayer(projectile, start, end, out impact);
-
+            bool hit = projectile.FromPlayer ? HitEnemy(projectile, start, end, out impact) : HitPlayer(projectile, start, end, out impact);
             if (hit || wallHit || projectile.Lifetime <= 0f)
             {
                 Vector3 position = hit ? impact : end;
-                if (hit || wallHit) PlayImpact(position, projectile.FromPlayer);
-                if (projectile.LeavesPoison && _poisonAreas != null) _poisonAreas.SpawnPuddle(position);
+                if (hit || wallHit)
+                {
+                    PlayImpact(position, projectile.FromPlayer);
+                }
+
+                if (projectile.LeavesPoison && poisonAreas != null)
+                {
+                    poisonAreas.SpawnPuddle(position);
+                }
+
                 ReleaseAt(i);
                 continue;
             }
 
             projectile.View.transform.position = end;
-            _active[i] = projectile;
+            active[i] = projectile;
         }
     }
 
     private void Track(ref Projectile projectile, Vector3 position, float deltaTime)
     {
-        if (!projectile.FromPlayer || projectile.TrackingTier == 0) return;
+        if (!projectile.FromPlayer || projectile.TrackingTier == 0)
+        {
+            return;
+        }
+
         int tier = projectile.TrackingTier - 1;
-        float halfAngle = Mathf.Clamp(_trackingHalfAngles[tier], 0f, 89f);
-        if (!_hordeManager.TryGetTrackingTarget(position, projectile.Direction, projectile.OriginalDirection,
-                _trackingRadii[tier], halfAngle, out Vector3 target)) return;
+        float halfAngle = Mathf.Clamp(trackingHalfAngles[tier], 0f, 89f);
+        if (!hordeManager.TryGetTrackingTarget(position, projectile.Direction, projectile.OriginalDirection, trackingRadii[tier], halfAngle, out Vector3 target))
+        {
+            return;
+        }
+
         Vector3 desired = target - position;
         desired.y = 0f;
-        projectile.Direction = Vector3.RotateTowards(projectile.Direction, desired.normalized,
-            Mathf.Max(0f, _trackingTurnSpeeds[tier]) * Mathf.Deg2Rad * deltaTime, 0f).normalized;
+        projectile.Direction = Vector3.RotateTowards(projectile.Direction, desired.normalized, Mathf.Max(0f, trackingTurnSpeeds[tier]) * Mathf.Deg2Rad * deltaTime, 0f).normalized;
     }
 
     private bool HitEnemy(Projectile projectile, Vector3 start, Vector3 end, out Vector3 impact)
     {
         impact = end;
-        if (!_hordeManager.TryGetEnemyOnSegment((float3)start, (float3)end, projectile.Radius, out int index, out float progress))
+        if (!hordeManager.TryGetEnemyOnSegment((float3)start, (float3)end, projectile.Radius, out int index, out float progress))
+        {
             return false;
+        }
 
         impact = Vector3.Lerp(start, end, progress);
-        _hordeManager.DamageEnemy(index, projectile.Damage);
+        hordeManager.DamageEnemy(index, projectile.Damage);
         return true;
     }
 
@@ -196,13 +207,15 @@ public sealed class CombatProjectileSystem : MonoBehaviour
         impact = end;
         Vector2 from = new(start.x, start.z);
         Vector2 to = new(end.x, end.z);
-        Vector2 player = new(_player.position.x, _player.position.z);
-        float radius = _playerHitRadius + projectile.Radius;
+        Vector2 player = new(this.player.position.x, this.player.position.z);
+        float radius = playerHitRadius + projectile.Radius;
         if (!TryCircleHit(from, to, player, radius, out float progress))
+        {
             return false;
+        }
 
         impact = Vector3.Lerp(start, end, progress);
-        _playerHealth.TakeDamage(projectile.Damage);
+        playerHealth.TakeDamage(projectile.Damage);
         return true;
     }
 
@@ -211,13 +224,25 @@ public sealed class CombatProjectileSystem : MonoBehaviour
         progress = 0f;
         Vector2 offset = from - center;
         float c = offset.sqrMagnitude - radius * radius;
-        if (c <= 0f) return true;
+        if (c <= 0f)
+        {
+            return true;
+        }
+
         Vector2 path = to - from;
         float a = path.sqrMagnitude;
-        if (a <= 0.000001f) return false;
+        if (a <= 0.000001f)
+        {
+            return false;
+        }
+
         float b = Vector2.Dot(offset, path);
         float discriminant = b * b - a * c;
-        if (discriminant < 0f) return false;
+        if (discriminant < 0f)
+        {
+            return false;
+        }
+
         progress = (-b - Mathf.Sqrt(discriminant)) / a;
         return progress >= 0f && progress <= 1f;
     }
@@ -229,7 +254,7 @@ public sealed class CombatProjectileSystem : MonoBehaviour
             AudioManager.Instance.PlaySfx(fromPlayer ? soulImpactSound : spitImpactSound, position);
         }
 
-        ParticleSystem effect = _impactPool.Get();
+        ParticleSystem effect = impactPool.Get();
         var main = effect.main;
         main.startColor = fromPlayer ? new Color(0.25f, 0.8f, 1f) : new Color(0.65f, 1f, 0.15f);
         effect.transform.position = position;
@@ -243,25 +268,36 @@ public sealed class CombatProjectileSystem : MonoBehaviour
         if (effect != null)
         {
             effect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            _impactPool.Release(effect);
+            impactPool.Release(effect);
         }
     }
 
     private void ReleaseAt(int index)
     {
-        Projectile projectile = _active[index];
-        if (projectile.View.TryGetComponent(out TrailRenderer trail)) trail.Clear();
-        (projectile.FromPlayer ? _soulPool : _spitPool).Release(projectile.View);
-        if (projectile.FromPlayer) _playerCount--;
-        else _enemyCount--;
-        _active.RemoveAt(index);
+        Projectile projectile = active[index];
+        if (projectile.View.TryGetComponent(out TrailRenderer trail))
+        {
+            trail.Clear();
+        }
+
+        (projectile.FromPlayer ? soulPool : spitPool).Release(projectile.View);
+        if (projectile.FromPlayer)
+        {
+            playerCount--;
+        }
+        else
+        {
+            enemyCount--;
+        }
+
+        active.RemoveAt(index);
     }
 
     private void OnDestroy()
     {
-        _active.Clear();
-        _soulPool?.Clear();
-        _spitPool?.Clear();
-        _impactPool?.Clear();
+        active.Clear();
+        soulPool?.Clear();
+        spitPool?.Clear();
+        impactPool?.Clear();
     }
 }

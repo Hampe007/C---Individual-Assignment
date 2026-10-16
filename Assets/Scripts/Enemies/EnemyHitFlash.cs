@@ -10,55 +10,51 @@ public sealed class EnemyHitFlash : MonoBehaviour
         public int ColorProperty;
         public Color OriginalColor;
         public MaterialPropertyBlock Block;
-
         public MaterialSlot(Renderer renderer, int materialIndex, int colorProperty, Color originalColor)
         {
             Renderer = renderer;
             MaterialIndex = materialIndex;
-            ColorProperty = colorProperty;
+            this.ColorProperty = colorProperty;
             OriginalColor = originalColor;
             Block = new MaterialPropertyBlock();
         }
     }
 
-    [SerializeField, Min(0.01f)] private float _duration = 0.1f;
-    [SerializeField, Range(0f, 1f)] private float _strength = 0.7f;
-
-    private readonly List<MaterialSlot> _slots = new();
-    private float _timer;
-
-    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
-    private static readonly int ColorProperty = Shader.PropertyToID("_Color");
-
+    [SerializeField, Min(0.01f)] private float duration = 0.1f;
+    [SerializeField, Range(0f, 1f)] private float strength = 0.7f;
+    private readonly List<MaterialSlot> slots = new();
+    private float timer;
+    private static readonly int baseColor = Shader.PropertyToID("_BaseColor");
+    private static readonly int colorProperty = Shader.PropertyToID("_Color");
     private void Awake()
     {
         SkinnedMeshRenderer[] renderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
-
         foreach (SkinnedMeshRenderer renderer in renderers)
         {
             Material[] materials = renderer.sharedMaterials;
-
             for (int i = 0; i < materials.Length; i++)
             {
                 Material material = materials[i];
-
                 if (material == null)
+                {
                     continue;
+                }
 
                 int property;
-
-                if (material.HasProperty(BaseColor))
-                    property = BaseColor;
-                else if (material.HasProperty(ColorProperty))
-                    property = ColorProperty;
+                if (material.HasProperty(baseColor))
+                {
+                    property = baseColor;
+                }
+                else if (material.HasProperty(colorProperty))
+                {
+                    property = colorProperty;
+                }
                 else
+                {
                     continue;
+                }
 
-                _slots.Add(new MaterialSlot(
-                    renderer,
-                    i,
-                    property,
-                    material.GetColor(property)));
+                slots.Add(new MaterialSlot(renderer, i, property, material.GetColor(property)));
             }
         }
 
@@ -67,15 +63,12 @@ public sealed class EnemyHitFlash : MonoBehaviour
 
     internal void Play()
     {
-        _timer = _duration;
-
-        foreach (MaterialSlot slot in _slots)
+        timer = duration;
+        foreach (MaterialSlot slot in slots)
         {
             slot.Renderer.GetPropertyBlock(slot.Block, slot.MaterialIndex);
-
-            Color flashColor = Color.Lerp(slot.OriginalColor, Color.red, _strength);
+            Color flashColor = Color.Lerp(slot.OriginalColor, Color.red, strength);
             slot.Block.SetColor(slot.ColorProperty, flashColor);
-
             slot.Renderer.SetPropertyBlock(slot.Block, slot.MaterialIndex);
         }
 
@@ -84,15 +77,16 @@ public sealed class EnemyHitFlash : MonoBehaviour
 
     private void Update()
     {
-        _timer -= Time.deltaTime;
-
-        if (_timer <= 0f)
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
+        {
             enabled = false;
+        }
     }
 
     private void OnDisable()
     {
-        foreach (MaterialSlot slot in _slots)
+        foreach (MaterialSlot slot in slots)
         {
             slot.Renderer.GetPropertyBlock(slot.Block, slot.MaterialIndex);
             slot.Block.SetColor(slot.ColorProperty, slot.OriginalColor);

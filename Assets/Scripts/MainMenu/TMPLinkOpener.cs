@@ -14,8 +14,7 @@ namespace GameMenus
         private int focusedLink;
         private int hoveredLink = -1;
         private bool selected;
-        private static readonly Color32 Highlight = new(225, 85, 103, 255);
-
+        private static readonly Color32 highlight = new(225, 85, 103, 255);
         protected override void Awake()
         {
             base.Awake();
@@ -26,7 +25,11 @@ namespace GameMenus
 
         protected override void OnDestroy()
         {
-            if (text != null) text.OnPreRenderText -= HighlightLink;
+            if (text != null)
+            {
+                text.OnPreRenderText -= HighlightLink;
+            }
+
             base.OnDestroy();
         }
 
@@ -42,8 +45,20 @@ namespace GameMenus
             scroll = creditsScroll;
             focusedLink = 0;
             hoveredLink = -1;
-            navigation = new Navigation { mode = Navigation.Mode.Explicit, selectOnUp = back, selectOnDown = back, selectOnLeft = back, selectOnRight = back };
-            back.navigation = new Navigation { mode = Navigation.Mode.Explicit, selectOnUp = this, selectOnDown = this };
+            navigation = new Navigation
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = back,
+                selectOnDown = back,
+                selectOnLeft = back,
+                selectOnRight = back
+            };
+            back.navigation = new Navigation
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = this,
+                selectOnDown = this
+            };
         }
 
         public override void OnSelect(BaseEventData eventData)
@@ -71,6 +86,7 @@ namespace GameMenus
                 base.OnMove(eventData);
                 return;
             }
+
             focusedLink = next;
             hoveredLink = -1;
             RevealLink();
@@ -79,11 +95,14 @@ namespace GameMenus
         }
 
         public void OnSubmit(BaseEventData eventData) => OpenLink(focusedLink);
-
         public void OnPointerMove(PointerEventData eventData)
         {
             int index = TMP_TextUtilities.FindIntersectingLink(text, eventData.position, eventData.enterEventCamera);
-            if (hoveredLink == index) return;
+            if (hoveredLink == index)
+            {
+                return;
+            }
+
             hoveredLink = index;
             RefreshHighlight();
         }
@@ -97,9 +116,17 @@ namespace GameMenus
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (eventData.button != PointerEventData.InputButton.Left || eventData.dragging) return;
+            if (eventData.button != PointerEventData.InputButton.Left || eventData.dragging)
+            {
+                return;
+            }
+
             int index = TMP_TextUtilities.FindIntersectingLink(text, eventData.position, eventData.pressEventCamera);
-            if (index < 0) return;
+            if (index < 0)
+            {
+                return;
+            }
+
             focusedLink = index;
             RefreshHighlight();
             OpenLink(index);
@@ -107,35 +134,59 @@ namespace GameMenus
 
         private void OpenLink(int index)
         {
-            if (!IsActive() || !IsInteractable() || index < 0 || index >= text.textInfo.linkCount) return;
+            if (!IsActive() || !IsInteractable() || index < 0 || index >= text.textInfo.linkCount)
+            {
+                return;
+            }
+
             string url = text.textInfo.linkInfo[index].GetLinkID();
             if (Uri.TryCreate(url, UriKind.Absolute, out Uri uri) && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp))
+            {
                 Application.OpenURL(uri.AbsoluteUri);
+            }
         }
 
         private void RefreshHighlight()
         {
-            if (text != null && text.isActiveAndEnabled) text.ForceMeshUpdate();
+            if (text != null && text.isActiveAndEnabled)
+            {
+                text.ForceMeshUpdate();
+            }
         }
 
         private void HighlightLink(TMP_TextInfo info)
         {
             int index = hoveredLink >= 0 ? hoveredLink : selected ? focusedLink : -1;
-            if (index < 0 || index >= info.linkCount) return;
+            if (index < 0 || index >= info.linkCount)
+            {
+                return;
+            }
+
             TMP_LinkInfo link = info.linkInfo[index];
             for (int i = link.linkTextfirstCharacterIndex; i < link.linkTextfirstCharacterIndex + link.linkTextLength; i++)
             {
                 TMP_CharacterInfo character = info.characterInfo[i];
-                if (!character.isVisible) continue;
+                if (!character.isVisible)
+                {
+                    continue;
+                }
+
                 Color32[] colors = info.meshInfo[character.materialReferenceIndex].colors32;
-                for (int vertex = 0; vertex < 4; vertex++) colors[character.vertexIndex + vertex] = Highlight;
+                for (int vertex = 0; vertex < 4; vertex++)
+                {
+                    colors[character.vertexIndex + vertex] = highlight;
+                }
             }
         }
 
         private void RevealLink()
         {
             text.ForceMeshUpdate();
-            if (scroll == null || focusedLink >= text.textInfo.linkCount) return;
+            if (scroll == null || focusedLink >= text.textInfo.linkCount)
+            {
+                return;
+            }
+
             TMP_LinkInfo link = text.textInfo.linkInfo[focusedLink];
             var first = text.textInfo.characterInfo[link.linkTextfirstCharacterIndex];
             var last = text.textInfo.characterInfo[link.linkTextfirstCharacterIndex + link.linkTextLength - 1];

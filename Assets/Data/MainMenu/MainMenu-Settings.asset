@@ -12,60 +12,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8500c66e4fa0d4bacacf8bd4b8c375, type: 3}
   m_Name: MainMenu-Settings
   m_EditorClassIdentifier: Assembly-CSharp::GameMenus.MainMenuSettings
-  gameScene: Game
-  tutorialScene: Tutorial
-  tutorialAvailable: 1
-  chasePassDuration: 7
-  returnPassDuration: 10
-  finalPassDuration: 6
-  passPause: 0
-  catchDuration: 1.15
-  bloodCoverDuration: 0.25
-  bloodDrainDuration: 2.2
-  skipHoldDuration: 1.5
-  idleEventInterval: {x: 9, y: 17}
-  credits: 
-  creditsSource: {fileID: 4900000, guid: 6f767d8f0b990b8448b7fa93f414ce46, type: 3}
-  reactions:
-  - option: 0
-    animationState: Rest
-    cameraIndex: 4
-    pressedCameraIndex: -1
-    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
-    lightIntensity: 0.34
-    enemyActivity: 0.9
-  - option: 1
-    animationState: Ready
-    cameraIndex: 5
-    pressedCameraIndex: -1
-    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
-    lightIntensity: 0.48
-    enemyActivity: 1.15
-  - option: 2
-    animationState: LookAround
-    cameraIndex: 6
-    pressedCameraIndex: 12
-    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
-    lightIntensity: 0.34
-    enemyActivity: 0.9
-  - option: 3
-    animationState: Interact
-    cameraIndex: 7
-    pressedCameraIndex: 11
-    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
-    lightIntensity: 0.34
-    enemyActivity: 0.9
-  - option: 4
-    animationState: Rest
-    cameraIndex: 8
-    pressedCameraIndex: 13
-    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
-    lightIntensity: 0.34
-    enemyActivity: 0.9
-  - option: 5
-    animationState: MonsterTransformation
-    cameraIndex: 9
-    pressedCameraIndex: -1
-    lightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
-    lightIntensity: 0.34
-    enemyActivity: 0.9
+  GameScene: Game
+  TutorialScene: Tutorial
+  TutorialAvailable: 1
+  ChasePassDuration: 7
+  ReturnPassDuration: 10
+  FinalPassDuration: 6
+  PassPause: 0
+  CatchDuration: 1.15
+  BloodCoverDuration: 0.25
+  BloodDrainDuration: 2.2
+  SkipHoldDuration: 1.5
+  IdleEventInterval: {x: 9, y: 17}
+  creditsFallback:
+  CreditsSource: {fileID: 4900000, guid: 6f767d8f0b990b8448b7fa93f414ce46, type: 3}
+  Reactions:
+  - Option: 0
+    AnimationState: Rest
+    CameraIndex: 4
+    PressedCameraIndex: -1
+    LightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    LightIntensity: 0.34
+    EnemyActivity: 0.9
+  - Option: 1
+    AnimationState: Ready
+    CameraIndex: 5
+    PressedCameraIndex: -1
+    LightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    LightIntensity: 0.48
+    EnemyActivity: 1.15
+  - Option: 2
+    AnimationState: LookAround
+    CameraIndex: 6
+    PressedCameraIndex: 12
+    LightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    LightIntensity: 0.34
+    EnemyActivity: 0.9
+  - Option: 3
+    AnimationState: Interact
+    CameraIndex: 7
+    PressedCameraIndex: 11
+    LightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    LightIntensity: 0.34
+    EnemyActivity: 0.9
+  - Option: 4
+    AnimationState: Rest
+    CameraIndex: 8
+    PressedCameraIndex: 13
+    LightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    LightIntensity: 0.34
+    EnemyActivity: 0.9
+  - Option: 5
+    AnimationState: MonsterTransformation
+    CameraIndex: 9
+    PressedCameraIndex: -1
+    LightColor: {r: 0.75, g: 0.16, b: 0.2, a: 1}
+    LightIntensity: 0.34
+    EnemyActivity: 0.9
