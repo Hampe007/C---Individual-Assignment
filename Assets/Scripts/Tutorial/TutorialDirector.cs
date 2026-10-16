@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 
 public sealed class TutorialDirector : MonoBehaviour
 {
-    private const string CompletionKey = "Tutorial.Completed";
-
     [SerializeField] private TutorialSettings settings;
     [SerializeField] private TutorialView view;
     [SerializeField] private Transform player;
@@ -259,8 +257,7 @@ public sealed class TutorialDirector : MonoBehaviour
         {
             markerVisual.SetActive(false);
         }
-        PlayerPrefs.SetInt(CompletionKey, 1);
-        PlayerPrefs.Save();
+        GameProgress.CompleteTutorial();
         Time.timeScale = 0f;
         view.ShowCompletion();
     }

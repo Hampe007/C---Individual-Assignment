@@ -58,6 +58,14 @@ public sealed class SkillTreeMenu : MonoBehaviour
 
         _actionButton.onClick.AddListener(PurchaseSelected);
         _continueButton.onClick.AddListener(Close);
+        if (!_actionButton.TryGetComponent<SkillTreeActionButton>(out _))
+        {
+            _actionButton.gameObject.AddComponent<SkillTreeActionButton>();
+        }
+        if (!_continueButton.TryGetComponent<SkillTreeActionButton>(out _))
+        {
+            _continueButton.gameObject.AddComponent<SkillTreeActionButton>();
+        }
         _panel.SetActive(false);
     }
 
@@ -83,9 +91,13 @@ public sealed class SkillTreeMenu : MonoBehaviour
         if (eventSystem == null)
             return;
 
-        if (eventSystem.currentSelectedGameObject == null && Gamepad.current != null &&
-            (Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.25f ||
-             Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.25f))
+        bool keyboardNavigation = Keyboard.current != null &&
+                                  (Keyboard.current.upArrowKey.wasPressedThisFrame || Keyboard.current.downArrowKey.wasPressedThisFrame ||
+                                   Keyboard.current.leftArrowKey.wasPressedThisFrame || Keyboard.current.rightArrowKey.wasPressedThisFrame);
+        bool controllerNavigation = Gamepad.current != null &&
+                                    (Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.25f ||
+                                     Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.25f);
+        if (eventSystem.currentSelectedGameObject == null && (keyboardNavigation || controllerNavigation))
         {
             (_lastFocusedNode != null && _lastFocusedNode.IsFocusable
                 ? _lastFocusedNode
@@ -98,8 +110,11 @@ public sealed class SkillTreeMenu : MonoBehaviour
             SkillTreeNodeButton node = _nodeButtons[i];
             bool focused = node.IsFocusable && node.ButtonObject == selected;
             node.SetFocused(focused);
-            if (focused)
+            if (focused && _lastFocusedNode != node)
+            {
                 _lastFocusedNode = node;
+                ConfigureNavigation();
+            }
         }
     }
 
@@ -327,6 +342,7 @@ public sealed class SkillTreeMenu : MonoBehaviour
             return;
 
         _lastFocusedNode = node;
+        ConfigureNavigation();
         node.Focus();
     }
 

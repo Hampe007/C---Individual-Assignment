@@ -8,7 +8,6 @@ namespace GameMenus
 {
     public sealed class MainMenuDirector : MonoBehaviour
     {
-        private const string FirstVisitKey = "LivingMenu.TutorialPromptDismissed";
         private static bool introPlayedThisSession;
 
         [SerializeField] private MainMenuSettings settings;
@@ -249,10 +248,9 @@ namespace GameMenus
             view.ShowMenu(true);
             Highlight(MenuOption.None);
             ScheduleIdle();
-            if (!PlayerPrefs.HasKey(FirstVisitKey))
+            if (!GameProgress.TutorialPromptDismissed)
             {
-                PlayerPrefs.SetInt(FirstVisitKey, 1);
-                PlayerPrefs.Save();
+                GameProgress.DismissTutorialPrompt();
                 Phase = MenuPhase.Modal;
                 modalOption = MenuOption.Tutorial;
                 view.ShowModal("FIRST TIME IN THE NIGHT?", settings.tutorialAvailable ? "A little preparation can keep you alive. Would you like to play the tutorial?" : "The tutorial is still being prepared. You can return to it from the menu when it becomes available.", "Play tutorial", "Go to main menu", false, settings.tutorialAvailable);
